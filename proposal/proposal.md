@@ -45,6 +45,7 @@ None
 - BeautifulSoup
 - MultiThreading
 - Regular Expressions
+- Cloud Function
 
 ## Additional Back-End Technologies
 
@@ -59,7 +60,8 @@ None
 
 ## Deployment 
 
-- Elastic Beanstalk
+- Githubpages or Heroku
+- Elastic Beanstalk (if we have time to learn)
 
 ## Wireframes
 
