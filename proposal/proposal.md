@@ -1,7 +1,7 @@
 # Project Proposal
 
 ## Project Name
-Well Weathered
+Well Weathered or Weathering Heights
 
 ## Individual/Group
 
@@ -18,6 +18,8 @@ Group:
 - Learn datascraping
 - Learn to use a NoSQL database (Firebase)
 - Learn web automation
+- User authentication
+- Working with APIs
 
 ## Project Description
 
