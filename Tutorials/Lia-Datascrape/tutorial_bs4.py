@@ -6,12 +6,12 @@ from csv import writer
 """
 Scrapes peak name and elevation data from "Washington State Fire Lookouts" 
 from peakbagger.com. Returns JSON formatted data, as such:
-{
+[
     "peak_name" : {
         "rank": int,
         "elevation": int
     }
-}
+]
 
 Tutorials consulted:
 "Intro to Web Scraping with Python" by Traversy Media 
@@ -30,7 +30,7 @@ peak_table = table_tag[5]
 peak_list = peak_table.find_all('tr')[1]
 
 # Return list
-peaks = {}
+peaks = []
 # Loop through each row of table to extract specific data
 for row in peak_list:
     tds = row.find_all('td')
@@ -42,10 +42,12 @@ for row in peak_list:
     elevation = tds[2].text
 
     # Create JSON response
-    peaks[name] = {
+    peaks.append({
+        "name": name,
         "rank": rank,
         "elevation": elevation
-    }
+    })
+    
     
 print(peaks)
 
