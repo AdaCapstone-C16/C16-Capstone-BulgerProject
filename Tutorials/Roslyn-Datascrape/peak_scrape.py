@@ -2,17 +2,19 @@ import requests
 from bs4 import BeautifulSoup
 import re
 from models.peak import Peak
+from models.all_peaks import All_Peaks
 import json
+import time
+import concurrent.futures
+
+
+peaks = All_Peaks()
 
 def inizialize_peak_data():
     """Initializes the peak info scrape"""
     peak_table = scrape_peak_info()
-    peak_list = []
-    for peak in peak_table:
-        rank, name, link,elevation, coordinates, peak_range, indigenous_name = find_value(peak)
-        new_peak = Peak(rank, name, elevation, link, coordinates, peak_range, indigenous_name)
-        create_peak_dict(peak_list, rank, name, elevation, link, coordinates, peak_range, indigenous_name)
-    return peak_list
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        executor.map(find_value, peak_table)
 
 def scrape_peak_info():
     """This returns a 'bs4.element.ResultSet' element with peak info"""
@@ -38,7 +40,9 @@ def find_value(record):
     peak_range = record.find_all('td')[3].get_text()
     # get indifenous name of peak
     indigenous_name = get_indigenous_name(link)
-    return rank, name, link, elevation, coordinates, peak_range, indigenous_name
+    new_peak = Peak(rank, name, elevation, link, coordinates, peak_range, indigenous_name)
+    peaks.peaks.append(new_peak)
+    create_peak_dict(rank, name, elevation, link, coordinates, peak_range, indigenous_name)
 
 def get_peak_coordinates(link):
     """The coordinates are found by going to each peak's individual page and scraping the coordinates from there"""
@@ -69,7 +73,7 @@ def get_peak_table(link):
     table_data = table_raw.find_all("tr")
     return table_data
 
-def create_peak_dict(peak_list, rank, name, elevation, link, coordinates, peak_range, indigenous_name):
+def create_peak_dict(rank, name, elevation, link, coordinates, peak_range, indigenous_name):
     if indigenous_name:
         new_peak_dict = {
                         'Rank': rank,
@@ -89,7 +93,7 @@ def create_peak_dict(peak_list, rank, name, elevation, link, coordinates, peak_r
                         'Coordinates': coordinates,
                         'Range': peak_range,
                         }
-    peak_list.append(new_peak_dict)
+    peaks.peak_dicts.append(new_peak_dict)
 
 def create_json_file(peak_list):
     data = {'Bulger Peaks' : peak_list}
@@ -97,8 +101,14 @@ def create_json_file(peak_list):
     with open('json_data.json', 'w') as outfile:
         outfile.write(json_string)
 
-peak_list=inizialize_peak_data()
-create_json_file(peak_list)
+t1 = time.perf_counter()
+inizialize_peak_data()
+create_json_file(peaks.peak_dicts)
+
+t2 = time.perf_counter()
+# With no threading: Finished in 138.788756396 seconds
+# With threading in peak scrape: Finished in 10.415092771 seconds
+print(f'Finished in {t2-t1} seconds')
 
 
 
