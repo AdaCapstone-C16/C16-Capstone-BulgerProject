@@ -96,7 +96,8 @@ def create_peak_dict(rank, name, elevation, link, coordinates, peak_range, indig
     peaks.peak_dicts.append(new_peak_dict)
 
 def create_json_file(peak_list):
-    data = {'Bulger Peaks' : peak_list}
+    sorted_peaks = sorted(peak_list, key=lambda x : x["Rank"])
+    data = {'Bulger Peaks' : sorted_peaks}
     json_string = json.dumps(data)
     with open('json_data.json', 'w') as outfile:
         outfile.write(json_string)
