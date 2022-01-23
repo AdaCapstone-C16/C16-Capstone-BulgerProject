@@ -27,7 +27,7 @@ def scrape_peak_info():
 def find_value(record):
     """ For each peak, it pulls the specific rank/name/link/elevation/coordinates information"""
     # get peak rank
-    rank = record.td.get_text()
+    rank = int(record.td.get_text().replace(".", ""))
     # get peak name
     name = record.a.get_text()
     # get peak link
@@ -109,6 +109,7 @@ create_json_file(peaks.peak_dicts)
 t2 = time.perf_counter()
 # With no threading: Finished in 138.788756396 seconds
 # With threading in peak scrape: Finished in 10.415092771 seconds
+# With threading in peak scrape, but changed rank to an int and added sorting post thread:Finished in 14.619889162 seconds
 print(f'Finished in {t2-t1} seconds')
 
 
