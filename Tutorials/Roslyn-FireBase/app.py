@@ -23,7 +23,7 @@ config = {
 
 firebase = pyrebase.initialize_app(config)
 db = firebase.database()
-app = Flask(__name__)
+# app = Flask(__name__)
 
 # db.child("names").push({"Name":"Melook"})
 # users = db.child("names").get()
@@ -96,49 +96,71 @@ def get_peak_table(link):
 def create_peak_dict(rank, name, elevation, link, coordinates, peak_range, indigenous_name):
     if indigenous_name:
         new_peak_dict = {
-                        'Rank': rank,
-                        'Name': name, 
-                        'Indigenous Name': indigenous_name,
-                        'Elevation': elevation,
-                        'Link': link,
-                        'Coordinates': coordinates,
-                        'Range': peak_range,
+                        'rank': rank,
+                        'name': name, 
+                        'indigenous_name': indigenous_name,
+                        'elevation': elevation,
+                        'link': link,
+                        'coordinates': coordinates,
+                        'range': peak_range,
+                        'temp': "empty",
+                        'chance_precip': "empty",
+                        'wind_speed': "empty"
                         }
     else:
         new_peak_dict = {
-                        'Rank': rank,
-                        'Name': name,
-                        'Elevation': elevation,
-                        'Link': link,
-                        'Coordinates': coordinates,
-                        'Range': peak_range,
+                        'rank': rank,
+                        'name': name,
+                        'elevation': elevation,
+                        'link': link,
+                        'coordinates': coordinates,
+                        'range': peak_range,
+                        'temp': "empty",
+                        'chance_precip': "empty",
+                        'wind_speed': "empty"
                         }
     peaks.peak_dicts.append(new_peak_dict)
 
 def create_json_file(peak_list):
-    sorted_peaks = sorted(peak_list, key=lambda x : x["Rank"])
-    data = {'Bulger Peaks' : sorted_peaks}
+    sorted_peaks = sorted(peak_list, key=lambda x : x["rank"])
+    count=1
+    all_peak_dict = {}
+    for peak in sorted_peaks:
+        all_peak_dict[count]=peak
+        count+=1
+    data = all_peak_dict
     json_string = json.dumps(data)
     with open('json_data.json', 'w') as outfile:
         outfile.write(json_string)
 
 def populate_database(peak_list):
     sorted_peaks = sorted(peak_list, key=lambda x : x["Rank"])
+    count=1
     for peak in sorted_peaks:
+        peak["ID"]=count
         db.child("peaks").push(peak)
+        count+=1
 
+def read_json():
+    with open("json_data.json","r") as f:
+        file_contents = json.load(f)
 
-@app.route('/', methods=['GET'])
-def basic():
-    if request.method == 'GET':
-        peaks = db.child("peaks").get()
-        return render_template('index.html', peaks=peaks.each())
+    db.child("peaks").set(file_contents)
+# @app.route('/', methods=['GET'])
+# def basic():
+#     if request.method == 'GET':
+#         peaks = db.child("peaks").get()
+#         return render_template('index.html', peaks=peaks.each())
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    read_json()
+    # app.run(debug=True)
+
     #### ------ POPULATE DB --------- ####
     # peaks = All_Peaks()
     # inizialize_peak_data()
+    # create_json_file(peaks.peak_dicts)
+
     # populate_database(peaks.peak_dicts)
 
 
