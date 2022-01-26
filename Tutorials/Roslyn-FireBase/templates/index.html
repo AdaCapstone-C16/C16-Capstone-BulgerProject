@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+        <ul>
+        {% for peak in peaks %}
+            <li>{{peak.val()['Rank']}}: {{peak.val()['Name']}}</li>
+                <ul>
+                    <li>Coordinates: {{peak.val()['Coordinates']}}</li>
+                    <li>Link: {{peak.val()['Link']}}</li>
+                    <li>Range: {{peak.val()['Range']}}</li>
+                    <li>Eleation: {{peak.val()['Elevation']}}</li>
+                </ul>
+        {% endfor %}
+        </ul>
+        
+    </body>
+</html>
