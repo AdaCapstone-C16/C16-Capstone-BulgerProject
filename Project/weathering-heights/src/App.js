@@ -6,6 +6,21 @@ import UserProfile from './components/Profile/UserProfile';
 import AuthPage from './pages/AuthPage';
 import HomePage from './pages/HomePage';
 import AuthContext from './store/auth-context';
+// Firebase imports
+import app from './firebase.js';
+import { getDatabase, ref, set, onValue } from "firebase/database";
+
+// Get a reference to the database service
+const db = getDatabase(app);
+
+// SAMPLE GET peak data
+const peaks = ref(db, 'peaks/');
+onValue(peaks, (snapshot) => {
+  const data = snapshot.val();
+  console.log("PEAAAAKSSS")
+  console.log(data);
+});
+
 
 function App() {
   //grab the object containing info and function relating to login/logout
