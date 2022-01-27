@@ -86,6 +86,7 @@ export const AuthContextProvider = (props) => {
 
     const loginHandler = (token, expirationTime) => {
         setToken(token);
+        console.log(token)
         //persisting user login session is done by tapping into local storage instead of cookies
         //Just like fetch, the localStorage function is provided by the browser
         localStorage.setItem('token', token);
