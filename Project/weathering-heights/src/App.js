@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useState, useContext } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 import Layout from './components/Layout/Layout';
@@ -6,23 +6,22 @@ import UserProfile from './components/Profile/UserProfile';
 import AuthPage from './pages/AuthPage';
 import HomePage from './pages/HomePage';
 import AuthContext from './store/auth-context';
-// Firebase imports
-import app from './firebase.js';
-import { getDatabase, ref, set, onValue } from "firebase/database";
+// API
+import { getBulgerListData, getBulgerListCoords } from './api/BulgerAPI';
+import { GetWeatherAPI } from './api/WeatherAPI';
 
-// Get a reference to the database service
-const db = getDatabase(app);
-
-// SAMPLE GET peak data
-const peaks = ref(db, 'peaks/');
-onValue(peaks, (snapshot) => {
-  const data = snapshot.val();
-  console.log("PEAAAAKSSS")
-  console.log(data);
-});
-
+// TODO: Will need coordinations list
+// console.log(getBulgerListData())
 
 function App() {
+    // TESTING API CALLS LOGIC
+    // const [peaksData, setPeaksData] = useState()
+    const peaksData = getBulgerListData();
+    const coords = getBulgerListCoords(peaksData)
+    console.log(peaksData)
+    // GetWeatherAPI(coords)
+
+
   //grab the object containing info and function relating to login/logout
   const authCtx = useContext(AuthContext);
 
