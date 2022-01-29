@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 import Layout from './components/Layout/Layout';
@@ -6,23 +6,34 @@ import UserProfile from './components/Profile/UserProfile';
 import AuthPage from './pages/AuthPage';
 import HomePage from './pages/HomePage';
 import AuthContext from './store/auth-context';
-// Firebase imports
+// Firebase 
 import app from './firebase.js';
-import { getDatabase, ref, set, onValue } from "firebase/database";
 
-// Get a reference to the database service
-const db = getDatabase(app);
+// API 
+import { getBulgerListData } from './api/BulgerAPI';
 
 // SAMPLE GET peak data
-const peaks = ref(db, 'peaks/');
-onValue(peaks, (snapshot) => {
-  const data = snapshot.val();
-  console.log("PEAAAAKSSS")
-  console.log(data);
-});
-
+// const peaks = ref(db, 'peaks/');
+// onValue(peaks, (snapshot) => {
+//   const data = snapshot.val();
+//   console.log("PEAAAAKSSS")
+//   console.log(data);
+// });
 
 function App() {
+  const [peakList, setPeakList] = useState([]);
+  const [status, setStatus] = useState(true);
+
+  // Use this to view data
+  // console.log(getBulgerListData())
+
+  // Retrieves Bulger list data from DB -> This is async
+  useEffect(() => {
+    const peaksData = getBulgerListData();
+    setPeakList(peaksData);
+    setStatus(false)
+  }, []);
+
   //grab the object containing info and function relating to login/logout
   const authCtx = useContext(AuthContext);
 

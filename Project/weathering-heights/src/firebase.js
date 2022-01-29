@@ -1,4 +1,5 @@
 import { initializeApp } from "firebase/app";
+import { getDatabase } from "firebase/database";
 import { getAnalytics } from "firebase/analytics";
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -16,4 +17,8 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-export default app;
+// Get a reference to the database service
+const db = getDatabase(app);
+
+// export default app;
+export default db;
