@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import { Card, Button, Alert } from 'react-bootstrap'
+import { Button, Alert } from 'react-bootstrap'
 import { useAuth } from '../contexts/AuthContext'
-import AddPeak from './AddPeak';
+import AddSummit from './AddSummit';
 import MyPeakList from './MyPeakList';
 import MyStats from './MyStats'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { get, ref, set, child } from "firebase/database";
 import { db } from '../firebase'
 
@@ -13,6 +13,8 @@ export default function MyProfile() {
     const { currentUser, logout } = useAuth()
     const navigate = useNavigate()
     const dbRef = ref(db);
+    const [addSummit, setAddSummit] = useState(false)
+    // This block gets the uid, if it is a new user, it will add them to the db
     get(child(dbRef, `users/${currentUser.uid}`)).then((snapshot) => {
         if (snapshot.exists()) {
             console.log('This user is in the db!')
@@ -23,11 +25,15 @@ export default function MyProfile() {
         console.log(error)
     });
     
+    const handleAddSummit= () => {
+        setAddSummit(true)
+    }
+    // If the logout button is clicked, it will navigate user to the homepage
     async function handleLogout() {
         setError('')
         try {
             await logout()
-            navigate("/login")
+            navigate("/")
         } catch {
             setError('Failed to log out')
         }
@@ -45,7 +51,10 @@ export default function MyProfile() {
             <MyPeakList></MyPeakList>
         </section>
         <section>
-            <AddPeak></AddPeak>
+            <Button onClick={handleAddSummit}>ADD A SUMMIT</Button>
+            <AddSummit trigger={addSummit} setTrigger={setAddSummit}>
+            </AddSummit>
+
             <MyStats></MyStats>
         </section>
     </section>
