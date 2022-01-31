@@ -34,6 +34,10 @@ function App() {
     setStatus(false)
   }, []);
 
+  useEffect(() => {
+    console.log(peakList);
+  }, [peakList]);
+
   //grab the object containing info and function relating to login/logout
   const authCtx = useContext(AuthContext);
 
