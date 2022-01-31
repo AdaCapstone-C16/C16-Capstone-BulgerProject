@@ -23,13 +23,12 @@ const AddSummit = (props) => {
     })
     
     const [summit, setSummit] = useState('')
+    
     const handleSummitAdd = (event) => {
-        console.log(event.label)
         setSummit(event.label)
     }
     
     const handleAddDB = () => {
-        console.log('adding summit')
         console.log(summit)
     }
 
@@ -46,7 +45,7 @@ const AddSummit = (props) => {
                     <label> Select a Bulger</label>
                     <Select options={peakNames} onChange={handleSummitAdd}/>
                 </form>
-                <button className="close-button" onClick={handleClose}>Close</button>
+                <button className="close-button" onClick={handleClose}>Add!</button>
                 {props.children}
             </div>
 

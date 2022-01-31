@@ -1,29 +1,49 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { auth } from '../firebase'
+import { auth, db } from '../firebase'
+import { get, ref, set, child } from "firebase/database";
 
 const AuthContext = React.createContext()
 
-export function useAuth() {
+// This useAuth hook allows you to use AuthContext created above
+export const useAuth = () => {
     return useContext(AuthContext)
     }
 
-export function AuthProvider({ children }) {
+export const AuthProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState()
     const [loading, setLoading] = useState(true)
+    const [fName, setFName] = useState(null)
+    const [lName, setLName] = useState(null)
+
     
-    function signup(email, password) {
+    const signup = (email, password, fName, lName) => {
+        setFName(fName)
+        setLName(lName)
         return auth.createUserWithEmailAndPassword(email, password)
-    }
-    
-    function login(email, password) {
+        }
+
+    const login = (email, password) => {
         return auth.signInWithEmailAndPassword(email, password)
     }
 
-    function logout() {
+    const logout = () => {
+        setFName(null)
+        setLName(null)
         return auth.signOut()
     }
 
-    function resetPassword(email) {
+    // function name(fName, lName) {
+    //     const dbRef = ref(db);
+    //     get(child(dbRef, `users/${currentUser.uid}`)).then((snapshot) => {
+    //         console.log('This user is in the db!')
+    //         console.log(snapshot.lName)
+    //         console.log(snapshot.fName)
+    //     })
+    // }
+
+
+    
+    const resetPassword = (email) => {
         return auth.sendPasswordResetEmail(email)
     }
 
@@ -35,7 +55,7 @@ export function AuthProvider({ children }) {
         return unsubscribe
     }, [])
 
-    const value = {currentUser, signup, login, logout, resetPassword}
+    const value = {currentUser, signup, login, logout, resetPassword, fName, lName }
 
 
 return (
