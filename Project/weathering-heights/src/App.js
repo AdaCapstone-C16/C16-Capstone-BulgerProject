@@ -10,7 +10,7 @@ import AuthContext from './store/auth-context';
 import app from './firebase.js';
 
 // API 
-import { getBulgerListData } from './api/BulgerAPI';
+import { getBulgerListData, getBulgerListCoords } from './api/BulgerAPI';
 
 // SAMPLE GET peak data
 // const peaks = ref(db, 'peaks/');
@@ -52,6 +52,10 @@ function App() {
       setStatus(false)
     }, []);
   
+
+  useEffect(() => {
+    console.log(peakList);
+  }, [peakList]);
 
   //grab the object containing info and function relating to login/logout
   const authCtx = useContext(AuthContext);
