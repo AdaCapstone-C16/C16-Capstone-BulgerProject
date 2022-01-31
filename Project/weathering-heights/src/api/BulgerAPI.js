@@ -1,5 +1,5 @@
-import { ref , onValue, get, child } from "firebase/database";
-import db from './../firebase.js';
+import { ref , onValue } from "firebase/database";
+import { db } from '../firebase';
 
 export const getBulgerListData = () => {
     const bulgerListArr = [];

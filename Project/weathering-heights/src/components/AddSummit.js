@@ -2,7 +2,7 @@ import React from 'react';
 import '../components/stylesheets/AddSummit.css'
 import { db } from '../firebase'
 import { on, get, ref, set, child, onValue } from 'firebase/database';
-// import { Dropdown } from 'semantic-ui-react'
+
 const AddSummit = (props) => {
 
     const peaks = ref(db, 'peaks/');
@@ -10,12 +10,14 @@ const AddSummit = (props) => {
     onValue(peaks, (snapshot) => {
         const data = snapshot.val();
         console.log(data)
+        let count = 1
         for (let peak of data){
             if (peak && peak.indigenous_name) {
-                peakNames.push(`${peak.indigenous_name} [${peak.name}]`)
+                peakNames.push([count,`${peak.indigenous_name} [${peak.name}]`])
             } else if (peak) {
-                peakNames.push(peak.name)
-            }
+                peakNames.push([count, peak.name])
+            };
+            count++;
         }
         console.log(peakNames)
     })
@@ -25,7 +27,7 @@ const AddSummit = (props) => {
     const getPeakOptions = (peakNames) => {
         return peakNames.map((peakName) => {
             // return (<option key={board.id} id={board.id} owner={board.owner} title={board.title} onClickBoard={onClickBoard}/>
-            return (<option value={peakName}>{peakName}</option>
+            return (<option key={peakName[0]} value={peakName[1]}>{peakName[1]}</option>
             );
             });
         };

@@ -3,7 +3,7 @@ import { useState, useEffect, useContext } from 'react';
 import { Container } from 'react-bootstrap'
 import { AuthProvider } from '../contexts/AuthContext';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-// import { getBulgerListData } from '../api/BulgerAPI'
+import { getBulgerListData } from '../api/BulgerAPI'
 import Login from './Login';
 import Signup from './Signup';
 import PrivateRoute from './PrivateRoute';
@@ -12,11 +12,11 @@ import Homepage from './Homepage';
 import MyProfile from './MyProfile';
 
 function App() {
-  // const [peakList, setPeakList] = useState([]);
-  // const [status, setStatus] = useState(true);
+  const [peakList, setPeakList] = useState([]);
+  const [status, setStatus] = useState(true);
 
-  // // Use this to view data
-  // console.log(getBulgerListData())
+  // // // Use this to view data
+  console.log(getBulgerListData())
 
   // // Retrieves Bulger list data from DB -> This is async
   // useEffect(() => {
