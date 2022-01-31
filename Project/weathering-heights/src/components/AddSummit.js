@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect, useContext } from 'react';
 import '../components/stylesheets/AddSummit.css'
-import { db } from '../firebase'
+import {db} from '../firebase'
 import { ref, onValue } from 'firebase/database';
 import Select from 'react-select'
 

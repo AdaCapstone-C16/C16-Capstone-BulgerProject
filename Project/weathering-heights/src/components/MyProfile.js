@@ -6,7 +6,7 @@ import MyPeakList from './MyPeakList';
 import MyStats from './MyStats'
 import { useNavigate } from 'react-router-dom'
 import { get, ref, set, child } from "firebase/database";
-import { db } from '../firebase'
+import {db} from '../firebase'
 
 export default function MyProfile() {
     const [error, setError] = useState("")
