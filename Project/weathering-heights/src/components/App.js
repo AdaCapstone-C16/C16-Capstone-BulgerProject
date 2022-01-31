@@ -16,14 +16,19 @@ function App() {
   const [status, setStatus] = useState(true);
 
   // // // Use this to view data
-  console.log(getBulgerListData())
+  // console.log(getBulgerListData())
 
-  // Retrieves Bulger list data from DB -> This is async
   useEffect(() => {
     const peaksData = getBulgerListData();
+    
     setPeakList(peaksData);
-    setStatus(false)
+    setStatus(false);
   }, []);
+  
+
+  useEffect(() => {
+    console.log(peakList);
+  }, [peakList]);
 
   return (
       <Container className="d-flex align-items-center" style={{ minHeight: "100vh" }}>
