@@ -1,6 +1,7 @@
 import { ref, onValue } from "firebase/database";
 import db from './../firebase.js';
 
+//state
 export const getBulgerListData = () => {
     const bulgerListArr = [];
   
@@ -9,20 +10,20 @@ export const getBulgerListData = () => {
     onValue(peaks, (snapshot) => {
         const data = snapshot.val();
         // console.log(data)
-        for (let peak in data) {
-          if (peak) {  
+        for (let i = 0; i < data.length; i++) {
+          if (data[i]) { 
             bulgerListArr.push({
-                key: peak,
-                chance_precip: peak.chance_precip,
-                coordinates: peak.coordinates,
-                elevation: peak.elevation,
-                indigenous_name: peak.indigenous_name,
-                link: peak.link,
-                name: peak.name,
-                range: peak.range,
-                rank: peak.rank,
-                temp: peak.temp,
-                wind_speed: peak.wind_speed,
+                key: i,
+                chance_precip: data[i].chance_precip,
+                coordinates: data[i].coordinates,
+                elevation: data[i].elevation,
+                indigenous_name: data[i].indigenous_name,
+                link: data[i].link,
+                name: data[i].name,
+                range: data[i].range,
+                rank: data[i].rank,
+                temp: data[i].temp,
+                wind_speed: data[i].wind_speed,
             });
             };
         };

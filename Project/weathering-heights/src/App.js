@@ -30,11 +30,17 @@ function App() {
   // Retrieves Bulger list data from DB -> This is async
   useEffect(() => {
     const peaksData = getBulgerListData();
+    
+    // Probably happening in onValue
     setPeakList(peaksData);
-    setStatus(false)
+    setStatus(false);
   }, []);
 
-  console.log(peakList)
+  useEffect(() => {
+    // INSERT Weather API call stuff
+    console.log(peakList);
+  }, [peakList]);
+  // console.log(peakList)
 
 
   //grab the object containing info and function relating to login/logout
