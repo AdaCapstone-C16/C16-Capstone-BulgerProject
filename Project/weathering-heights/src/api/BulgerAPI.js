@@ -36,8 +36,9 @@ export const getBulgerListCoords = (peaksArr) => {
     for (let peak of peaksArr) {
         bulgerListCoords.push({
             lat: peak.coordinates[0],
-            lon: [1],
+            lon: peak.coordinates[1],
         })
     };
+    console.log(bulgerListCoords);
     return bulgerListCoords;
 }
