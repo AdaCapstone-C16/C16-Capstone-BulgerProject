@@ -9,10 +9,10 @@ export const getBulgerListData = () => {
     onValue(peaks, (snapshot) => {
         const data = snapshot.val();
         // console.log(data)
-        for (let peak of data) {
+        for (let peak in data) {
           if (peak) {  
             bulgerListArr.push({
-                key: peak.key, //TODO
+                key: peak,
                 chance_precip: peak.chance_precip,
                 coordinates: peak.coordinates,
                 elevation: peak.elevation,

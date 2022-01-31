@@ -1,15 +1,13 @@
 import { useEffect, useState } from 'react';
 import axios from "axios";
-// import { getBulgerListData, getBulgerListCoords } from './api/BulgerAPI';
 
 
-    // TODO? TRUNCATE EACH VAL TO 4 DECIMALS
     // Q: ASK about GET WEATHER API CAPITALIZATION...was getting error
-        // about capitalization to make component or custom hook
-        // is this really a component? I'm just trying to export logic to maintain
-        // size of app.js
+    //     about capitalization to make component or custom hook
+    //     is this really a component? I'm just trying to export logic to maintain
+    //     size of app.js
     // Q: React Hook "useEffect" may be executed more than once. Possibly because it is called in a loop. 
-        // React Hooks must be called in the exact same order in every component render
+    //     React Hooks must be called in the exact same order in every component render
     // TODO: TURN DATA INTO JSON OBJ FOR RETURN TO FBDB
 
 

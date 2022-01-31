@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 import Layout from './components/Layout/Layout';
@@ -8,19 +8,44 @@ import HomePage from './pages/HomePage';
 import AuthContext from './store/auth-context';
 // API
 import { getBulgerListData, getBulgerListCoords } from './api/BulgerAPI';
-import { GetWeatherAPI } from './api/WeatherAPI';
+// import { GetWeatherAPI } from './api/WeatherAPI';
 
 // TODO: Will need coordinations list
 // console.log(getBulgerListData())
 
 function App() {
-    // TESTING API CALLS LOGIC
-    // const [peaksData, setPeaksData] = useState()
-    const peaksData = getBulgerListData();
-    const coords = getBulgerListCoords(peaksData)
-    console.log(peaksData)
-    // GetWeatherAPI(coords)
+    const [peakList, setPeakList] = useState([]);
+    const [status, setStatus] = useState(true);
 
+    // Retrieves Bulger list data from DB -> This is async
+    useEffect(() => {
+      const peaksData = getBulgerListData();
+
+      // peaksData populates
+      // state, however, are not updated
+      setPeakList(peaksData);
+      setStatus(false);
+
+      console.log(peaksData);
+      console.log(status);
+
+      console.log("LOOPING")
+      const peakObj = {}
+      for (let peak of peakList) {
+        console.log(peak.key);
+        console.log(peak.coordinates);
+        peakObj[peak.key] = peak.coordinates;
+      }
+
+      console.log(peakObj)
+
+
+    }, []);
+    
+    
+
+    // GET WEATHER DATA
+    // GetWeatherAPI(coords)
 
   //grab the object containing info and function relating to login/logout
   const authCtx = useContext(AuthContext);
