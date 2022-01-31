@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 import Layout from './components/Layout/Layout';
@@ -27,12 +27,31 @@ function App() {
   // Use this to view data
   // console.log(getBulgerListData())
 
+  //attempt 3 after seeing undefined using useEffect & useRef
+  // const fetchPeakData = () =>{
+  //   const data = getBulgerListData();
+  //   return data;
+  // }
+
+  //resolving error sending peaksData outside of useEffect scope
+  //resolution requires: use of useRef to initialize peaksData outside of useEffect and .current
+  let peaksData = useRef({});
+
   // Retrieves Bulger list data from DB -> This is async
-  useEffect(() => {
-    const peaksData = getBulgerListData();
-    setPeakList(peaksData);
-    setStatus(false)
-  }, []);
+    // useEffect(() => {
+    //   const peaksData = getBulgerListData();
+    //   setPeakList(peaksData);
+    //   setStatus(false)
+    // }, []);
+
+
+    useEffect(() => {
+      peaksData.current = getBulgerListData();
+      console.log(peaksData);
+      setPeakList(peaksData.current);
+      setStatus(false)
+    }, []);
+  
 
   //grab the object containing info and function relating to login/logout
   const authCtx = useContext(AuthContext);
@@ -44,7 +63,8 @@ function App() {
     <Layout>
       <Switch>
         <Route path='/' exact>
-          <HomePage />
+          {/* <HomePage/> */}
+          <HomePage data={peaksData}/>
         </Route>
         {!authCtx.isLoggedIn && (
           <Route path='/auth'>
