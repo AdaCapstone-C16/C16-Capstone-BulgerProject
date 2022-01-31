@@ -1,47 +1,52 @@
 import React from 'react';
+import { useState, useEffect, useContext } from 'react';
 import '../components/stylesheets/AddSummit.css'
 import { db } from '../firebase'
-import { on, get, ref, set, child, onValue } from 'firebase/database';
+import { ref, onValue } from 'firebase/database';
+import Select from 'react-select'
 
 const AddSummit = (props) => {
-
+    // This section pulls peak info from the db
     const peaks = ref(db, 'peaks/');
     const peakNames = [];
     onValue(peaks, (snapshot) => {
         const data = snapshot.val();
-        console.log(data)
         let count = 1
         for (let peak of data){
             if (peak && peak.indigenous_name) {
-                peakNames.push([count,`${peak.indigenous_name} [${peak.name}]`])
+                peakNames.push({value:count,label:`${peak.indigenous_name} [${peak.name}]`})
             } else if (peak) {
-                peakNames.push([count, peak.name])
+                peakNames.push({value:count, label:peak.name})
             };
             count++;
         }
-        console.log(peakNames)
     })
     
+    const [summit, setSummit] = useState('')
+    const handleSummitAdd = (event) => {
+        console.log(event.label)
+        setSummit(event.label)
+    }
     
-    // const BoardList = ({ boards, onClickBoard}) => {
-    const getPeakOptions = (peakNames) => {
-        return peakNames.map((peakName) => {
-            // return (<option key={board.id} id={board.id} owner={board.owner} title={board.title} onClickBoard={onClickBoard}/>
-            return (<option key={peakName[0]} value={peakName[1]}>{peakName[1]}</option>
-            );
-            });
-        };
-    
-    
+    const handleAddDB = () => {
+        console.log('adding summit')
+        console.log(summit)
+    }
+
+    const handleClose = () => {
+        handleAddDB()
+        props.setTrigger(false) 
+    }
+
     return ( props.trigger) ? (
         <div className="popup">
             <div className="popup-inner">
                 <h1>Add a Summit:</h1>
                 <form>
                     <label> Select a Bulger</label>
-                        <select>{getPeakOptions(peakNames)}</select>;                    
+                    <Select options={peakNames} onChange={handleSummitAdd}/>
                 </form>
-                <button className="close-button" onClick={()=> props.setTrigger(false)}>Add!</button>
+                <button className="close-button" onClick={handleClose}>Close</button>
                 {props.children}
             </div>
 
