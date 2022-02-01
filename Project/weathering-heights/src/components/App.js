@@ -1,9 +1,11 @@
 import React from 'react';
+import axios from "axios";
 import { useState, useEffect, useContext } from 'react';
 import { Container } from 'react-bootstrap'
 import { AuthProvider } from '../contexts/AuthContext';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { getBulgerListData } from '../api/BulgerAPI'
+import { getBulgerListData, getBulgerListCoords } from '../api/BulgerAPI'
+// import { GetWeatherAPI } from '../api/WeatherAPI';
 import Login from './Login';
 import Signup from './Signup';
 import PrivateRoute from './PrivateRoute';
@@ -11,24 +13,84 @@ import ForgotPassword from './ForgotPassword';
 import Homepage from './Homepage';
 import MyProfile from './MyProfile';
 
+function fetchData() {
+  return Promise.all([
+    getBulgerListData(),
+  ]).then(([data]) => {
+    return {data};
+  })
+};
+
 function App() {
   const [peakList, setPeakList] = useState([]);
   const [status, setStatus] = useState(true);
+  const [coordinates, setCoordinates] = useState();
 
-  // // // Use this to view data
+  // Use this to view data
   // console.log(getBulgerListData())
 
-  useEffect(() => {
-    const peaksData = getBulgerListData();
-    
-    setPeakList(peaksData);
-    setStatus(false);
-  }, []);
-  
+  // Kick off fetching as early as possible
+  const promise = fetchData();
 
   useEffect(() => {
-    console.log(peakList);
-  }, [peakList]);
+    promise.then(data => {
+      setPeakList(data);
+    });
+  }, []);
+
+  console.log(`Testing...${peakList}`);
+
+  // ##################THIS WORKS#################################
+  // Retrieves peak data from db
+  // useEffect(() => {
+  //   const peaksData = getBulgerListData();
+    
+  //   setPeakList(peaksData);
+  //   setStatus(false);
+  // }, []);
+
+  
+  // useEffect(() => {
+  //   const coords = getBulgerListCoords(peakList);
+  //   setCoordinates(coords);
+  // }, [peakList]);
+  // ##################END THIS WORKS##############################
+
+  useEffect(() => {
+    // console.log('WERE HERE')
+    // console.log(coordinates);
+    const NWSUrl = "https://api.weather.gov/points";
+
+    // Make API call for each peak coordinates
+    for (let peakCoord in coordinates) {
+      console.log(peakCoord)
+      // Lat, Lon truncated to four decimals
+      const lat = peakCoord.lat.toFixed(4)
+      const lon = peakCoord.lon.toFixed(4)
+      console.log(lat, lon);
+
+      axios
+        //lat, lon must be only to 4 decimal points
+        .get(`${NWSUrl}/${lat},${lon}`)
+        .then((res) => {
+          const forecast_link = res.data.properties.forecast
+          setStatus(false);
+          return axios.get(`${forecast_link}`);
+        })
+        .then((res) => {
+          // Today's forecast
+          const today = res.data.properties.periods[0]
+          const temp = today.temperature
+          const wind = `${today.windSpeed} ${today.windDirection}`
+          // const detailedForecast = today.detailedForecast
+          console.log({temp: temp, wind: wind})
+          return {temp: temp, wind: wind}
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      }
+  }, [coordinates]);
 
   return (
       <Container className="d-flex align-items-center" style={{ minHeight: "100vh" }}>
