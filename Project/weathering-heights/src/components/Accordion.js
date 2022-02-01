@@ -53,10 +53,10 @@ const Wrap = styled.div`
 
     .bigItem {
         grid-area: myArea;
-        font-size: 3rem;
+        font-size: 2rem;
     }
     .item{
-        font-size: 2rem;
+        font-size: 1rem;
     }
     
     .grid-container {
@@ -111,6 +111,8 @@ const Accordion = (props) => {
         <AccordionSection>
             <Container>
             <button>Sort</button>
+
+            {console.log(props.data)}
                 {/* {Data.map((item, index)=>{
                     return(
                         <>
@@ -132,11 +134,11 @@ const Accordion = (props) => {
                     return(
                         <>
                         <Wrap onClick={()=> toggle(index)} key={index}>
-                        <div class="grid-container">
-                            <div class="bigItem">{item.name}</div>
-                            <div class="item">Temp: {item.temp}</div>
-                            <div class="item">Wind: {item.wind_speed}</div>
-                            <div class="item">Precip: {item.chance_precip}</div>
+                        <div className="grid-container">
+                            <div className="bigItem">{item.name}</div>
+                            <div className="item">Temp: {item.temp}</div>
+                            <div className="item">Wind: {item.wind_speed}</div>
+                            <div className="item">Precip: {item.chance_precip}</div>
                                 {/* <h1>{item.name}</h1>
                                 <p>temp: {item.temp} wind: {item.wind_speed} chance precip: {item.chance_precip}</p> */}
                         </div>
@@ -152,8 +154,27 @@ const Accordion = (props) => {
                 })
                 }
 
-
-                {console.log(props.data)}
+                {props.data.map((item, index) => {
+                    return(
+                        <>
+                        <Wrap onClick={()=> toggle(index)} key={index}>
+                        <div className="grid-container">
+                            <div className="bigItem">{item.name}</div>
+                            <div className="item">Temp: {item.temp}</div>
+                            <div className="item">Wind: {item.wind_speed}</div>
+                            <div className="item">Precip: {item.chance_precip}</div>
+                        </div>
+                            <span> {clicked === index ? <FiMinus/> : <FiPlus/>}</span>
+                        </Wrap>
+                        {clicked === index ? 
+                            <Dropdown>
+                            <p>{item.rank} {item.indigenous_name} {item.elevation} {item.link} {item.coordinates}</p>
+                            </Dropdown>:
+                            null}
+                        </>
+                    )
+                })
+                }
             </Container>
         </AccordionSection>
     </IconContext.Provider>
@@ -161,3 +182,5 @@ const Accordion = (props) => {
 };
 
 export default Accordion
+
+//

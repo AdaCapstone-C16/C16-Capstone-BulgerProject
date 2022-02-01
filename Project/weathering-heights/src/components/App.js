@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
 import { Container } from 'react-bootstrap'
 import { AuthProvider } from '../contexts/AuthContext';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -16,7 +16,7 @@ function App() {
   const [status, setStatus] = useState(true);
 
   // // // Use this to view data
-  // console.log(getBulgerListData())
+  console.log(getBulgerListData())
 
   useEffect(() => {
     const peaksData = getBulgerListData();
@@ -41,7 +41,7 @@ function App() {
                 </Route>
                 <Route path="/signup" element={<Signup/>} />
                 <Route path="/login" element={<Login/>} />
-                <Route path="/" element={<Homepage/>} />
+                <Route path="/" element={<Homepage data={peakList}/>} />
                 <Route path="/forgot-password" element={<ForgotPassword/>} />
               </Routes>
             </AuthProvider>

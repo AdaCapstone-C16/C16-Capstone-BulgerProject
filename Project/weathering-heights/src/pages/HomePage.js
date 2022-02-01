@@ -8,7 +8,7 @@ const HomePage = (props) => {
   return (
     <div>
       <StartingPageContent />
-      <Accordion data={props.data}></Accordion>
+      <Accordion data={props.data} key={props.data.key}></Accordion>
     </div>
   );
 };
