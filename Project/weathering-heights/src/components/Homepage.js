@@ -4,6 +4,10 @@ import {Link} from 'react-router-dom'
 import Accordion from './Accordion';
 
 export default function Homepage(props) {
+
+    console.log("Inside of homepage");
+    console.log(props);
+
     return (
     <section>
         <Link to='/login'>Login</Link>
