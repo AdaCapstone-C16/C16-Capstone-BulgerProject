@@ -5,8 +5,6 @@ import AddSummit from './AddSummit';
 import MyPeakList from './MyPeakList';
 import MyStats from './MyStats'
 import { useNavigate } from 'react-router-dom'
-import { get, ref, set, child } from "firebase/database";
-import {db} from '../firebase'
 
 export default function MyProfile() {
     const [error, setError] = useState("")
@@ -14,17 +12,6 @@ export default function MyProfile() {
     const navigate = useNavigate()
     
     const [addSummit, setAddSummit] = useState(false)
-    // This block gets the uid, if it is a new user, it will add them to the db
-    const dbRef = ref(db);
-    get(child(dbRef, `users/${currentUser.uid}`)).then((snapshot) => {
-        if (snapshot.exists()) {
-            console.log('This user is in the db!')
-        } else {
-            set(ref(db, 'users/'+ currentUser.uid), {email:currentUser.email, first_name:fName, last_name:lName})
-        }
-    }).catch((error) => {
-        console.log(error)
-    });
     
     const handleAddSummit= () => {
         setAddSummit(true)
@@ -43,6 +30,7 @@ export default function MyProfile() {
     return (
     <section>
         <h1>My Profile</h1>
+        <h2>{fName} {lName}</h2>
         {error && <Alert variant="danger">{error}</Alert>}
         {JSON.stringify(currentUser.uid)}
         <div className="w-100 text-center mt-2">

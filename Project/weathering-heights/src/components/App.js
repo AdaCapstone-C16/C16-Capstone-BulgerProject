@@ -10,6 +10,7 @@ import PrivateRoute from './PrivateRoute';
 import ForgotPassword from './ForgotPassword';
 import Homepage from './Homepage';
 import MyProfile from './MyProfile';
+import Thanks from './Thanks'
 
 function App() {
   const [peakList, setPeakList] = useState([]);
@@ -40,6 +41,7 @@ function App() {
                   <Route exact path="/my-profile" element={<MyProfile/>} />
                 </Route>
                 <Route path="/signup" element={<Signup/>} />
+                <Route path="/thanks" element={<Thanks/>} />
                 <Route path="/login" element={<Login/>} />
                 <Route path="/" element={<Homepage/>} />
                 <Route path="/forgot-password" element={<ForgotPassword/>} />

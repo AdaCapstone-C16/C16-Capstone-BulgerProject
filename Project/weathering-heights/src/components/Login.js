@@ -18,7 +18,7 @@ export default function Login() {
             setError('')
             setLoading(true)
             await login(emailRef.current.value, passwordRef.current.value)
-            navigate("/my-profile")
+            navigate("/thanks")
         } catch (error) {
             console.log(error)
             setError('Failed to access account')
