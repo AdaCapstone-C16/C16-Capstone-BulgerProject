@@ -1,5 +1,7 @@
 import React from 'react';
 import { useState, useEffect, useContext, useRef } from 'react';
+import { ref, onValue } from "firebase/database";
+import { db } from './../firebase.js';
 import { Container } from 'react-bootstrap'
 import { AuthProvider } from '../contexts/AuthContext';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -12,23 +14,52 @@ import Homepage from './Homepage';
 import MyProfile from './MyProfile';
 import PeaksState from '../contexts/PeaksState';
 
+
 function App() {
   const [peakList, setPeakList] = useState([]);
   const [status, setStatus] = useState(true);
   //const [isLoading, setIsLoading] = useState(false)
 
   // // // Use this to view data
-  console.log(getBulgerListData())
+  //console.log(getBulgerListData())
 
+  //useEffect(() => {
+    //const peaksData = getBulgerListData(); 
+    //setPeakList(peaksData);
+    //setStatus(false);
+  //}, []);
+  // GET peak data from FBDB
   useEffect(() => {
-    const peaksData = getBulgerListData(); 
-    setPeakList(peaksData);
-    setStatus(false);
-  }, []);
+    const bulgerListArr = [];
+    const peaks = ref(db, 'peaks/');
+    onValue(peaks, (snapshot) => {
+        const data = snapshot.val();
+        for (let i = 0; i < data.length; i++) {
+            if (data[i]) { 
+                bulgerListArr.push({
+                    key: i,
+                    chance_precip: data[i].chance_precip,
+                    coordinates: data[i].coordinates,
+                    elevation: data[i].elevation,
+                    indigenous_name: data[i].indigenous_name,
+                    link: data[i].link,
+                    name: data[i].name,
+                    range: data[i].range,
+                    rank: data[i].rank,
+                    temp: data[i].temp,
+                    wind_speed: data[i].wind_speed,
+                });
+                };
+        };
+        setPeakList(bulgerListArr);
+      });
+    }, []);
 
-  useEffect(() => {
-    console.log(peakList);
-  }, [peakList]);
+    // console.log(peakList)
+
+  // useEffect(() => {
+  //   console.log(peakList);
+  // }, [peakList]);
 
   // const [isLoading, setIsLoading] = useState(false)
 
