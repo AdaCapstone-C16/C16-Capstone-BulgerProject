@@ -6,6 +6,8 @@ import { ref, onValue, set } from 'firebase/database';
 import Select from 'react-select'
 // import { get, ref, set, child } from "firebase/database";
 import { useAuth } from '../contexts/AuthContext'
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css'
 
 const AddTrip = (props) => {
     // This section pulls peak info from the db
@@ -37,6 +39,15 @@ const AddTrip = (props) => {
     //     set(ref(db, `users/${currentUser.uid}/summits/${summit[0]}`), {name:summit[1]})
     // }
     console.log(props)
+
+    const [selectedDate, setSelectedDate] = useState(null)
+    
+    const handleSelectedDate =(date) =>{
+
+        setSelectedDate(date)
+        console.log(date)
+        console.log(selectedDate)
+    }
     const handleClose = () => {
         // handleAddDB()
         props.setTrigger(false) 
@@ -49,6 +60,8 @@ const AddTrip = (props) => {
                 <form>
                     <label> Select a Bulger</label>
                     {/* <Select options={peakNames} onChange={handleSummitAdd}/> */}
+                    {/* <DatePicker selected={selectedDate} onChange={date=>setSelectedDate(date)}></DatePicker> */}
+                    <DatePicker selected={selectedDate} onChange={handleSelectedDate}></DatePicker>
                 </form>
                 <button className="close-button" onClick={handleClose}>Add!</button>
                 {props.children}
