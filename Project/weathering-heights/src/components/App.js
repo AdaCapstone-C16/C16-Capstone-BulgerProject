@@ -32,24 +32,22 @@ function App() {
   }, [peakList]);
 
   return (
-      <Container className="d-flex align-items-center" style={{ minHeight: "100vh" }}>
-        <div className="w-100" style={{ maxWidth: '400px'}}>
-          <Router>
-            <AuthProvider>
-              <Routes>
-                <Route element={<PrivateRoute/>}>
-                  <Route exact path="/my-profile" element={<MyProfile/>} />
-                </Route>
-                <Route path="/signup" element={<Signup/>} />
-                <Route path="/thanks" element={<Thanks/>} />
-                <Route path="/login" element={<Login/>} />
-                <Route path="/" element={<Homepage/>} />
-                <Route path="/forgot-password" element={<ForgotPassword/>} />
-              </Routes>
-            </AuthProvider>
-          </Router>
-        </div>
-      </Container>
+      <main>
+        <Router>
+          <AuthProvider>
+            <Routes>
+              <Route element={<PrivateRoute/>}>
+                <Route exact path="/my-profile" element={<MyProfile/>} />
+              </Route>
+              <Route path="/signup" element={<Signup/>} />
+              <Route path="/thanks" element={<Thanks/>} />
+              <Route path="/login" element={<Login/>} />
+              <Route path="/" element={<Homepage/>} />
+              <Route path="/forgot-password" element={<ForgotPassword/>} />
+            </Routes>
+          </AuthProvider>
+        </Router>
+      </main>
     
   )
 }

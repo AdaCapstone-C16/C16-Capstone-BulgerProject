@@ -1,0 +1,19 @@
+.image-background {
+    background-color: black;
+    min-height: 100vh;
+    min-width: 100vh;
+
+}
+h1 {
+    position: absolute;
+    width: 587px;
+    height: 59px;
+    left: 23px;
+    top: 27px;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 48px;
+    line-height: 59px;
+    color: #FFFFFF;
+}
