@@ -1,9 +1,16 @@
-.image-background {
+.main {
     background-color: black;
     min-height: 100vh;
     min-width: 100vh;
+    /* display: flex;
+    flex-direction: row;
+    justify-content: space-between; */
 
 }
+
+/* .container-right {
+    justify-content: space-between;
+} */
 h1 {
     position: absolute;
     width: 587px;

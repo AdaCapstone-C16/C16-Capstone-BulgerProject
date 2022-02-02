@@ -21,9 +21,13 @@ export default function MyProfile() {
 
     const getMyPeakData = () => {
         const myPeaks = ref(db, `users/${currentUser.uid}/summits`)
-        console.log(myPeaks)
+        onValue(myPeaks, (snapshot) => {
+            snapshot.forEach((data) => {
+                console.log('Peak ID' + data.key + ' name: ' + data.child('name').val());
+                });
         return myPeaks
-    }
+    })
+}
     
     useEffect(() => {        
         setMyPeakList(getMyPeakData());
@@ -40,14 +44,12 @@ export default function MyProfile() {
         }
     }
 
-
     return (
-
-    <main className='image-background'>
-        <section>
+    <main className='main'>
+        <section className='container-right'>
             <h1>WEATHERING HEIGHTS</h1>
         </section>
-        <section>
+        <section className='container-left'>
             {error && <Alert variant="danger">{error}</Alert>}
             <div>
                 <Button varient="link" onClick={handleLogout}> Log Out</Button>
