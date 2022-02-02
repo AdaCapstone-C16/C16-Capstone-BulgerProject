@@ -6,8 +6,8 @@ import { db } from './../firebase.js';
 import { Container } from 'react-bootstrap'
 import { AuthProvider } from '../contexts/AuthContext';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { getBulgerListData, getBulgerListCoords } from '../api/BulgerAPI'
-// import { GetWeatherAPI } from '../api/WeatherAPI';
+import { getBulgerListCoords } from '../api/BulgerAPI'
+import { GetWeatherAPI } from '../api/GetWeatherAPI';
 import Login from './Login';
 import Signup from './Signup';
 import PrivateRoute from './PrivateRoute';
@@ -18,7 +18,7 @@ import MyProfile from './MyProfile';
 function App() {
   const [peakList, setPeakList] = useState([]);
   const [status, setStatus] = useState(true);
-  const [coordinates, setCoordinates] = useState();
+  const [coordinates, setCoordinates] = useState([]);
 
   // GET peak data from FBDB
   useEffect(() => {
@@ -48,11 +48,62 @@ function App() {
       });
     }, []);
 
-    console.log(peakList)
+  // Extracts peak coordinates once peakList state has set
+  useEffect(() => {
+    const peakCoords = getBulgerListCoords(peakList);
+    setCoordinates(peakCoords);
+  }, [peakList]);
 
+  // GET OpenWeatherMap weather data for each peak
+  useEffect(() => {
+    const weatherData = []
+
+    const baseURL = "api.openweathermap.org/data/2.5/weather"
+    // const api_key = process.env.REACT_APP_OPEN_WEATHER_APP_API_KEY
+    const apiKey = "76d327ebfc625384cf892171d9e30d25"
+    if (coordinates !== []) {
+      // Make API call for each peak coordinates
+      // for (let i = 0; i < Object.keys(coordinates).length; i++) {
+      for (let i = 0; i < Object.keys(coordinates).length; i++) {
+        // Lat, Lon truncated to four decimals
+        let lat = parseFloat(coordinates[i].lat)
+        lat = lat.toFixed(4);
+        let lon = parseFloat(coordinates[i].lon)
+        lon = lon.toFixed(4)
+
+      axios
+          .get(`http://${baseURL}?lat=${lat}&lon=${lon}&units=imperial&appid=${apiKey}`)
+          .then((res) => {
+              weatherData.push({
+                // Today's forecast
+                temp: res.data.main.temp,
+                wind: `${res.data.wind.speed}`,
+                // rain: res.data.rain["1h"],
+                // snow: res.data.snow["1h"],
+            })
+          })
+          .catch((err) => {
+              console.log(err.data);
+          });
+        }
+      }
+      console.log(weatherData);
+    }, [coordinates]);
+
+    //POST Updated Weater Data to DB
+    // function writeUserData(key, temp, wind, rain, snow) {
+    //   const db = getDatabase();
+    //   set(ref(db, 'peaks/' + key), {
+    //     snow: snow,
+    //     temp: temp,
+    //     windSpeed: wind
+    //   });
+    // }
+
+  // Retrieves weather data once coordinates state is set
   // useEffect(() => {
-  //   console.log(peakList);
-  // }, [peakList]);
+  //   useGetWeatherAPI(coordinates);
+  // }, [coordinates]);
 
   return (
       <Container className="d-flex align-items-center" style={{ minHeight: "100vh" }}>
