@@ -27,8 +27,8 @@ export default function Thanks() {
 
     return (
     <section>
-        <h1> Weathering Heights </h1>
-        <h2>Welcome {fName} {lName}!</h2>
+        <h2> Weathering Heights </h2>
+        <h3>Welcome {fName} {lName}!</h3>
         <Button href='/'>Homepage</Button>
         <Button href='/my-profile'>MyProfile</Button>
     </section>   

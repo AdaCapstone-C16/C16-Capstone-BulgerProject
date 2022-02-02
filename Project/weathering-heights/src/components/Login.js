@@ -13,7 +13,6 @@ export default function Login() {
 
     async function handleSubmit(e) {
         e.preventDefault()
-
         try {
             setError('')
             setLoading(true)
@@ -22,9 +21,7 @@ export default function Login() {
         } catch (error) {
             console.log(error)
             setError('Failed to access account')
-
         }
-        
         setLoading(false)
         
     }

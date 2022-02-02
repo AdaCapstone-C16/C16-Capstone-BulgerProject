@@ -1,12 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import { Button, Container, Col, Alert } from 'react-bootstrap'
 import { useAuth } from '../contexts/AuthContext'
+import { useNavigate } from 'react-router-dom'
+import { ref, onValue, get, child } from 'firebase/database';
+import {db} from '../firebase'
 import AddSummit from './AddSummit';
 import MyPeakList from './MyPeakList';
-import { useNavigate } from 'react-router-dom'
-import { ref, onValue, set } from 'firebase/database';
-import {db} from '../firebase'
 import '../components/stylesheets/MyProfile.css'
+
 
 export default function MyProfile() {
     const [error, setError] = useState("")
@@ -20,18 +21,45 @@ export default function MyProfile() {
     }
 
     const getMyPeakData = () => {
+        let myPeaksArr = []
         const myPeaks = ref(db, `users/${currentUser.uid}/summits`)
+        const dbRef = ref(db);
+
         onValue(myPeaks, (snapshot) => {
-            snapshot.forEach((data) => {
-                console.log('Peak ID' + data.key + ' name: ' + data.child('name').val());
+            snapshot.forEach((peak) => {
+                let pID = peak.key
+                let pName = peak.child('name').val()
+                let pTrips = []
+                get(child(dbRef, `users/${currentUser.uid}/summits/${peak.key}/trips`)).then((snapshot) => {
+                    if (snapshot.exists()) {
+                        console.log(snapshot.val()) 
+                        // eventually add a forEach loop here to add each TR to the pTrips array
+                    } else {
+                        console.log('There are no associated trips to this summit');
+                    }
+                }).catch((error) => {
+                    console.log(error)
+                    return error
                 });
-        return myPeaks
+                console.log('Peak ID' + peak.key + ' name: ' + peak.child('name').val());
+                myPeaksArr.push({id:pID,
+                                name:pName,
+                                trips:pTrips
+                            })
+                });
+
+            console.log('Here is the peak array')
+            console.log(myPeaksArr)
+            setMyPeakList(myPeaksArr)
+        
     })
 }
-    
-    useEffect(() => {        
-        setMyPeakList(getMyPeakData());
-    }, []);
+
+    useEffect(() => {
+        getMyPeakData();
+        // console.log(myPeaksData)
+        // setMyPeakList(myPeaksData);
+        }, []);
 
     // If the logout button is clicked, it will navigate user to the homepage
     async function handleLogout() {
@@ -55,7 +83,7 @@ export default function MyProfile() {
                 <Button varient="link" onClick={handleLogout}> Log Out</Button>
             </div>
             <section>
-                <MyPeakList></MyPeakList>
+                <MyPeakList peaks={myPeakList}></MyPeakList>
             </section>
             <section>
                 <Button onClick={handleAddSummit}>ADD A SUMMIT</Button>
