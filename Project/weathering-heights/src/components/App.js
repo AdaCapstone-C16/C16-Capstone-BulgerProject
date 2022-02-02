@@ -28,6 +28,7 @@ function App() {
     //setPeakList(peaksData);
     //setStatus(false);
   //}, []);
+  
   // GET peak data from FBDB
   useEffect(() => {
     const bulgerListArr = [];
