@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from "axios";
 import { useState, useEffect, useContext } from 'react';
+import { ref, onValue } from "firebase/database";
+import { db } from './../firebase.js';
 import { Container } from 'react-bootstrap'
 import { AuthProvider } from '../contexts/AuthContext';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -13,84 +15,44 @@ import ForgotPassword from './ForgotPassword';
 import Homepage from './Homepage';
 import MyProfile from './MyProfile';
 
-function fetchData() {
-  return Promise.all([
-    getBulgerListData(),
-  ]).then(([data]) => {
-    return {data};
-  })
-};
-
 function App() {
   const [peakList, setPeakList] = useState([]);
   const [status, setStatus] = useState(true);
   const [coordinates, setCoordinates] = useState();
 
-  // Use this to view data
-  // console.log(getBulgerListData())
-
-  // Kick off fetching as early as possible
-  const promise = fetchData();
-
+  // GET peak data from FBDB
   useEffect(() => {
-    promise.then(data => {
-      setPeakList(data);
-    });
-  }, []);
+    const bulgerListArr = [];
 
-  console.log(`Testing...${peakList}`);
+    const peaks = ref(db, 'peaks/');
+    onValue(peaks, (snapshot) => {
+        const data = snapshot.val();
+        for (let i = 0; i < data.length; i++) {
+            if (data[i]) { 
+                bulgerListArr.push({
+                    key: i,
+                    chance_precip: data[i].chance_precip,
+                    coordinates: data[i].coordinates,
+                    elevation: data[i].elevation,
+                    indigenous_name: data[i].indigenous_name,
+                    link: data[i].link,
+                    name: data[i].name,
+                    range: data[i].range,
+                    rank: data[i].rank,
+                    temp: data[i].temp,
+                    wind_speed: data[i].wind_speed,
+                });
+                };
+        };
+        setPeakList(bulgerListArr);
+      });
+    }, []);
 
-  // ##################THIS WORKS#################################
-  // Retrieves peak data from db
+    console.log(peakList)
+
   // useEffect(() => {
-  //   const peaksData = getBulgerListData();
-    
-  //   setPeakList(peaksData);
-  //   setStatus(false);
-  // }, []);
-
-  
-  // useEffect(() => {
-  //   const coords = getBulgerListCoords(peakList);
-  //   setCoordinates(coords);
+  //   console.log(peakList);
   // }, [peakList]);
-  // ##################END THIS WORKS##############################
-
-  useEffect(() => {
-    // console.log('WERE HERE')
-    // console.log(coordinates);
-    const NWSUrl = "https://api.weather.gov/points";
-
-    // Make API call for each peak coordinates
-    for (let peakCoord in coordinates) {
-      console.log(peakCoord)
-      // Lat, Lon truncated to four decimals
-      const lat = peakCoord.lat.toFixed(4)
-      const lon = peakCoord.lon.toFixed(4)
-      console.log(lat, lon);
-
-      axios
-        //lat, lon must be only to 4 decimal points
-        .get(`${NWSUrl}/${lat},${lon}`)
-        .then((res) => {
-          const forecast_link = res.data.properties.forecast
-          setStatus(false);
-          return axios.get(`${forecast_link}`);
-        })
-        .then((res) => {
-          // Today's forecast
-          const today = res.data.properties.periods[0]
-          const temp = today.temperature
-          const wind = `${today.windSpeed} ${today.windDirection}`
-          // const detailedForecast = today.detailedForecast
-          console.log({temp: temp, wind: wind})
-          return {temp: temp, wind: wind}
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      }
-  }, [coordinates]);
 
   return (
       <Container className="d-flex align-items-center" style={{ minHeight: "100vh" }}>
