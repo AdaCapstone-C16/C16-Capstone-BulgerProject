@@ -1,17 +1,22 @@
 import React from 'react';
-import { useState, useEffect, useContext } from 'react';
+import { useState } from 'react';
 import '../components/stylesheets/AddSummit.css'
 import {db} from '../firebase'
-import { ref, onValue } from 'firebase/database';
+import { ref, onValue, set } from 'firebase/database';
 import Select from 'react-select'
+// import { get, ref, set, child } from "firebase/database";
+import { useAuth } from '../contexts/AuthContext'
 
 const AddSummit = (props) => {
     // This section pulls peak info from the db
     const peaks = ref(db, 'peaks/');
     const peakNames = [];
+    const { currentUser } = useAuth()
+    const [summit, setSummit] = useState(['',''])
+
     onValue(peaks, (snapshot) => {
         const data = snapshot.val();
-        let count = 1
+        let count = 0
         for (let peak of data){
             if (peak && peak.indigenous_name) {
                 peakNames.push({value:count,label:`${peak.indigenous_name} [${peak.name}]`})
@@ -22,14 +27,14 @@ const AddSummit = (props) => {
         }
     })
     
-    const [summit, setSummit] = useState('')
     
     const handleSummitAdd = (event) => {
-        setSummit(event.label)
+        setSummit([event.value, event.label])
     }
     
     const handleAddDB = () => {
         console.log(summit)
+        set(ref(db, `users/${currentUser.uid}/summits/${summit[0]}`), {name:summit[1]})
     }
 
     const handleClose = () => {
@@ -40,7 +45,7 @@ const AddSummit = (props) => {
     return ( props.trigger) ? (
         <div className="popup">
             <div className="popup-inner">
-                <h1>Add a Summit:</h1>
+                <h1>Add New Summit:</h1>
                 <form>
                     <label> Select a Bulger</label>
                     <Select options={peakNames} onChange={handleSummitAdd}/>
