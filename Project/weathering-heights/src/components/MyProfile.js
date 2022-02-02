@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { Button, Container, Col, Alert } from 'react-bootstrap'
+import { Button, Alert } from 'react-bootstrap'
 import { useAuth } from '../contexts/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import { ref, onValue, get, child } from 'firebase/database';
