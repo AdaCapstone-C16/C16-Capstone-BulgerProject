@@ -33,7 +33,7 @@ const AddTrip = (props) => {
         let day = strDate.slice(9,11)
         let mnth = strDate.slice(6,8)
         const dateFinal = [mnth, day, year].join("-")
-        set(ref(db, `users/${currentUser.uid}/summits/${props.id}/trips`), {[dateFinal]:tripNotes})
+        set(ref(db, `users/${currentUser.uid}/summits/${props.id}/trips/${dateFinal}`), tripNotes)
     }
 
     return ( props.trigger) ? (
