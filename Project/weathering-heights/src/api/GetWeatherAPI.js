@@ -51,3 +51,40 @@ import axios from "axios";
     //     }
     //   }
     // }, [coordinates]);
+
+    // ###############################################################
+    // GET OpenWeatherMap weather data for each peak
+//   useEffect(() => {
+//     const weatherData = []
+
+//     const baseURL = "api.openweathermap.org/data/2.5/weather"
+//     // const api_key = process.env.REACT_APP_OPEN_WEATHER_APP_API_KEY
+//     const apiKey = "76d327ebfc625384cf892171d9e30d25"
+//     if (coordinates !== []) {
+//       // Make API call for each peak coordinates
+//       // for (let i = 0; i < Object.keys(coordinates).length; i++) {
+//       for (let i = 0; i < Object.keys(coordinates).length; i++) {
+//         // Lat, Lon truncated to four decimals
+//         let lat = parseFloat(coordinates[i].lat)
+//         lat = lat.toFixed(4);
+//         let lon = parseFloat(coordinates[i].lon)
+//         lon = lon.toFixed(4)
+
+//       axios
+//           .get(`http://${baseURL}?lat=${lat}&lon=${lon}&units=imperial&appid=${apiKey}`)
+//           .then((res) => {
+//               weatherData.push({
+//                 // Today's forecast
+//                 temp: res.data.main.temp,
+//                 wind: `${res.data.wind.speed}`,
+//                 // rain: res.data.rain["1h"],
+//                 // snow: res.data.snow["1h"],
+//             })
+//           })
+//           .catch((err) => {
+//               console.log(err.data);
+//           });
+//         }
+//       }
+//       console.log(weatherData);
+//     }, [coordinates]);

@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from "axios";
 import { useState, useEffect, useContext } from 'react';
-import { ref, onValue } from "firebase/database";
+import { ref, onValue, set, update } from "firebase/database";
 import { db } from './../firebase.js';
 import { Container } from 'react-bootstrap'
 import { AuthProvider } from '../contexts/AuthContext';
@@ -42,57 +42,76 @@ function App() {
                     temp: data[i].temp,
                     wind_speed: data[i].wind_speed,
                 });
-                };
+            };
         };
         setPeakList(bulgerListArr);
-      });
-    }, []);
+    });
+  }, []);
 
+  const [fakeData, setFakeData] = useState({
+    key: 234,
+    temp: "TEST",
+    wind_speed: "TEST",
+    chance_precip: "TEST",
+    coordinates: [1, 2],
+    elevation: "TEST",
+    indigenous_name: "TEST" ,
+    link: "www.TEST.com",
+    name: "TEST",
+    range: "TEST",
+    rank: "TEST",
+  })
   // Extracts peak coordinates once peakList state has set
   useEffect(() => {
-    const peakCoords = getBulgerListCoords(peakList);
-    setCoordinates(peakCoords);
+    if (peakList !== []) {
+      const peakCoords = getBulgerListCoords(peakList);
+      setCoordinates(peakCoords);
+    }
   }, [peakList]);
+    
 
   // GET OpenWeatherMap weather data for each peak
   useEffect(() => {
     const weatherData = []
 
-    const baseURL = "api.openweathermap.org/data/2.5/weather"
-    // const api_key = process.env.REACT_APP_OPEN_WEATHER_APP_API_KEY
-    const apiKey = "76d327ebfc625384cf892171d9e30d25"
+    const baseURL = "http://api.weatherapi.com/v1"
+    // const api_key = process.env.REACT_APP_WEATHER_APP_API_KEY
+    const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
+
     if (coordinates !== []) {
       // Make API call for each peak coordinates
       // for (let i = 0; i < Object.keys(coordinates).length; i++) {
-      for (let i = 0; i < Object.keys(coordinates).length; i++) {
         // Lat, Lon truncated to four decimals
-        let lat = parseFloat(coordinates[i].lat)
-        lat = lat.toFixed(4);
-        let lon = parseFloat(coordinates[i].lon)
-        lon = lon.toFixed(4)
+        // let lat = parseFloat(coordinates[i].lat)
+        // lat = lat.toFixed(4);
+        // let lon = parseFloat(coordinates[i].lon)
+        // lon = lon.toFixed(4);
+      const lat = 46.8529;
+      const lon = -121.7604;
+      const key = "0"
 
       axios
-          .get(`http://${baseURL}?lat=${lat}&lon=${lon}&units=imperial&appid=${apiKey}`)
+          // Connects to Weather API at lat & lon
+          .get(`${baseURL}/current.json?key=${apiKey}&q=${lat},${lon}&aqi=no`)
           .then((res) => {
-              weatherData.push({
-                // Today's forecast
-                temp: res.data.main.temp,
-                wind: `${res.data.wind.speed}`,
-                // rain: res.data.rain["1h"],
-                // snow: res.data.snow["1h"],
-            })
+            const now = res.data.current;
+            // Updates temperature data in without override
+            // Will trigger onValue, which will update state
+            update(ref(db, 'fake/' + key), {
+              temp: now.temp_f,
+              chance_precip: now.precip_in,
+              wind_speed: `${now.wind_mph} ${now.wind_dir}`
+            });
           })
           .catch((err) => {
               console.log(err.data);
           });
-        }
+        // }
       }
-      console.log(weatherData);
     }, [coordinates]);
 
-    //POST Updated Weater Data to DB
-    // function writeUserData(key, temp, wind, rain, snow) {
-    //   const db = getDatabase();
+    // //POST Updated Weater Data to DB
+    // function writeUserData(key, temp, wind, rain) {
     //   set(ref(db, 'peaks/' + key), {
     //     snow: snow,
     //     temp: temp,
