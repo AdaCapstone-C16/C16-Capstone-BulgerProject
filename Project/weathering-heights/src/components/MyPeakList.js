@@ -114,6 +114,9 @@ const MyPeakList = ({ peaks }) => {
     
     
     // return <ol>{getPeakListJSX(peaks)}</ol>;
+
+    
+
     return (
         <IconContext.Provider value={{color : '#00FFB9', size : '25px'}}>
             <AccordionSection>
@@ -130,6 +133,7 @@ const MyPeakList = ({ peaks }) => {
                                     {clicked === peak.id ? 
                                         <Dropdown>
                                             <p>Trips:</p> 
+                                            {JSON.stringify(peak.trips)}
                                             <Button onClick={handleAddTrip}>ADD A Trip</Button>
                                             <AddTrip trigger={addTrip} setTrigger={setAddTrip} id={peak.id} key={peak.id}></AddTrip>
                                         </Dropdown>:

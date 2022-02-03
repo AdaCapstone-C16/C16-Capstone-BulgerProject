@@ -32,7 +32,17 @@ export default function MyProfile() {
                 let pTrips = []
                 get(child(dbRef, `users/${currentUser.uid}/summits/${peak.key}/trips`)).then((snapshot) => {
                     if (snapshot.exists()) {
-                        console.log(snapshot.val()) 
+                        // console.log(snapshot.key)
+                        
+                        // console.log(snapshot.val())
+                        snapshot.forEach((trip)=>{
+                            pTrips.push({[trip.key]:trip.val()})
+                            console.log('HEY WE IN HERE')
+                            console.log(trip.key)
+                            console.log(trip.val())
+                            console.log(pTrips)
+
+                        })
                         // eventually add a forEach loop here to add each TR to the pTrips array
                     } else {
                         console.log('There are no associated trips to this summit');
