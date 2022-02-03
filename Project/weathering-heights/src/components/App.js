@@ -56,36 +56,6 @@ function App() {
       });
     }, []);
 
-    // console.log(peakList)
-
-  // useEffect(() => {
-  //   console.log(peakList);
-  // }, [peakList]);
-
-  // const [isLoading, setIsLoading] = useState(false)
-
-  // // // // Use this to view data
-  // // console.log(getBulgerListData())
-
-  // const getPeaks = () =>{
-  //   const peaksData = getBulgerListData();
-  //   return peaksData
-  // }
-  
-  // useEffect(() => {  
-  //   const peaks = getPeaks()
-  //   if(peaks){
-  //   setPeakList(peaks);
-  //   setStatus(false);
-  //   // setIsLoading(true); 
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   console.log(peakList);
-  //   // setIsLoading(false); 
-  // }, [peakList]);
-
   return (
     <PeaksState>
       <Container className="d-flex align-items-center" style={{ minHeight: "100vh" }}>

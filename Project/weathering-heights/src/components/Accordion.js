@@ -1,4 +1,7 @@
 //for all purposes, this is basically the peakList 
+
+
+//-----------------------------------------------{imports}------------------------------------------------------//
 import React, { useState, useContext } from 'react';
 import { Data } from "./Data";
 import { threePeaks } from "./Data";
@@ -6,6 +9,8 @@ import styled from 'styled-components';
 import { IconContext } from 'react-icons';
 import { FiPlus, FiMinus } from 'react-icons/fi';
 import peaksContext from '../contexts/peaksContext';
+
+//-----------------------------------------------{styled componenets css}------------------------------------------------------//
 
 const AccordionSection = styled.div`
     display: flex;
@@ -22,7 +27,7 @@ const Container = styled.div`
     border-radius: 25px;
     box-shadow: 2px 10px 35px 1px rgba(153, 153, 153, 0.3);
 
-    button{
+    form{
         margin-left: 90%;
         border-radius: 5px;
         margin-top: 1%;
@@ -95,13 +100,23 @@ const Dropdown = styled.div`
     }
 `;
 
+//-----------------------------------------------{Accordion Function}------------------------------------------------------//
+
 const Accordion = (props) => {
 
     //const a = useContext(peaksContext)
 
-    const [clicked, setClicked] = useState(false)
-    console.log("Inside accordion")
-    console.log(props);
+    //Dummy data for the dynamic parameters
+    let temp = 101;
+    let precip = 0;
+    let wind = 101;
+
+    const bulgerList = props.data;
+
+    const [clicked, setClicked] = useState(false);
+    const [sortby, setSortby] = useState('default');
+    // console.log("Inside accordion")
+    // console.log(props);
 
     const toggle = (index) => {
         //if clicked question is already open, then close it 
@@ -110,44 +125,192 @@ const Accordion = (props) => {
         }
         setClicked(index)
     }
-    //new code
-    // const dataList = props.data;
-    // console.log(`${dataList}`)
+
+    //test the sort functionality JSX
+    //maybe the map can still go in the og jsx and you just pass it the sorted array!!!!!!!!!!!!!!!!!!!!
+
+
+    const testJSX = (sortedPeaks) => 
+    {   console.log(sortedPeaks);
+        (sortedPeaks.map((item, index) => {
+        return(
+            <>
+            <Wrap onClick={()=> toggle(index)} key={index}>
+            <div className="grid-container">
+                <div className="bigItem">{item.name}</div>
+                <div className="item">Temp: {item.temp}</div>
+                <div className="item">Wind: {item.wind_speed}</div>
+                <div className="item">Precip: {item.chance_precip}</div>
+                    {/* <h1>{item.name}</h1>
+                    <p>temp: {item.temp} wind: {item.wind_speed} chance precip: {item.chance_precip}</p> */}
+            </div>
+                <span> {clicked === index ? <FiMinus/> : <FiPlus/>}</span>
+            </Wrap>
+            {clicked === index ? 
+                <Dropdown>
+                <p>{item.rank} {item.indigenous_name} {item.elevation} {item.link} {item.coordinates}</p>
+                </Dropdown>:
+                null}
+            </>);
+    }))};
+    //create the default JSX 
+    const defaultJSX = bulgerList.map((item, index) => { 
+        return(
+            <>
+            <Wrap onClick={()=> toggle(index)} key={index}>
+            <div className="grid-container">
+                <div className="bigItem">{item.name}</div>
+                <div className="item">Temp: {temp-=1}</div>
+                <div className="item">Wind: {wind+=1}</div>
+                <div className="item">Precip: {precip-=1}</div>
+            </div>
+                <span> {clicked === index ? <FiMinus/> : <FiPlus/>}</span>
+            </Wrap>
+            {clicked === index ? 
+                <Dropdown>
+                <p>{item.rank} {item.indigenous_name} {item.elevation} {item.link} {item.coordinates}</p>
+                </Dropdown>:
+                null}
+            </>
+        )
+    });
+
+    //sort by wind 
+    const windJSX =  bulgerList.map((item, index) => { 
+        return(
+            <>
+            <Wrap onClick={()=> toggle(index)} key={index}>
+            <div className="grid-container">
+                <div className="bigItem">{item.name}</div>
+                <div className="item">Temp: {temp-=1}</div>
+                <div className="item">Wind: {wind+=1}</div>
+                <div className="item">Precip: {precip-=1}</div>
+            </div>
+                <span> {clicked === index ? <FiMinus/> : <FiPlus/>}</span>
+            </Wrap>
+            {clicked === index ? 
+                <Dropdown>
+                <p>{item.rank} {item.indigenous_name} {item.elevation} {item.link} {item.coordinates}</p>
+                </Dropdown>:
+                null}
+            </>
+        )
+    });
+    //sort by precip 
+    //sort by temp
+
+
+    //pass the correct JSX to return/render
+    //this is the selection dropdown menu
+    let option = null;
+    const selection = (
+    <form>
+        <label for="weather">Sort by:</label>
+        <select name="weather-parameter" id="weather-parameter" onChange={(e)=>{
+            option = e.target.value;
+            setSortby(option);
+
+        }}>
+            <option value="temp">Temperature</option>
+            <option value="wind">Wind Speed</option>
+            <option value="precip">Precipitation</option>
+            <option value="default">Default</option>
+        </select>
+        {/* <input type="submit" value="Summit! 🏔️"/> */}
+    </form>
+    );
+    
+    //sorting function 
+    function compare( a, b ) {
+        // if ( a.temp < b.temp ){
+        //     return -1;
+        // }
+        // if ( a.temp > b.temp){
+        //     return 1;
+        // }
+        // return 0;
+        return (a.temp - b.temp);
+    }
+        
+        //objs.sort( compare );
+
+
+
+    //create a function to actually get the render, take in the sort category as an argument
+    //This function should take in a parameter and then call a helper function and send it the sort criteria 
+    //input: category 
+    //output: sorted result 
+    
+    const getSortedList = (category) => {
+
+        //const peaksSorted = [...bulgerList];
+        const peaksSorted = [...threePeaks];
+        if(category === 'temp'){
+            peaksSorted.sort( compare );
+        }
+        return peaksSorted;
+
+        // const resultJSX = testJSX(peaksSorted);
+        // return resultJSX;
+    };
+
+    //-----------------------------------------------{JSX}------------------------------------------------------//
 
     return (
     <IconContext.Provider value={{color : '#00FFB9', size : '25px'}}>
         <AccordionSection>
             <Container>
-            <button>Sort</button>
-                {props.data.map((item, index) => { 
-                    // console.log("inside map of accordion")
-                    // console.log(item)
-                    // console.log("hi! I am sort of working")
-                    return(
-                        <>
-                        <Wrap onClick={()=> toggle(index)} key={index}>
-                        <div className="grid-container">
-                            <div className="bigItem">{item.name}</div>
-                            <div className="item">Temp: {item.temp}</div>
-                            <div className="item">Wind: {item.wind_speed}</div>
-                            <div className="item">Precip: {item.chance_precip}</div>
-                        </div>
-                            <span> {clicked === index ? <FiMinus/> : <FiPlus/>}</span>
-                        </Wrap>
-                        {clicked === index ? 
-                            <Dropdown>
-                            <p>{item.rank} {item.indigenous_name} {item.elevation} {item.link} {item.coordinates}</p>
-                            </Dropdown>:
-                            null}
-                        </>
-                    )
-                })
-                }
+            {selection}
+            {console.log(sortby)}
+            {/* {sortby === 'temp' ? this.getSortedList() : null} */}
+            {/* {getSortedList()} */}
+            {/* {sortby === 'wind' && windJSX}
+            {sortby === 'default' && defaultJSX} */}
+            {getSortedList(sortby).map((item, index) => { 
+                // console.log("inside map of accordion")
+                // console.log(item)
+                // console.log("hi! I am sort of working")
+                return(
+                    <>
+                    <Wrap onClick={()=> toggle(index)} key={index}>
+                    {/* <div className="grid-container">
+                        <div className="bigItem">{item.name}</div>
+                        <div className="item">Temp: {item.temp}</div>
+                        <div className="item">Wind: {item.wind_speed}</div>
+                        <div className="item">Precip: {item.chance_precip}</div>
+                    </div> */}
+                    <div className="grid-container">
+                        <div className="bigItem">{item.name}</div>
+                        <div className="item">Temp: {item.temp}</div>
+                        <div className="item">Wind: {item.wind}</div>
+                        <div className="item">Precip: {item.precip}</div>
+                    </div>
+                        <span> {clicked === index ? <FiMinus/> : <FiPlus/>}</span>
+                    </Wrap>
+                    {clicked === index ? 
+                        <Dropdown>
+                        <p>{item.rank} {item.indigenous_name} {item.elevation} {item.link} {item.coordinates}</p>
+                        </Dropdown>:
+                        null}
+                    </>
+                )
+            })
+            }
             </Container>
         </AccordionSection>
     </IconContext.Provider>
     );
 
+};
+
+export default Accordion
+
+//current pieces of code:
+{/* <button>Sort</button> */}
+
+/////////////////////////-----------------------------------------------------------------/////////////////////////////
+
+//misc pieces    
 
     //Jasmine's Testing
     // const mapping = () => {
@@ -172,9 +335,6 @@ const Accordion = (props) => {
     // }
     // const result = mapping();
     // return (<div>Hi Ada! {result} </div>);
-};
-
-export default Accordion
 
 //DO NOT delete 
 
@@ -219,3 +379,8 @@ export default Accordion
 //     )
 // })
 // }
+
+
+
+
+//

@@ -5,8 +5,8 @@ import Accordion from './Accordion';
 
 export default function Homepage(props) {
 
-    console.log("Inside of homepage");
-    console.log(props);
+    // console.log("Inside of homepage");
+    // console.log(props);
 
     return (
     <section>

@@ -28,9 +28,9 @@ export const threePeaks =
         "link": "peak.aspx?pid=2296", 
         "coordinates": ["46.852947", " -121.760424"], 
         "range": "Mount Rainier Area", 
-        "temp": "empty", 
-        "chance_precip": "empty", 
-        "wind_speed": "empty"
+        "temp": 3, 
+        "chance_precip": 100, 
+        "wind_speed": -1
     }, 
     {
         "rank": 2, 
@@ -40,9 +40,9 @@ export const threePeaks =
         "link": "peak.aspx?pid=2365", 
         "coordinates": ["46.202494", " -121.490746"], 
         "range": "Mount Adams Area", 
-        "temp": "empty", 
-        "chance_precip": "empty", 
-        "wind_speed": "empty"
+        "temp": 2, 
+        "chance_precip": 99, 
+        "wind_speed": -2
     }, 
     {
         "rank": 3, 
@@ -51,8 +51,8 @@ export const threePeaks =
         "link": "peak.aspx?pid=2297", 
         "coordinates": ["46.849683", " -121.711774"], 
         "range": "Mount Rainier Area", 
-        "temp": "empty", 
-        "chance_precip": "empty", 
-        "wind_speed": "empty"
+        "temp": 1, 
+        "chance_precip": 98, 
+        "wind_speed": 3
     }
 ];
