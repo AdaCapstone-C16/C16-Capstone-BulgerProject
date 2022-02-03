@@ -36,7 +36,7 @@ export default function MyProfile() {
                         
                         // console.log(snapshot.val())
                         snapshot.forEach((trip)=>{
-                            pTrips.push({[trip.key]:trip.val()})
+                            pTrips.push([trip.key,trip.val()])
                             console.log('HEY WE IN HERE')
                             console.log(trip.key)
                             console.log(trip.val())

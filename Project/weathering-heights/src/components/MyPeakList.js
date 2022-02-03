@@ -6,6 +6,7 @@ import { IconContext } from 'react-icons';
 import { FiPlus, FiMinus } from 'react-icons/fi';
 import { Button, } from 'react-bootstrap'
 import AddTrip from './AddTrip'
+import Trip from './Trip';
 
 const AccordionSection = styled.div`
     display: flex;
@@ -115,7 +116,11 @@ const MyPeakList = ({ peaks }) => {
     
     // return <ol>{getPeakListJSX(peaks)}</ol>;
 
-    
+    const getTripListJSX = ( trips ) => {
+        return trips.map((trip) => {
+            return (<Trip key={trip[0]} trip={trip}/>);
+        })
+    }
 
     return (
         <IconContext.Provider value={{color : '#00FFB9', size : '25px'}}>
@@ -133,7 +138,8 @@ const MyPeakList = ({ peaks }) => {
                                     {clicked === peak.id ? 
                                         <Dropdown>
                                             <p>Trips:</p> 
-                                            {JSON.stringify(peak.trips)}
+                                            {/* {JSON.stringify(peak.trips)} */}
+                                            <ol>{getTripListJSX(peak.trips)}</ol>
                                             <Button onClick={handleAddTrip}>ADD A Trip</Button>
                                             <AddTrip trigger={addTrip} setTrigger={setAddTrip} id={peak.id} key={peak.id}></AddTrip>
                                         </Dropdown>:
