@@ -6,7 +6,7 @@ import { ref, onValue, get, child } from 'firebase/database';
 import {db} from '../firebase'
 import AddSummit from './AddSummit';
 import MyPeakList from './MyPeakList';
-import '../components/stylesheets/MyProfile.css'
+// import '../components/stylesheets/MyProfile.css'
 
 
 export default function MyProfile() {
