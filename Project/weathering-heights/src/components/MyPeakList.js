@@ -1,16 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import MyPeak from './MyPeak';
 import styled from 'styled-components';
 import { IconContext } from 'react-icons';
 import { FiPlus, FiMinus } from 'react-icons/fi';
 import { Button, } from 'react-bootstrap'
 import AddTrip from './AddTrip'
 import Trip from './Trip';
-
-import { ref, onValue, get, child } from 'firebase/database';
-import {db} from '../firebase'
-import { useAuth } from '../contexts/AuthContext'
 
 const AccordionSection = styled.div`
     display: flex;
@@ -99,8 +94,6 @@ const Dropdown = styled.div`
 const MyPeakList = ({ peaks, updateList }) => {
     const [clicked, setClicked] = useState(false)
     const [addTrip, setAddTrip] = useState(false)
-    const { currentUser, logout, fName, lName } = useAuth()
-    const [trips, setTrips] = useState([])
     
     const handleAddTrip= () => {
         updateList()
@@ -114,32 +107,7 @@ const MyPeakList = ({ peaks, updateList }) => {
         }
         setClicked(index)
     }
-    
-    // const getPeakListJSX = ( peaks ) => {
-    //     return peaks.map((peak) => {
-    //         return (<MyPeak key={peak.id} id={peak.id} name={peak.name} trips={peak.trips}/>);
-    //         });
-    //     };
-    
-    
-    // return <ol>{getPeakListJSX(peaks)}</ol>;
-    const updateTrips = (id) => {
-        const dbRef = ref(db);
 
-        let pTrips = []
-        get(child(dbRef, `users/${currentUser.uid}/summits/${id}/trips`)).then((snapshot) => {
-            if (snapshot.exists()) {
-                snapshot.forEach((trip)=>{
-                    pTrips.push([trip.key,trip.val()])
-                    })
-            } else {
-                console.log('There are no associated trips to this summit');
-            }
-        }).catch((error) => {
-            console.log(error)
-            return error
-        });
-    }
 
     const getTripListJSX = ( trips ) => {
         return trips.map((trip) => {

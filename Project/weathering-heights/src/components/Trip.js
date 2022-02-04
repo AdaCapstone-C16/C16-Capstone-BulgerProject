@@ -1,13 +1,7 @@
 import React from 'react';
-// import React, {useState} from 'react';
-import PropTypes from 'prop-types';
-import { Button, } from 'react-bootstrap'
+
 
 const Trip = ({trip}) => {
-    // const [addTrip, setAddTrip] = useState(false)
-    // const handleAddTrip= () => {
-    //     setAddTrip(true)
-    // }
 
     return (
     <li>
@@ -19,13 +13,5 @@ const Trip = ({trip}) => {
     </li>
     );
 }
-
-
-
-// Peak.propTypes = {
-//     id: PropTypes.string.isRequired,
-//     name: PropTypes.string.isRequired,
-//     trips: PropTypes.array,
-//     };
 
 export default Trip;

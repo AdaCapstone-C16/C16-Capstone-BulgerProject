@@ -6,7 +6,6 @@ import { ref, set } from 'firebase/database';
 import { useAuth } from '../contexts/AuthContext'
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'
-import { ToggleButton } from 'react-bootstrap';
 
 const AddTrip = (props) => {
 
