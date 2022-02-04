@@ -48,6 +48,7 @@ export default function MyProfile() {
                 });
             setMyPeakList(myPeaksArr)
         })
+        console.log(fName, lName)
         }
 
     useEffect(() => {

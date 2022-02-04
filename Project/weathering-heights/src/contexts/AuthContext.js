@@ -30,9 +30,10 @@ export const AuthProvider = ({ children }) => {
         return auth.signOut()
     }
     
-    const syncName = (fName, lName) => {
-        setFName(fName)
-        setLName(lName)
+    const syncName = (firstName, lastName) => {
+        setFName(firstName)
+        setLName(lastName)
+        return [fName, lName]
     }
 
     const resetPassword = (email) => {

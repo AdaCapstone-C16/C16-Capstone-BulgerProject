@@ -28,6 +28,7 @@ const AddSummit = (props) => {
     })
     
     const handleSummitAdd = (event) => {
+        console.log(event.value, event.label)
         setSummit([event.value, event.label])
         }
     
@@ -41,6 +42,9 @@ const AddSummit = (props) => {
         props.updateList()
         props.setTrigger(false) 
         }
+    const handleCancel = () => {
+            props.setTrigger(false) 
+            }
 
     return ( props.trigger) ? (
         <div className="popup">
@@ -51,6 +55,7 @@ const AddSummit = (props) => {
                     <Select options={peakNames} onChange={handleSummitAdd}/>
                 </form>
                 <button className="close-button" onClick={handleClose}>Add!</button>
+                <button onClick={handleCancel}> Cancel </button>
                 {props.children}
             </div>
 
