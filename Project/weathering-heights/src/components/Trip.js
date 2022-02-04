@@ -7,7 +7,8 @@ const Trip = ({trip}) => {
     <li>
         <p>Date: {trip[0]}</p>
         <p>Description:{trip[1]}</p>
-        <p> </p>
+        <button> Delete </button>
+        <button> Update </button>
         {/* <Button onClick={handleAddTrip}>ADD A Trip</Button>
         <AddTrip trigger={addTrip} setTrigger={setAddTrip} id={id}></AddTrip> */}
     </li>

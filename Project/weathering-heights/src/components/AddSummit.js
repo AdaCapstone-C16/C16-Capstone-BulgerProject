@@ -28,7 +28,6 @@ const AddSummit = (props) => {
     })
     
     const handleSummitAdd = (event) => {
-        console.log(event.value, event.label)
         setSummit([event.value, event.label])
         }
     
