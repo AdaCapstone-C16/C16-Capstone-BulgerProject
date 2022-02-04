@@ -8,6 +8,10 @@ import { Button, } from 'react-bootstrap'
 import AddTrip from './AddTrip'
 import Trip from './Trip';
 
+import { ref, onValue, get, child } from 'firebase/database';
+import {db} from '../firebase'
+import { useAuth } from '../contexts/AuthContext'
+
 const AccordionSection = styled.div`
     display: flex;
     flex-direction: column;
@@ -95,9 +99,13 @@ const Dropdown = styled.div`
 const MyPeakList = ({ peaks, updateList }) => {
     const [clicked, setClicked] = useState(false)
     const [addTrip, setAddTrip] = useState(false)
+    const { currentUser, logout, fName, lName } = useAuth()
+    const [trips, setTrips] = useState([])
+    
     const handleAddTrip= () => {
+        updateList()
         setAddTrip(true)
-    }
+        }
 
     const toggle = (index) => {
         //if clicked question is already open, then close it 
@@ -115,6 +123,23 @@ const MyPeakList = ({ peaks, updateList }) => {
     
     
     // return <ol>{getPeakListJSX(peaks)}</ol>;
+    const updateTrips = (id) => {
+        const dbRef = ref(db);
+
+        let pTrips = []
+        get(child(dbRef, `users/${currentUser.uid}/summits/${id}/trips`)).then((snapshot) => {
+            if (snapshot.exists()) {
+                snapshot.forEach((trip)=>{
+                    pTrips.push([trip.key,trip.val()])
+                    })
+            } else {
+                console.log('There are no associated trips to this summit');
+            }
+        }).catch((error) => {
+            console.log(error)
+            return error
+        });
+    }
 
     const getTripListJSX = ( trips ) => {
         return trips.map((trip) => {
@@ -141,7 +166,7 @@ const MyPeakList = ({ peaks, updateList }) => {
                                             {JSON.stringify(peak.trips)}
                                             <ol>{getTripListJSX(peak.trips)}</ol>
                                             <Button onClick={handleAddTrip}>ADD A Trip</Button>
-                                            <AddTrip trigger={addTrip} setTrigger={setAddTrip} id={peak.id} key={peak.id} updateList={updateList}></AddTrip>
+                                            <AddTrip trigger={addTrip} setTrigger={setAddTrip} id={peak.id} key={peak.id} updateList={updateList} toggle={toggle}></AddTrip>
                                         </Dropdown>:
                                         null}
                                 </>

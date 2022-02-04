@@ -6,6 +6,7 @@ import { ref, set } from 'firebase/database';
 import { useAuth } from '../contexts/AuthContext'
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'
+import { ToggleButton } from 'react-bootstrap';
 
 const AddTrip = (props) => {
 
@@ -21,13 +22,7 @@ const AddTrip = (props) => {
     const handleTripNotes = (input) => {
         setTripNotes(input.target.value)
     }
-
-    const handleClose = () => {
-        handleAddDB()
-        props.updateList()
-        props.setTrigger(false) 
-    }
-
+    
     const handleAddDB = () => {
         let strDate = JSON.stringify(selectedDate)
         let year = strDate.slice(1, 5)
@@ -35,6 +30,13 @@ const AddTrip = (props) => {
         let mnth = strDate.slice(6,8)
         const dateFinal = [mnth, day, year].join("-")
         set(ref(db, `users/${currentUser.uid}/summits/${props.id}/trips/${dateFinal}`), tripNotes)
+    }
+    
+    const handleClose = () => {
+        handleAddDB()
+        props.updateList()
+        props.toggle(null)
+        props.setTrigger(false) 
     }
 
     return ( props.trigger) ? (
@@ -49,9 +51,7 @@ const AddTrip = (props) => {
                 <button className="close-button" onClick={handleClose}>Add!</button>
                 {props.children}
             </div>
-
         </div>
-    
     ): "";
 }
 
