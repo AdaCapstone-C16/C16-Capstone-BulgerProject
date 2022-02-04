@@ -6,7 +6,9 @@ import { ref, get, child } from 'firebase/database';
 import {db} from '../firebase'
 import AddSummit from './AddSummit';
 import MyPeakList from './MyPeakList';
-// import '../components/stylesheets/MyProfile.css'
+import '../components/stylesheets/MyProfile.css'
+import Select from 'react-select'
+import { Dropdown } from 'bootstrap';
 
 
 export default function MyProfile() {
@@ -67,22 +69,36 @@ export default function MyProfile() {
         }
     }
 
+    const linkOptions = [{value:1, label:'OPTIONS'}, {value:2, label:'LOGOUT'}, {value:3, label:'HOMEPAGE'}]
+
+    const handleLink = (link) => {
+        if (link.value === 1) {
+            handleLogout()
+        } else {
+            navigate("/")
+        }
+    }
     return (
-    <main className='main'>
-        <section className='container-right'>
-            <h1>WEATHERING HEIGHTS</h1>
-        </section>
-        <section className='container-left'>
-            {error && <Alert variant="danger">{error}</Alert>}
+    <main id='main'>
+        <section id='container-right'>
+            <p id='title'>WEATHERING HEIGHTS</p>
             <div>
-                <Button varient="link" onClick={handleLogout}> Log Out</Button>
+                <select onChange={handleLink}>
+                    {linkOptions.map((link) => (
+                        <option value={link.value}>{link.label}</option>
+                    ))}
+                </select>
+                <section>
+                    <Button onClick={handleAddSummit}>ADD A SUMMIT</Button>
+                    <AddSummit trigger={addSummit} setTrigger={setAddSummit} updateList={getMyPeakData}></AddSummit>
+                </section>
+                
             </div>
+        </section>
+        <section id='container-left'>
+            {error && <Alert variant="danger">{error}</Alert>}
             <section>
                 <MyPeakList peaks={myPeakList} updateList={getMyPeakData}></MyPeakList>
-            </section>
-            <section>
-                <Button onClick={handleAddSummit}>ADD A SUMMIT</Button>
-                <AddSummit trigger={addSummit} setTrigger={setAddSummit} updateList={getMyPeakData}></AddSummit>
             </section>
         </section>
     </main>

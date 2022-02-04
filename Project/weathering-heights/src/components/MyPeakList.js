@@ -15,13 +15,15 @@ const AccordionSection = styled.div`
     position: relative;
     height: 10vh;
     background: #fff;
+    background-color: #504C54;
+
 `;
 
 const Container = styled.div`
     position: absolute;
     top: 30%;
     border-radius: 25px;
-    box-shadow: 2px 10px 35px 1px rgba(153, 153, 153, 0.3);
+    background-color:#504C54;
     button{
         margin-left: 90%;
         border-radius: 5px;
