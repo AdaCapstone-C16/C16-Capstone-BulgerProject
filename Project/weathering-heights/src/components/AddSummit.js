@@ -27,20 +27,20 @@ const AddSummit = (props) => {
         }
     })
     
-    
     const handleSummitAdd = (event) => {
         setSummit([event.value, event.label])
-    }
+        }
     
     const handleAddDB = () => {
         console.log(summit)
         set(ref(db, `users/${currentUser.uid}/summits/${summit[0]}`), {name:summit[1]})
-    }
+        }
 
     const handleClose = () => {
         handleAddDB()
+        props.updateList()
         props.setTrigger(false) 
-    }
+        }
 
     return ( props.trigger) ? (
         <div className="popup">

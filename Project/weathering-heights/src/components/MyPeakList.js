@@ -92,7 +92,7 @@ const Dropdown = styled.div`
     }
 `;
 
-const MyPeakList = ({ peaks }) => {
+const MyPeakList = ({ peaks, updateList }) => {
     const [clicked, setClicked] = useState(false)
     const [addTrip, setAddTrip] = useState(false)
     const handleAddTrip= () => {
@@ -141,7 +141,7 @@ const MyPeakList = ({ peaks }) => {
                                             {JSON.stringify(peak.trips)}
                                             <ol>{getTripListJSX(peak.trips)}</ol>
                                             <Button onClick={handleAddTrip}>ADD A Trip</Button>
-                                            <AddTrip trigger={addTrip} setTrigger={setAddTrip} id={peak.id} key={peak.id}></AddTrip>
+                                            <AddTrip trigger={addTrip} setTrigger={setAddTrip} id={peak.id} key={peak.id} updateList={updateList}></AddTrip>
                                         </Dropdown>:
                                         null}
                                 </>

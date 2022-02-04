@@ -24,6 +24,7 @@ const AddTrip = (props) => {
 
     const handleClose = () => {
         handleAddDB()
+        props.updateList()
         props.setTrigger(false) 
     }
 

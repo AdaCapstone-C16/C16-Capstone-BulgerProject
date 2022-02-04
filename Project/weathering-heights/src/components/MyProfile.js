@@ -18,32 +18,31 @@ export default function MyProfile() {
 
     const handleAddSummit= () => {
         setAddSummit(true)
-    }
+        }
 
     const getMyPeakData = () => {
         let myPeaksArr = []
         const myPeaks = ref(db, `users/${currentUser.uid}/summits`)
         const dbRef = ref(db);
 
-        onValue(myPeaks, (snapshot) => {
+        get(child(dbRef, `users/${currentUser.uid}/summits`)).then((snapshot) => {
             snapshot.forEach((peak) => {
+                console.log('snapshot')
+                console.log(snapshot)
                 let pID = peak.key
+                console.log('peak.key')
+                console.log(peak.key)
+
                 let pName = peak.child('name').val()
+                console.log('pName')
+                console.log(pName)
+
                 let pTrips = []
                 get(child(dbRef, `users/${currentUser.uid}/summits/${peak.key}/trips`)).then((snapshot) => {
                     if (snapshot.exists()) {
-                        // console.log(snapshot.key)
-                        
-                        // console.log(snapshot.val())
                         snapshot.forEach((trip)=>{
                             pTrips.push([trip.key,trip.val()])
-                            console.log('HEY WE IN HERE')
-                            console.log(trip.key)
-                            console.log(trip.val())
-                            console.log(pTrips)
-
-                        })
-                        // eventually add a forEach loop here to add each TR to the pTrips array
+                            })
                     } else {
                         console.log('There are no associated trips to this summit');
                     }
@@ -60,17 +59,46 @@ export default function MyProfile() {
 
             console.log('Here is the peak array')
             console.log(myPeaksArr)
+            
             setMyPeakList(myPeaksArr)
-        
-    })
-}
+        })
+        // onValue(myPeaks, (snapshot) => {
+        //     snapshot.forEach((peak) => {
+        //         let pID = peak.key
+        //         let pName = peak.child('name').val()
+        //         let pTrips = []
+        //         get(child(dbRef, `users/${currentUser.uid}/summits/${peak.key}/trips`)).then((snapshot) => {
+        //             if (snapshot.exists()) {
+        //                 snapshot.forEach((trip)=>{
+        //                     pTrips.push([trip.key,trip.val()])
+        //                     })
+        //             } else {
+        //                 console.log('There are no associated trips to this summit');
+        //             }
+        //         }).catch((error) => {
+        //             console.log(error)
+        //             return error
+        //         });
+        //         console.log('Peak ID' + peak.key + ' name: ' + peak.child('name').val());
+        //         myPeaksArr.push({id:pID,
+        //                         name:pName,
+        //                         trips:pTrips
+        //                     })
+        //         });
+
+        //     console.log('Here is the peak array')
+        //     console.log(myPeaksArr)
+            
+        // })
+        console.log('Here is the state my peaklist')
+        console.log(myPeakList)
+        }
 
     useEffect(() => {
         getMyPeakData();
-        // console.log(myPeaksData)
-        // setMyPeakList(myPeaksData);
         }, []);
 
+    
     // If the logout button is clicked, it will navigate user to the homepage
     async function handleLogout() {
         setError('')
@@ -81,6 +109,7 @@ export default function MyProfile() {
             setError('Failed to log out')
         }
     }
+
 
     return (
     <main className='main'>
@@ -93,11 +122,11 @@ export default function MyProfile() {
                 <Button varient="link" onClick={handleLogout}> Log Out</Button>
             </div>
             <section>
-                <MyPeakList peaks={myPeakList}></MyPeakList>
+                <MyPeakList peaks={myPeakList} updateList={getMyPeakData}></MyPeakList>
             </section>
             <section>
                 <Button onClick={handleAddSummit}>ADD A SUMMIT</Button>
-                <AddSummit trigger={addSummit} setTrigger={setAddSummit}></AddSummit>
+                <AddSummit trigger={addSummit} setTrigger={setAddSummit} updateList={getMyPeakData}></AddSummit>
             </section>
         </section>
     </main>
