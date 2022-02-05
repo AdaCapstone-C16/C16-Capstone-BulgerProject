@@ -16,7 +16,6 @@ import UpdateWeatherButton from './UpdateWeatherButton.js';
 
 function App() {
   const [peakList, setPeakList] = useState([]);
-  const [status, setStatus] = useState(true);
   const [coordinates, setCoordinates] = useState([]);
 
   const [updateWeather, setUpdateWeather] = useState(0);
@@ -41,7 +40,7 @@ function App() {
                     range: data[i].range,
                     rank: data[i].rank,
                     temp: data[i].temp,
-                    wind_speed: data[i].wind_speed,
+                    windSpeed: data[i].wind_speed,
                 });
             };
         };

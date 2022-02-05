@@ -1,6 +1,3 @@
-import { ref, onValue } from "firebase/database";
-import { db } from './../firebase.js';
-
 export const getBulgerListCoords = (peaksArr) => {
     const bulgerListCoords = [];
 

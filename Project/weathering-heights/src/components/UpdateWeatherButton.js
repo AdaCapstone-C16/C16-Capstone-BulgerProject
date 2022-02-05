@@ -2,8 +2,11 @@ import { useState, useEffect, useRef } from 'react';
 import { ref, update } from "firebase/database";
 import { db } from './../firebase.js';
 import axios from "axios";
+import PropTypes from 'prop-types';
 
 const UpdateWeatherButton = ({ coordinates, peakList, signalDBPull }) => {
+    console.log(coordinates)
+    console.log(peakList)
     // Tracks inital render to prevent API calls
     const onFirstRender = useRef(true); 
     // State to activate API calls when user requests
@@ -16,10 +19,6 @@ const UpdateWeatherButton = ({ coordinates, peakList, signalDBPull }) => {
             onFirstRender.current = false;
             console.log("This is on first render");
             return;
-        // if (runUpdateWeather < 3) {
-        //     //     onFirstRender.current = false;
-        //         console.log("This is on first render");
-        //         return;
         } else {
             console.log('NOT FIRST RENDER')
             const baseURL = "http://api.weatherapi.com/v1"
@@ -71,5 +70,31 @@ const UpdateWeatherButton = ({ coordinates, peakList, signalDBPull }) => {
         </>
     )
 };
+
+UpdateWeatherButton.propTypes = {
+    peakList: PropTypes.arrayOf(
+        PropTypes.shape({
+            chance_precip: PropTypes.number.isRequired,
+            coordinates: PropTypes.arrayOf(PropTypes.string.isRequired,),
+            elevation: PropTypes.string.isRequired,
+            indigenous_name: PropTypes.string,
+            key: PropTypes.number.isRequired,
+            link: PropTypes.string.isRequired,
+            name: PropTypes.string.isRequired,
+            range: PropTypes.string.isRequired,
+            rank: PropTypes.number.isRequired,
+            temp: PropTypes.number.isRequired,
+            windSpeed: PropTypes.string.isRequired,
+        })
+    ),
+    coordinates: PropTypes.arrayOf(
+        PropTypes.shape({
+            key: PropTypes.number.isRequired,
+            lat: PropTypes.string.isRequired,
+            lon: PropTypes.string.isRequired,
+          })
+        ),
+    signalDBPull: PropTypes.func.isRequired,
+  };
 
 export default UpdateWeatherButton;
