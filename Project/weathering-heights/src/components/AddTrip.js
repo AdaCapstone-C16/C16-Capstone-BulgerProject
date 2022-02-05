@@ -38,6 +38,10 @@ const AddTrip = (props) => {
         props.setTrigger(false) 
     }
 
+    const handleCancel = () => {
+        props.setTrigger(false) 
+    }
+
     return ( props.trigger) ? (
         <div className="popup">
             <div className="popup-inner">
@@ -48,6 +52,9 @@ const AddTrip = (props) => {
                     <textarea rows="5" cols="33" placeholder='Enter trip notes!' onChange={handleTripNotes}></textarea>
                 </form>
                 <button className="close-button" onClick={handleClose}>Add!</button>
+                <button  onClick={handleCancel}>Cancel</button>
+
+
                 {props.children}
             </div>
         </div>

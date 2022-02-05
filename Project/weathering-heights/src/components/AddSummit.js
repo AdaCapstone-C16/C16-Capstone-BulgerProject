@@ -48,7 +48,7 @@ const AddSummit = (props) => {
     return ( props.trigger) ? (
         <div className="popup">
             <div className="popup-inner">
-                <h1>Add New Summit:</h1>
+                <h2>Add New Summit:</h2>
                 <form>
                     <label> Select a Bulger</label>
                     <Select options={peakNames} onChange={handleSummitAdd}/>
