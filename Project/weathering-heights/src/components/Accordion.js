@@ -85,18 +85,18 @@ const Dropdown = styled.div`
     background: #1c1c1c
     color: #00ffb9
     width: 100%;
-    height: 100px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: left;
     border-bottom: 1px solid #00ffb9;
     border-top: 1px solid #00ffb9;
     border-radius: 25px;
     margin-left: 30px;
     margin-right: 30px;
 
-    p{
+    div{
         font-size: 1rem;
+        text-indent: 35px;
     }
 `;
 
@@ -221,7 +221,11 @@ const Accordion = (props) => {
                     </Wrap>
                     {clicked === index ? 
                         <Dropdown>
-                        <p>{item.rank} {item.indigenous_name} {item.elevation} {item.link} {item.coordinates}</p>
+                        <div>🥇 {item.rank}</div> 
+                        <div>❕ {item.indigenous_name}</div>
+                        <div>🧗 {item.elevation}</div>
+                        <div>🔗 {item.link}</div>
+                        <div>📍 {item.coordinates}</div>
                         </Dropdown>:
                         null}
                     </>
