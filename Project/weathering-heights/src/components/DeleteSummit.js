@@ -1,39 +1,35 @@
 import React from 'react';
-import { useState } from 'react';
-import '../components/stylesheets/AddSummit.css'
-import {db} from '../firebase'
-import { ref, set } from 'firebase/database';
-import { useAuth } from '../contexts/AuthContext'
+import '../components/stylesheets/PopUps.css'
 import 'react-datepicker/dist/react-datepicker.css'
+import PropTypes from 'prop-types';
 
-const DeleteSummit = ({props}) => {
+const DeleteSummit = ({trigger, setTrigger, id, deleteSummit}) => {
 
-    const { currentUser } = useAuth()
-
-    const handleDeleteSummit = () => {
-        set(ref(db, `users/${currentUser.uid}/summits/${props.id}`), {name:null})
-    }
     
     const handleYes = () => {
-        handleDeleteSummit()
-        props.updateList()
-        props.setTrigger(false) 
+        deleteSummit(id)
+        setTrigger(false) 
     }
 
-    const handleNo = () => {
-        props.setTrigger(false) 
+    const handleCancel = () => {
+        setTrigger(false) 
     }
 
-    return ( props.trigger) ? (
+    return ( trigger) ? (
         <div className="popup">
             <div className="popup-inner">
-                <h2>Are you sure you would like to  delete this trip?</h2>
-                {/* <button className="close-button" onClick={handleYes}>Add!</button> */}
-                <button  onClick={handleNo}>No</button>
-                {props.children}
+                <h2>Are you sure you would like to delete this summit?</h2>
+                <button  onClick={handleYes}>Yes</button>
+                <button  onClick={handleCancel}>Cancel</button>
             </div>
         </div>
     ): "";
 }
 
+DeleteSummit.propTypes = {
+    trigger: PropTypes.bool.isRequired,
+    setTrigger: PropTypes.func.isRequired,
+    id: PropTypes.string.isRequired,
+    deleteSummit: PropTypes.func.isRequired, 
+    };
 export default DeleteSummit

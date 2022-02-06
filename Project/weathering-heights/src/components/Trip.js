@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Alert } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 import DeleteTrip from './DeleteTrip';
 import UpdateTrip from './UpdateTrip';
 
@@ -11,13 +11,13 @@ const Trip = ({date, desc, deleteTrip, updateTrip}) => {
 
     const handleTripDelete = () => {
         setTripDelete(true)
-        console.log('you are in delete')
     }
 
     const handleTripUpdate = () => {
         setTripUpdate(true)
-        console.log('You are in update!')
     }
+    
+    
     return (
     <li>
         <p>Date: {date}</p>
