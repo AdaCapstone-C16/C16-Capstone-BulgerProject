@@ -1,17 +1,13 @@
 import React from 'react';
 import { useState } from 'react';
-import '../components/stylesheets/AddSummit.css'
-import {db} from '../firebase'
-import { ref, set } from 'firebase/database';
-import { useAuth } from '../contexts/AuthContext'
+import '../components/stylesheets/PopUps.css'
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'
 import PropTypes from 'prop-types';
 
 
-const AddTrip = ({trigger, setTrigger, id, updateList}) => {
+const AddTrip = ({trigger, setTrigger, addTrip}) => {
 
-    const { currentUser } = useAuth()
     const [selectedDate, setSelectedDate] = useState(null)
     const [tripNotes, setTripNotes] = useState(null)
 
@@ -24,19 +20,18 @@ const AddTrip = ({trigger, setTrigger, id, updateList}) => {
         setTripNotes(input.target.value)
     }
     
-    const handleAddDB = () => {
+    const parseDate = () => {
         let strDate = JSON.stringify(selectedDate)
         let year = strDate.slice(1, 5)
         let day = strDate.slice(9,11)
         let mnth = strDate.slice(6,8)
         const dateFinal = [mnth, day, year].join("-")
-        set(ref(db, `users/${currentUser.uid}/summits/${id}/trips/${dateFinal}`), tripNotes)
+        return dateFinal
     }
     
     const handleClose = () => {
-        handleAddDB()
-        updateList()
-        // toggle(null)
+        const date = parseDate()
+        addTrip(date,tripNotes)
         setTrigger(false) 
     }
 
@@ -55,9 +50,6 @@ const AddTrip = ({trigger, setTrigger, id, updateList}) => {
                 </form>
                 <button className="close-button" onClick={handleClose}>Add!</button>
                 <button  onClick={handleCancel}>Cancel</button>
-
-
-                {/* {props.children} */}
             </div>
         </div>
     ): "";
@@ -66,7 +58,6 @@ const AddTrip = ({trigger, setTrigger, id, updateList}) => {
 AddTrip.propTypes = {
     trigger: PropTypes.bool.isRequired,
     setTrigger: PropTypes.func.isRequired,
-    id: PropTypes.string.isRequired,
-    updateList: PropTypes.func.isRequired
+    addTrip: PropTypes.func.isRequired
     };
 export default AddTrip

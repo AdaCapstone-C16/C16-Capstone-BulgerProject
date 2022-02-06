@@ -21,9 +21,12 @@ const Peak = ({ pKey, id, name, trips, updateList }) => {
         setDeleteSummitPopup(true)
     }
 
-    const deleteSummit = (id) => {
-        console.log('You are in DELETE SUmmit, deleting this summit')
-        console.log(id)
+    const addTrip = (date, notes) => {
+        set(ref(db, `users/${currentUser.uid}/summits/${id}/trips/${date}`), notes)
+        updateList()
+
+    }
+    const deleteSummit = () => {
         set(ref(db, `users/${currentUser.uid}/summits/${id}`), null)
         updateList()
     }
@@ -54,9 +57,9 @@ const Peak = ({ pKey, id, name, trips, updateList }) => {
         <p>Trips:{trips}</p>
         <ol>{getTripListJSX(trips)}</ol> 
         <Button onClick={handleAddTripPopup}>ADD A Trip</Button>
-        <AddTrip trigger={addTripPopup} setTrigger={setAddTripPopup} id={id} updateList={updateList}/>
+        <AddTrip trigger={addTripPopup} setTrigger={setAddTripPopup} addTrip={addTrip}/>
         <Button onClick={handleDeleteSummitPopup}>Delete Summit</Button>
-        <DeleteSummit trigger={deleteSummitPopup} setTrigger={setDeleteSummitPopup} id={id} deleteSummit={deleteSummit}/>
+        <DeleteSummit trigger={deleteSummitPopup} setTrigger={setDeleteSummitPopup} deleteSummit={deleteSummit}/>
     </li>
     );
 };

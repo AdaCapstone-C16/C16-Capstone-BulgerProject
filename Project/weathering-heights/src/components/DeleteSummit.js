@@ -3,11 +3,11 @@ import '../components/stylesheets/PopUps.css'
 import 'react-datepicker/dist/react-datepicker.css'
 import PropTypes from 'prop-types';
 
-const DeleteSummit = ({trigger, setTrigger, id, deleteSummit}) => {
+const DeleteSummit = ({trigger, setTrigger, deleteSummit}) => {
 
     
     const handleYes = () => {
-        deleteSummit(id)
+        deleteSummit()
         setTrigger(false) 
     }
 
@@ -29,7 +29,6 @@ const DeleteSummit = ({trigger, setTrigger, id, deleteSummit}) => {
 DeleteSummit.propTypes = {
     trigger: PropTypes.bool.isRequired,
     setTrigger: PropTypes.func.isRequired,
-    id: PropTypes.string.isRequired,
     deleteSummit: PropTypes.func.isRequired, 
     };
 export default DeleteSummit
