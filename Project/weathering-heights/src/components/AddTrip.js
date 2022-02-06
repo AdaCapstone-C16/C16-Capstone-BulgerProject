@@ -6,8 +6,10 @@ import { ref, set } from 'firebase/database';
 import { useAuth } from '../contexts/AuthContext'
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'
+import PropTypes from 'prop-types';
 
-const AddTrip = (props) => {
+
+const AddTrip = ({trigger, setTrigger, id, updateList}) => {
 
     const { currentUser } = useAuth()
     const [selectedDate, setSelectedDate] = useState(null)
@@ -28,21 +30,21 @@ const AddTrip = (props) => {
         let day = strDate.slice(9,11)
         let mnth = strDate.slice(6,8)
         const dateFinal = [mnth, day, year].join("-")
-        set(ref(db, `users/${currentUser.uid}/summits/${props.id}/trips/${dateFinal}`), tripNotes)
+        set(ref(db, `users/${currentUser.uid}/summits/${id}/trips/${dateFinal}`), tripNotes)
     }
     
     const handleClose = () => {
         handleAddDB()
-        props.updateList()
-        props.toggle(null)
-        props.setTrigger(false) 
+        updateList()
+        // toggle(null)
+        setTrigger(false) 
     }
 
     const handleCancel = () => {
-        props.setTrigger(false) 
+        setTrigger(false) 
     }
 
-    return ( props.trigger) ? (
+    return ( trigger) ? (
         <div className="popup">
             <div className="popup-inner">
                 <h2>Add New Trip:</h2>
@@ -55,10 +57,16 @@ const AddTrip = (props) => {
                 <button  onClick={handleCancel}>Cancel</button>
 
 
-                {props.children}
+                {/* {props.children} */}
             </div>
         </div>
     ): "";
 }
 
+AddTrip.propTypes = {
+    trigger: PropTypes.bool.isRequired,
+    setTrigger: PropTypes.func.isRequired,
+    id: PropTypes.string.isRequired,
+    updateList: PropTypes.func.isRequired
+    };
 export default AddTrip

@@ -8,18 +8,17 @@ import 'react-datepicker/dist/react-datepicker.css'
 import PropTypes from 'prop-types';
 
 
-const DeleteTrip = ({trigger, setTrigger, updateList}) => {
+const DeleteTrip = ({trigger, setTrigger, deleteTrip, date, desc}) => {
 
     // const { currentUser } = useAuth()
 
     // const handleDeleteSummit = () => {
     //     // set(ref(db, `users/${currentUser.uid}/summits/${props.id}`), {name:null})
     // }
-    
+
     const handleYes = () => {
-        // handleDeleteSummit()
+        deleteTrip(date, desc)
         console.log("you chose yes")
-        // props.updateList()
         setTrigger(false) 
     }
 
@@ -44,6 +43,8 @@ const DeleteTrip = ({trigger, setTrigger, updateList}) => {
 DeleteTrip.propTypes = {
     trigger: PropTypes.bool.isRequired,
     setTrigger: PropTypes.func.isRequired,
-    updateList: PropTypes.func.isRequired
+    deleteTrip: PropTypes.func.isRequired, 
+    date: PropTypes.string.isRequired,
+    desc: PropTypes.string.isRequired,
     };
 export default DeleteTrip

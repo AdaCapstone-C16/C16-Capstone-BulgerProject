@@ -4,7 +4,7 @@ import { Button, Alert } from 'react-bootstrap'
 import DeleteTrip from './DeleteTrip';
 import UpdateTrip from './UpdateTrip';
 
-const Trip = ({date, desc, updateList}) => {
+const Trip = ({date, desc, deleteTrip}) => {
 
     const [tripDelete, setTripDelete] = useState(false)
     const [tripUpdate, setTripUpdate] = useState(false)
@@ -22,23 +22,17 @@ const Trip = ({date, desc, updateList}) => {
     <li>
         <p>Date: {date}</p>
         <p>Description:{desc}</p>
-        {/* <button onClick={handleDelete}> Delete </button> */}
         <Button onClick={handleTripDelete}>Delete Trip</Button>
-        <DeleteTrip trigger={tripDelete} setTrigger={setTripDelete} updateList={updateList}/>
+        <DeleteTrip trigger={tripDelete} setTrigger={setTripDelete} deleteTrip={deleteTrip} date={date} desc={desc}/>
         <Button onClick={handleTripUpdate}>Update Trip</Button>
-        <UpdateTrip trigger={tripUpdate} setTrigger={setTripUpdate} updateList={updateList}/>
-        {/* <button onClick={handleTripUpdate}> Update </button> */}
+        <UpdateTrip trigger={tripUpdate} setTrigger={setTripUpdate}/>
     </li>
     );
 }
 
-// Trip.propTypes = {
-//     trip: PropTypes.array,
-//     updateList: PropTypes.func.isRequired
-//     };
 Trip.propTypes = {
     date: PropTypes.string.isRequired,
     desc: PropTypes.string.isRequired,
-    updateList: PropTypes.func.isRequired
+    deleteTrip: PropTypes.func.isRequired
     };
 export default Trip;
