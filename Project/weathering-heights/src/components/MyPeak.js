@@ -16,15 +16,21 @@ const Peak = ({ pKey, id, name, trips, updateList }) => {
         setAddTrip(true)
     }
 
-    const deleteTrip = (date, desc) => {
+    const deleteTrip = (date) => {
         console.log('you are in MyPeak level delete')
         console.log('This is the date')
         console.log(date)
-        console.log(desc)
         set(ref(db, `users/${currentUser.uid}/summits/${id}/trips/${date}`), null)
         updateList()
+    }
 
-
+    const updateTrip = (date, desc) => {
+        console.log('you are in MyPeak level update')
+        console.log('This is the date and new desc')
+        console.log(date)
+        console.log(desc)
+        set(ref(db, `users/${currentUser.uid}/summits/${id}/trips/${date}`), desc)
+        updateList()
     }
 
     const getTripListJSX = ( trips ) => {
@@ -35,7 +41,7 @@ const Peak = ({ pKey, id, name, trips, updateList }) => {
             const desc = trip[1]
             console.log(trip[1])
             // return (<Trip key={index} trip={trip} updateList={updateList}/>);
-            return (<Trip key={index} date={date} desc={desc} deleteTrip={deleteTrip}/>);
+            return (<Trip key={index} date={date} desc={desc} deleteTrip={deleteTrip} updateTrip={updateTrip}/>);
 
         })
     }
