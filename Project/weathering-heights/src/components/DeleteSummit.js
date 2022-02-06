@@ -27,7 +27,7 @@ const DeleteSummit = ({props}) => {
     return ( props.trigger) ? (
         <div className="popup">
             <div className="popup-inner">
-                <h2>Would you like to delete this summit?</h2>
+                <h2>Are you sure you would like to  delete this trip?</h2>
                 {/* <button className="close-button" onClick={handleYes}>Add!</button> */}
                 <button  onClick={handleNo}>No</button>
                 {props.children}
