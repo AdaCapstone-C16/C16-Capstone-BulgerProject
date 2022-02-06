@@ -126,79 +126,6 @@ const Accordion = (props) => {
         setClicked(index)
     }
 
-    //test the sort functionality JSX
-    //maybe the map can still go in the og jsx and you just pass it the sorted array!!!!!!!!!!!!!!!!!!!!
-
-
-    const testJSX = (sortedPeaks) => 
-    {   console.log(sortedPeaks);
-        (sortedPeaks.map((item, index) => {
-        return(
-            <>
-            <Wrap onClick={()=> toggle(index)} key={index}>
-            <div className="grid-container">
-                <div className="bigItem">{item.name}</div>
-                <div className="item">Temp: {item.temp}</div>
-                <div className="item">Wind: {item.wind_speed}</div>
-                <div className="item">Precip: {item.chance_precip}</div>
-                    {/* <h1>{item.name}</h1>
-                    <p>temp: {item.temp} wind: {item.wind_speed} chance precip: {item.chance_precip}</p> */}
-            </div>
-                <span> {clicked === index ? <FiMinus/> : <FiPlus/>}</span>
-            </Wrap>
-            {clicked === index ? 
-                <Dropdown>
-                <p>{item.rank} {item.indigenous_name} {item.elevation} {item.link} {item.coordinates}</p>
-                </Dropdown>:
-                null}
-            </>);
-    }))};
-    //create the default JSX 
-    const defaultJSX = bulgerList.map((item, index) => { 
-        return(
-            <>
-            <Wrap onClick={()=> toggle(index)} key={index}>
-            <div className="grid-container">
-                <div className="bigItem">{item.name}</div>
-                <div className="item">Temp: {temp-=1}</div>
-                <div className="item">Wind: {wind+=1}</div>
-                <div className="item">Precip: {precip-=1}</div>
-            </div>
-                <span> {clicked === index ? <FiMinus/> : <FiPlus/>}</span>
-            </Wrap>
-            {clicked === index ? 
-                <Dropdown>
-                <p>{item.rank} {item.indigenous_name} {item.elevation} {item.link} {item.coordinates}</p>
-                </Dropdown>:
-                null}
-            </>
-        )
-    });
-
-    //sort by wind 
-    const windJSX =  bulgerList.map((item, index) => { 
-        return(
-            <>
-            <Wrap onClick={()=> toggle(index)} key={index}>
-            <div className="grid-container">
-                <div className="bigItem">{item.name}</div>
-                <div className="item">Temp: {temp-=1}</div>
-                <div className="item">Wind: {wind+=1}</div>
-                <div className="item">Precip: {precip-=1}</div>
-            </div>
-                <span> {clicked === index ? <FiMinus/> : <FiPlus/>}</span>
-            </Wrap>
-            {clicked === index ? 
-                <Dropdown>
-                <p>{item.rank} {item.indigenous_name} {item.elevation} {item.link} {item.coordinates}</p>
-                </Dropdown>:
-                null}
-            </>
-        )
-    });
-    //sort by precip 
-    //sort by temp
-
 
     //pass the correct JSX to return/render
     //this is the selection dropdown menu
@@ -211,10 +138,10 @@ const Accordion = (props) => {
             setSortby(option);
 
         }}>
+            <option value="default">Default</option>
             <option value="temp">Temperature</option>
             <option value="wind">Wind Speed</option>
             <option value="precip">Precipitation</option>
-            <option value="default">Default</option>
         </select>
         {/* <input type="submit" value="Summit! 🏔️"/> */}
     </form>
