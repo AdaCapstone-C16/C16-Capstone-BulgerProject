@@ -1,11 +1,11 @@
 import React from 'react';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { ref, onValue } from "firebase/database";
 import { db } from './../firebase.js';
-import { Container } from 'react-bootstrap'
+import { Container } from 'react-bootstrap';
 import { AuthProvider } from '../contexts/AuthContext';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { getBulgerListData } from '../api/BulgerAPI'
+import { getBulgerListCoords } from '../api/BulgerAPI';
 import Login from './Login';
 import Signup from './Signup';
 import PrivateRoute from './PrivateRoute';
@@ -14,10 +14,13 @@ import Homepage from './Homepage';
 import MyProfile from './MyProfile';
 import Thanks from './Thanks'
 
+import UpdateWeatherButton from './UpdateWeatherButton.js';
 
 function App() {
   const [peakList, setPeakList] = useState([]);
-  const [status, setStatus] = useState(true);
+  const [coordinates, setCoordinates] = useState([]);
+
+  const [updateWeather, setUpdateWeather] = useState(0);
 
   // GET peak data from FBDB
   useEffect(() => {
@@ -39,37 +42,53 @@ function App() {
                     range: data[i].range,
                     rank: data[i].rank,
                     temp: data[i].temp,
-                    wind_speed: data[i].wind_speed,
+                    windSpeed: data[i].wind_speed,
                 });
-                };
+            };
         };
         setPeakList(bulgerListArr);
-      });
-    }, []);
+    }, {onlyOnce: true});
+  }, [updateWeather]);
 
-    // console.log(peakList)
+  // Extracts peak coordinates to state once peakList state has set
+  useEffect(() => {
+    if (peakList !== []) {
+      const peakCoords = getBulgerListCoords(peakList);
+      setCoordinates(peakCoords);
+    }
+  }, [peakList]);
 
-  // useEffect(() => {
-  //   console.log(peakList);
-  // }, [peakList]);
+  // Toggles updateWeather state, which then triggers DB pull
+  const signalDBPull = () => {
+    setUpdateWeather(updateWeather + 1);
+  }
 
   return (
+      // <Container className="d-flex align-items-center" style={{ minHeight: "100vh" }}>
       <main>
-        <Router>
-          <AuthProvider>
-            <Routes>
-              <Route element={<PrivateRoute/>}>
-                <Route exact path="/my-profile" element={<MyProfile/>} />
-              </Route>
-              <Route path="/signup" element={<Signup/>} />
-              <Route path="/thanks" element={<Thanks/>} />
-              <Route path="/login" element={<Login/>} />
-              <Route path="/" element={<Homepage/>} />
-              <Route path="/forgot-password" element={<ForgotPassword/>} />
-            </Routes>
-          </AuthProvider>
-        </Router>
+        <UpdateWeatherButton 
+          peakList={peakList}  
+          coordinates={coordinates}
+          signalDBPull={signalDBPull} />
+
+        <div>
+          <Router>
+            <AuthProvider>
+              <Routes>
+                <Route element={<PrivateRoute/>}>
+                  <Route exact path="/my-profile" element={<MyProfile/>} />
+                </Route>
+                <Route path="/signup" element={<Signup/>} />
+                <Route path="/login" element={<Login/>} />
+                <Route path="/thanks" element={<Thanks/>}/>
+                <Route path="/" element={<Homepage/>} />
+                <Route path="/forgot-password" element={<ForgotPassword/>} />
+              </Routes>
+            </AuthProvider>
+          </Router>
+        </div>
       </main>
+      // </Container>
     
   )
 }

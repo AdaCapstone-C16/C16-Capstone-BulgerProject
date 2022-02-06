@@ -6,6 +6,7 @@ import { FiPlus, FiMinus } from 'react-icons/fi';
 import { Button, } from 'react-bootstrap'
 import AddTrip from './AddTrip'
 import Trip from './Trip';
+import MyPeak from './MyPeak'
 
 const AccordionSection = styled.div`
     display: flex;
@@ -111,41 +112,57 @@ const MyPeakList = ({ peaks, updateList }) => {
     }
 
 
-    const getTripListJSX = ( trips ) => {
-        return trips.map((trip) => {
-            return (<Trip key={trip[0]} trip={trip}/>);
+    // const getTripListJSX = ( trips ) => {
+    //     return trips.map((trip, index) => {
+    //         return (<Trip key={index} trip={trip} updateList={updateList}/>);
+    //     })
+    // }
+
+    const getPeakListJSX = (peaks) => {
+        return peaks.map((peak)=>{
+            console.log('here is the peak info being passed to MyPeak')
+            console.log(peak.key, peak.id, peak.name, peak.trips)
+            return (<MyPeak key={peak.key} pKey={peak.key} id={peak.id} name={peak.name} trips={peak.trips} updateList={updateList}/>
+            )
+            // return (
+            // <section>
+            //     <MyPeak key={peak.key} pKey={peak.key} id={peak.id} name={peak.name} trips={peak.trips} updateList={updateList}/>
+            //     <ol> {getTripListJSX} </ol>
+            // </section>
+            // )
         })
     }
 
     return (
-        <IconContext.Provider value={{color : '#00FFB9', size : '25px'}}>
-            <AccordionSection>
-                <Container>
-                    {peaks.map((peak) => {
-                        return (
-                                <>
-                                    <Wrap onClick={()=> toggle(peak.id)} key={peak.id}>
-                                    <div className="grid-container">
-                                        <div className="bigItem">{peak.id}: {peak.name}</div>
-                                    </div>
-                                        <span> {clicked === peak.id ? <FiMinus/> : <FiPlus/>}</span>
-                                    </Wrap>
-                                    {clicked === peak.id ? 
-                                        <Dropdown>
-                                            <p>Trips:</p> 
-                                            {JSON.stringify(peak.trips)}
-                                            <ol>{getTripListJSX(peak.trips)}</ol>
-                                            <Button onClick={handleAddTrip}>ADD A Trip</Button>
-                                            <AddTrip trigger={addTrip} setTrigger={setAddTrip} id={peak.id} key={peak.id} updateList={updateList} toggle={toggle}></AddTrip>
-                                        </Dropdown>:
-                                        null}
-                                </>
-                                )
-                        })
-                    }
-                </Container>
-            </AccordionSection>
-        </IconContext.Provider>
+        <ul>{getPeakListJSX(peaks)}</ul>
+        // <IconContext.Provider value={{color : '#00FFB9', size : '25px'}}>
+        //     <AccordionSection>
+        //         <Container>
+        //             {peaks.map((peak) => {
+        //                 return (
+        //                         <>
+        //                             <Wrap onClick={()=> toggle(peak.id)}>
+        //                             <div className="grid-container">
+        //                                 <div className="bigItem">{peak.id}: {peak.name}</div>
+        //                             </div>
+        //                                 <span> {clicked === peak.id ? <FiMinus/> : <FiPlus/>}</span>
+        //                             </Wrap>
+        //                             {clicked === peak.id ? 
+        //                                 <Dropdown>
+        //                                     <p>Trips:</p> 
+        //                                     {JSON.stringify(peak.trips)}
+        //                                     <ol>{getTripListJSX(peak.trips)}</ol>
+        //                                     <Button onClick={handleAddTrip} >ADD A Trip</Button>
+        //                                     <AddTrip trigger={addTrip} setTrigger={setAddTrip} id={peak.id} key={peak.id} updateList={updateList} toggle={toggle}></AddTrip>
+        //                                 </Dropdown>:
+        //                                 null}
+        //                         </>
+        //                         )
+        //                 })
+        //             }
+        //         </Container>
+        //     </AccordionSection>
+        // </IconContext.Provider>
     )
     };
 
@@ -153,11 +170,13 @@ const MyPeakList = ({ peaks, updateList }) => {
 MyPeakList.propTypes = {
     peaks: PropTypes.arrayOf(
         PropTypes.shape({
+            key: PropTypes.string.isRequired,
             id: PropTypes.string.isRequired,
             name: PropTypes.string.isRequired,
             trips: PropTypes.array,
             })
-            ).isRequired
+            ).isRequired, 
+            updateList: PropTypes.func.isRequired
     };
 
 export default MyPeakList;

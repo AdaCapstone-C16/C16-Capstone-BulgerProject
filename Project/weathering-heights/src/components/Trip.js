@@ -1,18 +1,26 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 
-const Trip = ({trip}) => {
+const Trip = ({date, desc, updateList}) => {
 
     return (
     <li>
-        <p>Date: {trip[0]}</p>
-        <p>Description:{trip[1]}</p>
+        <p>Date: {date}</p>
+        <p>Description:{desc}</p>
         <button> Delete </button>
         <button> Update </button>
-        {/* <Button onClick={handleAddTrip}>ADD A Trip</Button>
-        <AddTrip trigger={addTrip} setTrigger={setAddTrip} id={id}></AddTrip> */}
     </li>
     );
 }
 
+// Trip.propTypes = {
+//     trip: PropTypes.array,
+//     updateList: PropTypes.func.isRequired
+//     };
+Trip.propTypes = {
+    date: PropTypes.string.isRequired,
+    desc: PropTypes.string.isRequired,
+    updateList: PropTypes.func.isRequired
+    };
 export default Trip;

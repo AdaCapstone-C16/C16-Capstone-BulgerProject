@@ -2,13 +2,14 @@ import React, {useState, useEffect} from 'react';
 import { Button, Alert } from 'react-bootstrap'
 import { useAuth } from '../contexts/AuthContext'
 import { useNavigate } from 'react-router-dom'
-import { ref, get, child } from 'firebase/database';
+import { ref, get, child, onValue } from 'firebase/database';
 import {db} from '../firebase'
 import AddSummit from './AddSummit';
 import MyPeakList from './MyPeakList';
 import '../components/stylesheets/MyProfile.css'
 import Select from 'react-select'
 import { Dropdown } from 'bootstrap';
+
 
 
 export default function MyProfile() {
@@ -25,17 +26,41 @@ export default function MyProfile() {
     const getMyPeakData = () => {
         let myPeaksArr = []
         const dbRef = ref(db);
+        // console.log('in getPeakData')
+        // console.log(currentUser.uid)
+        // const dbPeakRef = ref(db, `users/${currentUser.uid}/summits`)
+        // onValue(dbPeakRef, (snapshot) =>{
+        //     snapshot.forEach((peak) => {
+        //     console.log(peak)
+        //     let pID = peak.key
+        //     console.log(pID)
+        //     const pName = peak.child('name').val()
+        //     console.log(pName)
 
+        //     let pTrips = []
+        // })
         get(child(dbRef, `users/${currentUser.uid}/summits`)).then((snapshot) => {
             snapshot.forEach((peak) => {
+                // console.log(peak)
                 let pID = peak.key
-                let pName = peak.child('name').val()
+                // console.log(pID)
+                const pName = peak.child('name').val()
+                // console.log(pName)
+
                 let pTrips = []
+                
                 get(child(dbRef, `users/${currentUser.uid}/summits/${peak.key}/trips`)).then((snapshot) => {
+                    // console.log('snapshot of trips')
+                    // console.log(snapshot)
                     if (snapshot.exists()) {
                         snapshot.forEach((trip)=>{
-                            pTrips.push([trip.key,trip.val()])
-                            })
+                            
+                            const tripArr = [trip.key,trip.val()]
+                            pTrips.push(tripArr)
+                            // console.log(trip.val())
+                            // console.log(trip.key)
+                            // console.log(tripArr)
+                        })
                     } else {
                         console.log('There are no associated trips to this summit');
                     }
@@ -43,19 +68,28 @@ export default function MyProfile() {
                     console.log(error)
                     return error
                 });
-                myPeaksArr.push({id:pID,
+                // console.log('This is the ptrips printout')
+                // console.log(pTrips)
+                myPeaksArr.push({key:pID, 
+                                id:pID,
                                 name:pName,
                                 trips:pTrips
+                            
                             })
+                            // console.log(pTrips)
                 });
+            console.log("THISSSS ISSS THEEEE FINALLLLL STATTEEEEE")
+            console.log(myPeaksArr)
             setMyPeakList(myPeaksArr)
         })
+
         console.log(fName, lName)
         }
 
     useEffect(() => {
         getMyPeakData();
         }, []);
+        
 
     
     // If the logout button is clicked, it will navigate user to the homepage
@@ -84,8 +118,8 @@ export default function MyProfile() {
             <p id='title'>WEATHERING HEIGHTS</p>
             <div>
                 <select onChange={handleLink}>
-                    {linkOptions.map((link) => (
-                        <option value={link.value}>{link.label}</option>
+                    {linkOptions.map((link, index) => (
+                        <option key={index} value={link.value}>{link.label}</option>
                     ))}
                 </select>
                 <section>
@@ -98,7 +132,7 @@ export default function MyProfile() {
         <section id='container-left'>
             {error && <Alert variant="danger">{error}</Alert>}
             <section>
-                <MyPeakList peaks={myPeakList} updateList={getMyPeakData}></MyPeakList>
+                <MyPeakList peaks={myPeakList} updateList={getMyPeakData} ></MyPeakList>
             </section>
         </section>
     </main>
