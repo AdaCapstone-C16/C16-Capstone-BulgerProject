@@ -1,9 +1,4 @@
 //for all purposes, this is basically the peakList 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> b321b2f40213ace40e8a03cd70ba820815b17c74
 //-----------------------------------------------{imports}------------------------------------------------------//
 import React, { useState, useContext } from 'react';
 import { Data } from "./Data";
@@ -12,8 +7,6 @@ import styled from 'styled-components';
 import { IconContext } from 'react-icons';
 import { FiPlus, FiMinus } from 'react-icons/fi';
 // import peaksContext from '../contexts/peaksContext';
-
-//-----------------------------------------------{styled componenets css}------------------------------------------------------//
 
 //-----------------------------------------------{styled componenets css}------------------------------------------------------//
 
@@ -152,11 +145,6 @@ const Accordion = (props) => {
     </form>
     );
     
-<<<<<<< HEAD
-    //sorting function 
-=======
-    //sorting functions 
->>>>>>> b321b2f40213ace40e8a03cd70ba820815b17c74
     function compareTemp( a, b ) {
         return (a.temp - b.temp);
     }
@@ -193,11 +181,7 @@ const Accordion = (props) => {
 
         // const resultJSX = testJSX(peaksSorted);
         // return resultJSX;
-<<<<<<< HEAD
-    };
-=======
     }
->>>>>>> b321b2f40213ace40e8a03cd70ba820815b17c74
 
     //-----------------------------------------------{JSX}------------------------------------------------------//
 
@@ -251,8 +235,6 @@ const Accordion = (props) => {
     );
 
 };
-
-<<<<<<< HEAD
 export default Accordion
 
 //current pieces of code:
@@ -334,6 +316,3 @@ export default Accordion
 
 
 //
-=======
-export default Accordion;
->>>>>>> b321b2f40213ace40e8a03cd70ba820815b17c74
