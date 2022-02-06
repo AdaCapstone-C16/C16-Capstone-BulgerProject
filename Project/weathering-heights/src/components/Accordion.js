@@ -148,15 +148,14 @@ const Accordion = (props) => {
     );
     
     //sorting function 
-    function compare( a, b ) {
-        // if ( a.temp < b.temp ){
-        //     return -1;
-        // }
-        // if ( a.temp > b.temp){
-        //     return 1;
-        // }
-        // return 0;
+    function compareTemp( a, b ) {
         return (a.temp - b.temp);
+    }
+    function compareWind( a, b ) {
+        return (a.wind_speed - b.wind_speed);
+    }
+    function comparePrecip( a, b ) {
+        return (a.chance_precip - b.chance_precip);
     }
         
         //objs.sort( compare );
@@ -173,7 +172,13 @@ const Accordion = (props) => {
         //const peaksSorted = [...bulgerList];
         const peaksSorted = [...threePeaks];
         if(category === 'temp'){
-            peaksSorted.sort( compare );
+            peaksSorted.sort( compareTemp );
+        }
+        if(category === 'wind'){
+            peaksSorted.sort( compareWind );
+        }
+        if(category === 'precip'){
+            peaksSorted.sort( comparePrecip );
         }
         return peaksSorted;
 
@@ -209,8 +214,8 @@ const Accordion = (props) => {
                     <div className="grid-container">
                         <div className="bigItem">{item.name}</div>
                         <div className="item">Temp: {item.temp}</div>
-                        <div className="item">Wind: {item.wind}</div>
-                        <div className="item">Precip: {item.precip}</div>
+                        <div className="item">Wind: {item.wind_speed}</div>
+                        <div className="item">Precip: {item.chance_precip}</div>
                     </div>
                         <span> {clicked === index ? <FiMinus/> : <FiPlus/>}</span>
                     </Wrap>

@@ -53,6 +53,6 @@ export const threePeaks =
         "range": "Mount Rainier Area", 
         "temp": 1, 
         "chance_precip": 98, 
-        "wind_speed": 3
+        "wind_speed": -3
     }
 ];
