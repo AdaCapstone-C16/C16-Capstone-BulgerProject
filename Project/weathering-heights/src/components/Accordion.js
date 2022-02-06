@@ -221,11 +221,11 @@ const Accordion = (props) => {
                     </Wrap>
                     {clicked === index ? 
                         <Dropdown>
-                        <div>🥇 {item.rank}</div> 
-                        <div>❕ {item.indigenous_name}</div>
-                        <div>🧗 {item.elevation}</div>
-                        <div>🔗 {item.link}</div>
-                        <div>📍 {item.coordinates}</div>
+                        <div> 🥇 {item.rank}</div> 
+                        <div> ❕ {item.indigenous_name}</div>
+                        <div> 🧗 {item.elevation}</div>
+                        <div> 🔗 {item.link}</div>
+                        <div> 📍 {item.coordinates}</div>
                         </Dropdown>:
                         null}
                     </>
