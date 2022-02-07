@@ -14,10 +14,10 @@ import '../components/stylesheets/Misc.css'
 export default function MyProfile({data}) {
     const [error, setError] = useState("")
     const navigate = useNavigate()
-    const { currentUser, logout, fName, lName } = useAuth()
+    const { currentUser, logout} = useAuth()
+
     const [addSummitPopup, setAddSummitPopup] = useState(false)
     const [myPeakList, setMyPeakList] = useState([])
-    
     let peakNames = []
     for (let peak of data) {
         if (peak && peak.indigenous_name) {
@@ -25,7 +25,7 @@ export default function MyProfile({data}) {
         } else if (peak) {
             peakNames.push({value:peak.key, label:peak.name})
         };
-    };
+        };
 
     useEffect(() => {
         getMyPeakData();
@@ -80,8 +80,6 @@ export default function MyProfile({data}) {
                 });
             setMyPeakList(myPeaksArr)
         })
-        console.log("HERRREEE ISSS THE USSEERRRR")
-        console.log(fName, lName)
         }
 
     // If the logout button is clicked, it will navigate user to the homepage
