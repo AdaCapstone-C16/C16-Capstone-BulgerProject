@@ -9,63 +9,64 @@ import AddTrip from './AddTrip'
 import DeleteSummit from './DeleteSummit';
 import styled from 'styled-components';
 import { FiPlus, FiMinus } from 'react-icons/fi';
+import '../components/stylesheets/Misc.css'
 
 const Wrap = styled.div`
-    background: #272727;
-    color: #fff;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%
-    text-align: center;
-    cursor: pointer;
+background: #DEDFEC;
+color: #000000;
+display: flex;
+justify-content: space-between;
+align-items: center;
+width: 100%
+text-align: center;
+cursor: pointer;
+border-radius: 25px;
+margin-left: 30px;
+margin-right: 30px;
+
+h1{
+    padding: 2rem;
+    font-size: 1rem;
+}
+span{
+    margin-right: 1.5rem;
+}
+.bigItem {
+    grid-area: myArea;
+    font-size: 2rem;
+}
+.item{
+    font-size: 1rem;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-areas: 'myArea myArea . . .';
+    grid-gap: 10px;
+    background: #DEDFEC;
+    padding: 10px;
     border-radius: 25px;
-    margin-left: 30px;
-    margin-right: 30px;
-    h1{
-        padding: 2rem;
-        font-size: 1rem;
-    }
-    span{
-        margin-right: 1.5rem;
-    }
-    .bigItem {
-        grid-area: myArea;
-        font-size: 2rem;
-    }
-    .item{
-        font-size: 1rem;
-    }
-    
-    .grid-container {
-        display: grid;
-        grid-template-areas: 'myArea myArea . . .';
-        grid-gap: 10px;
-        background: #272727;
-        padding: 10px;
-        border-radius: 25px;
-    }
-    
-    .grid-container > div {
-        text-align: center;
-        padding: 20px;
-        border-radius: 25px;
-    }
+}
+
+.grid-container > div {
+    text-align: center;
+]    border-radius: 25px;
+}
 `;
 
+
 const Dropdown = styled.div`
-    background: #1c1c1c
-    color: #00ffb9
-    width: 100%;
-    height: 100px;
+background: #DEDFEC;
+color: #000000;
     display: flex;
     flex-direction: column;
     align-items: center;
-    border-bottom: 1px solid #00ffb9;
-    border-top: 1px solid #00ffb9;
+    border-bottom: 1px solid #000000;
+    border-top: 1px solid #000000;
     border-radius: 25px;
     margin-left: 30px;
     margin-right: 30px;
+    
     p{
         font-size: 1rem;
     }
@@ -127,16 +128,20 @@ const Peak = ({ pKey, id, name, trips, updateList }) => {
                 <div className="grid-container">
                     <div className="bigItem">{id}: {name}</div>
                 </div>
-                    <span> {clicked === id? <FiMinus/> : <FiPlus/>}</span>
+                    <span> {clicked === id? <FiMinus /> : <FiPlus/>}</span>
                 </Wrap>
                 {clicked === id ? 
                     <Dropdown>
-                        <p>Trips:</p> 
-                        <ol>{getTripListJSX(trips)}</ol>
-                        <Button onClick={handleAddTripPopup}>ADD A Trip</Button>
-                        <AddTrip trigger={addTripPopup} setTrigger={setAddTripPopup} addTrip={addTrip}/>
-                        <Button onClick={handleDeleteSummitPopup}>Delete Summit</Button>
-                        <DeleteSummit trigger={deleteSummitPopup} setTrigger={setDeleteSummitPopup} deleteSummit={deleteSummit}/>
+                        <section className='trips'>
+                            <p>Trips</p> 
+                            <ol>{getTripListJSX(trips)}</ol>
+                        </section>
+                        <section className='tcontainer'> 
+                            <button onClick={handleAddTripPopup}>ADD TRIP</button>
+                            <AddTrip trigger={addTripPopup} setTrigger={setAddTripPopup} addTrip={addTrip}/>
+                            <button onClick={handleDeleteSummitPopup}>DELETE SUMMIT</button>
+                            <DeleteSummit trigger={deleteSummitPopup} setTrigger={setDeleteSummitPopup} deleteSummit={deleteSummit}/>
+                        </section>
                     </Dropdown>:
                     null}
             </>

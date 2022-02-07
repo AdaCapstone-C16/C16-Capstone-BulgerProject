@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Button } from 'react-bootstrap'
 import DeleteTrip from './DeleteTrip';
 import UpdateTrip from './UpdateTrip';
+import '../components/stylesheets/Misc.css'
 
 const Trip = ({date, desc, deleteTrip, updateTrip}) => {
 
@@ -22,9 +23,9 @@ const Trip = ({date, desc, deleteTrip, updateTrip}) => {
     <li>
         <p>Date: {date}</p>
         <p>Description:{desc}</p>
-        <Button onClick={handleTripDelete}>Delete Trip</Button>
+        <button onClick={handleTripDelete}>Delete Trip</button>
         <DeleteTrip trigger={tripDelete} setTrigger={setTripDelete} deleteTrip={deleteTrip} date={date}/>
-        <Button onClick={handleTripUpdate}>Update Trip</Button>
+        <button onClick={handleTripUpdate}>Update Trip</button>
         <UpdateTrip trigger={tripUpdate} setTrigger={setTripUpdate} updateTrip={updateTrip} date={date} desc={desc}/>
     </li>
     );

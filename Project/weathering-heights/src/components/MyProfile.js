@@ -7,6 +7,7 @@ import {db} from '../firebase'
 import AddSummit from './AddSummit';
 import MyPeakList from './MyPeakList';
 import '../components/stylesheets/MyProfile.css'
+import '../components/stylesheets/Misc.css'
 
 
 export default function MyProfile() {
@@ -70,28 +71,20 @@ export default function MyProfile() {
             setError('Failed to log out')
         }
     }
-
-    const linkOptions = [{value:1, label:'OPTIONS'}, {value:2, label:'LOGOUT'}, {value:3, label:'HOMEPAGE'}]
-
-    const handleLink = (link) => {
-        if (link.value === 1) {
-            handleLogout()
-        } else {
-            navigate("/")
-        }
+    const handleHomepage =() => {
+        navigate("/")
     }
+
     return (
     <main id='main'>
         <section id='container-right'>
             <p id='title'>WEATHERING HEIGHTS</p>
-            <div>
-                <select onChange={handleLink}>
-                    {linkOptions.map((link, index) => (
-                        <option key={index} value={link.value}>{link.label}</option>
-                    ))}
-                </select>
+            <h4>MY PROFILE</h4>
+            <div className=''>
                 <section>
-                    <Button onClick={handleAddSummit}>ADD A SUMMIT</Button>
+                <button onClick={handleHomepage}>HOMEPAGE</button>
+                    <button onClick={handleLogout}>LOGOUT</button>
+                    <button onClick={handleAddSummit}>ADD A SUMMIT</button>
                     <AddSummit trigger={addSummit} setTrigger={setAddSummit} updateList={getMyPeakData}></AddSummit>
                 </section>
                 

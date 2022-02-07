@@ -10,7 +10,11 @@
 
 #container-right {
     background-color: #504C54;
-    width: 67%
+    width: 60%;
+    background-image: url("../stylesheets/test.jpg");
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
 
 }
 #title {
@@ -32,7 +36,7 @@ color: #FFFFFF;
 }
 #container-left {
     background-color: #504C54;
-    width: 33%
+    width: 40%
 
 }
 /* .container-right {
@@ -50,4 +54,17 @@ h1 {
     font-size: 48px;
     line-height: 59px;
     color: #FFFFFF;
+}
+
+li {
+    box-shadow: 0 25.6px 57.6px 0 rgb(0 0 0 / 22%), 0 4.8px 14.4px 0 rgb(0 0 0 / 18%);
+    list-style-type: none;
+    background-color: white;
+    margin: 10px 0;
+}
+
+.trips {
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
 }
