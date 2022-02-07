@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import { ref, set } from 'firebase/database';
-import { Button } from 'react-bootstrap'
 import {db} from '../firebase'
 import { useAuth } from '../contexts/AuthContext'
 import Trip from './Trip';

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { Button, Alert } from 'react-bootstrap'
+import { Alert } from 'react-bootstrap'
 import { useAuth } from '../contexts/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import { ref, get, child, set } from 'firebase/database';
@@ -35,10 +35,21 @@ export default function MyProfile({data}) {
     }
     
     const handleAddSummit = (summit) => {
-        set(ref(db, `users/${currentUser.uid}/summits/${summit[0]}`), {name:summit[1]})
-        getMyPeakData()
-    }
+        setError('')
+        get(child(ref(db), `users/${currentUser.uid}/summits/${summit[0]}`)).then((snapshot) => {
+            if (snapshot.exists()) {
+                console.log('This summit is already in your summits')
+                setError('This summit already exists in your profile')
+            } else {
+                set(ref(db, `users/${currentUser.uid}/summits/${summit[0]}`), {name:summit[1]})
+                getMyPeakData()
+            }
+        })}
+        
+    const handleExitError = () => {
+        setError('')
 
+    }
     const getMyPeakData = () => {
         let myPeaksArr = []
         const dbRef = ref(db);
@@ -98,13 +109,13 @@ export default function MyProfile({data}) {
                     <button onClick={handleHomepage}>HOMEPAGE</button>
                         <button onClick={handleLogout}>LOGOUT</button>
                         <button onClick={handleAddSummitPopup}>ADD A SUMMIT</button>
-                        <AddSummit trigger={addSummitPopup} setTrigger={setAddSummitPopup} updateList={getMyPeakData} data={peakNames} handleAddSummit={handleAddSummit}></AddSummit>
+                        <AddSummit trigger={addSummitPopup} setTrigger={setAddSummitPopup} data={peakNames} handleAddSummit={handleAddSummit}></AddSummit>
                     </section>
                     
                 </div>
             </section>
             <section id='container-left'>
-                {error && <Alert variant="danger">{error}</Alert>}
+                {error && <Alert variant="danger">{error}<button onClick={handleExitError}>OK</button></Alert>}
                 <section>
                     <MyPeakList peaks={myPeakList} updateList={getMyPeakData} ></MyPeakList>
                 </section>

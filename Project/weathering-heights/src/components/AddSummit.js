@@ -42,8 +42,8 @@ AddSummit.propTypes = {
     handleAddSummit: PropTypes.func.isRequired,
     data:PropTypes.arrayOf(
         PropTypes.shape({
-            key: PropTypes.string.isRequired,
-            name: PropTypes.string.isRequired
+            value: PropTypes.number.isRequired,
+            label: PropTypes.string.isRequired
             })
             ).isRequired, 
     };
