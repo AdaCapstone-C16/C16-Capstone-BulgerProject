@@ -13,6 +13,8 @@ import PrivateRoute from './PrivateRoute';
 import ForgotPassword from './ForgotPassword';
 import Homepage from './Homepage';
 import MyProfile from './MyProfile';
+import Thanks from './Thanks'
+
 import UpdateWeatherButton from './UpdateWeatherButton.js';
 
 function App() {
@@ -64,29 +66,33 @@ function App() {
   }
 
   return (
-      <Container className="d-flex align-items-center" style={{ minHeight: "100vh" }}>
-        
+      // <Container className="d-flex align-items-center" style={{ minHeight: "100vh" }}>
+      // <Container>
+
+      <main>
         <UpdateWeatherButton 
           peakList={peakList}  
           coordinates={coordinates}
           signalDBPull={signalDBPull} />
 
-        <div className="w-100" style={{ maxWidth: '400px'}}>
+        <div>
           <Router>
             <AuthProvider>
               <Routes>
                 <Route element={<PrivateRoute/>}>
-                  <Route exact path="/my-profile" element={<MyProfile/>} />
+                  <Route exact path="/my-profile" element={<MyProfile data={peakList}/>} />
                 </Route>
                 <Route path="/signup" element={<Signup/>} />
                 <Route path="/login" element={<Login/>} />
+                <Route path="/thanks" element={<Thanks/>}/>
                 <Route path="/" element={<Homepage data={peakList}/>} />
                 <Route path="/forgot-password" element={<ForgotPassword/>} />
               </Routes>
             </AuthProvider>
           </Router>
         </div>
-      </Container>
+      </main>
+      // </Container>
     
   )
 }
