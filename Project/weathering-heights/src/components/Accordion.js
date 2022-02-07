@@ -149,7 +149,7 @@ const Accordion = (props) => {
         return (a.temp - b.temp);
     }
     function compareWind( a, b ) {
-        return (a.wind_speed - b.wind_speed);
+        return (a.windSpeed - b.windSpeed);
     }
     function comparePrecip( a, b ) {
         return (a.chance_precip - b.chance_precip);
@@ -210,8 +210,8 @@ const Accordion = (props) => {
                     </div> */}
                     <div className="grid-container">
                         <div className="bigItem">{item.name}</div>
-                        <div className="item">Temp: {item.temp}</div>
-                        <div className="item">Wind: {item.wind_speed}</div>
+                        <div className="item">Temp: {item.temp} °F</div>
+                        <div className="item">Wind: {item.windSpeed}</div>
                         <div className="item">Precip: {item.chance_precip}</div>
                     </div>
                         <span> {clicked === index ? <FiMinus/> : <FiPlus/>}</span>
