@@ -69,10 +69,6 @@ function App() {
   return (
         
       <main>
-        <div>
-          <BadgeDisplay />
-        </div>
-
         <UpdateWeatherButton 
           peakList={peakList}  
           coordinates={coordinates}

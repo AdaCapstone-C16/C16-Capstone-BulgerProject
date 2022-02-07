@@ -1,4 +1,4 @@
-import './BadgeDisplay.css';
+import './stylesheets/BadgeDisplay.css';
 
 const BadgeDisplay = () => {
     const img_size = {
@@ -14,7 +14,8 @@ const BadgeDisplay = () => {
             {/* <img src="../../public/badges/big_foot_badge.png" alt="big foot badge"></img> */}
             <div className="img-wrapper">   
                 <img 
-                    src={require("./wenatchee_mountains_range.png")} 
+                    // src={require("../../public/badges/wenatchee_mountains_range.png")}
+                    src={require("../badges/wenatchee_mountains_range.png")} 
                     alt="please be smaller"
                     style={img_size}
                     className="hover-zoom"

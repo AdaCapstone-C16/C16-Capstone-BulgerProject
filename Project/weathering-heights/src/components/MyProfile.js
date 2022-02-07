@@ -6,6 +6,7 @@ import { ref, get, child, set } from 'firebase/database';
 import {db} from '../firebase'
 import AddSummit from './AddSummit';
 import MyPeakList from './MyPeakList';
+import BadgeDisplay from './BadgeDisplay';
 import '../components/stylesheets/MyProfile.css'
 import '../components/stylesheets/Misc.css'
 
@@ -103,7 +104,13 @@ export default function MyProfile({data}) {
         <main id='main'>
             <section id='container-right'>
                 <p id='title'>WEATHERING HEIGHTS</p>
+                
                 <h4>MY PROFILE</h4>
+
+                <div>
+                    <BadgeDisplay />
+                </div>
+
                 <div className=''>
                     <section>
                     <button onClick={handleHomepage}>HOMEPAGE</button>
