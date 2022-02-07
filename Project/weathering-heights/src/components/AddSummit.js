@@ -1,57 +1,50 @@
 import React from 'react';
-import { useState, useEffect, useContext } from 'react';
+import { useState } from 'react';
 import '../components/stylesheets/AddSummit.css'
-import {db} from '../firebase'
-import { ref, onValue } from 'firebase/database';
 import Select from 'react-select'
+import PropTypes from 'prop-types';
 
-const AddSummit = (props) => {
-    // This section pulls peak info from the db
-    const peaks = ref(db, 'peaks/');
-    const peakNames = [];
-    onValue(peaks, (snapshot) => {
-        const data = snapshot.val();
-        let count = 1
-        for (let peak of data){
-            if (peak && peak.indigenous_name) {
-                peakNames.push({value:count,label:`${peak.indigenous_name} [${peak.name}]`})
-            } else if (peak) {
-                peakNames.push({value:count, label:peak.name})
-            };
-            count++;
-        }
-    })
-    
-    const [summit, setSummit] = useState('')
-    
+const AddSummit = ({trigger, setTrigger, data, handleAddSummit}) => {
+    const [summit, setSummit] = useState(['',''])
+
     const handleSummitAdd = (event) => {
-        setSummit(event.label)
-    }
-    
-    const handleAddDB = () => {
-        console.log(summit)
-    }
+        setSummit([event.value, event.label])
+        }
 
     const handleClose = () => {
-        handleAddDB()
-        props.setTrigger(false) 
-    }
+        handleAddSummit(summit)
+        setTrigger(false) 
+        }
 
-    return ( props.trigger) ? (
+    const handleCancel = () => {
+            setTrigger(false) 
+            }
+
+    return ( trigger) ? (
         <div className="popup">
             <div className="popup-inner">
-                <h1>Add a Summit:</h1>
+                <h2>Add New Summit:</h2>
                 <form>
                     <label> Select a Bulger</label>
-                    <Select options={peakNames} onChange={handleSummitAdd}/>
+                    <Select options={data} onChange={handleSummitAdd}/>
                 </form>
                 <button className="close-button" onClick={handleClose}>Add!</button>
-                {props.children}
+                <button onClick={handleCancel}> Cancel </button>
             </div>
-
         </div>
     
     ): "";
 }
 
+AddSummit.propTypes = {
+    trigger: PropTypes.bool.isRequired,
+    setTrigger: PropTypes.func.isRequired,
+    handleAddSummit: PropTypes.func.isRequired,
+    data:PropTypes.arrayOf(
+        PropTypes.shape({
+            value: PropTypes.number.isRequired,
+            label: PropTypes.string.isRequired
+            })
+            ).isRequired, 
+    };
 export default AddSummit

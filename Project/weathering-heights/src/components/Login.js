@@ -13,18 +13,15 @@ export default function Login() {
 
     async function handleSubmit(e) {
         e.preventDefault()
-
         try {
             setError('')
             setLoading(true)
             await login(emailRef.current.value, passwordRef.current.value)
-            navigate("/my-profile")
+            navigate("/thanks")
         } catch (error) {
             console.log(error)
             setError('Failed to access account')
-
         }
-        
         setLoading(false)
         
     }
@@ -35,7 +32,6 @@ return (
             <Card.Body>
                 <h2 className='text-center mb-4'> Login</h2>
                 {error && <Alert variant="danger">{error}</Alert>}
-                {/* {JSON.stringify(currentUser.uid)} */}
                 <Form onSubmit={handleSubmit}>
                     <Form.Group id='email'>
                         <Form.Label>Email</Form.Label>
