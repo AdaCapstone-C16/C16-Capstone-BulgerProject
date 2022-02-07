@@ -24,13 +24,13 @@ export default function Signup() {
         try {
             setError('')
             setLoading(true)
-            await signup(emailRef.current.value, passwordRef.current.value, fNameRef.current.value, lNameRef.current.value)
+            let name = (fNameRef.current.value + ' ' + lNameRef.current.value).toUpperCase()
+            await signup(emailRef.current.value, passwordRef.current.value, name)
             navigate("/thanks")
         } catch (error){
             setError('Failed to create an account')
             console.log(error)
         } 
-        // console.log(currentUser.uid)
         setLoading(false)
         
     }
