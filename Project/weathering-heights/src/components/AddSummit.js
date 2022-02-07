@@ -6,8 +6,9 @@ import { ref, onValue, set } from 'firebase/database';
 import Select from 'react-select'
 // import { get, ref, set, child } from "firebase/database";
 import { useAuth } from '../contexts/AuthContext'
+import PropTypes from 'prop-types';
 
-const AddSummit = (props) => {
+const AddSummit = ({trigger, setTrigger, updateList}) => {
     // This section pulls peak info from the db
     const peaks = ref(db, 'peaks/');
     const peakNames = [];
@@ -38,14 +39,14 @@ const AddSummit = (props) => {
 
     const handleClose = () => {
         handleAddDB()
-        props.updateList()
-        props.setTrigger(false) 
+        updateList()
+        setTrigger(false) 
         }
     const handleCancel = () => {
-            props.setTrigger(false) 
+            setTrigger(false) 
             }
 
-    return ( props.trigger) ? (
+    return ( trigger) ? (
         <div className="popup">
             <div className="popup-inner">
                 <h2>Add New Summit:</h2>
@@ -55,12 +56,15 @@ const AddSummit = (props) => {
                 </form>
                 <button className="close-button" onClick={handleClose}>Add!</button>
                 <button onClick={handleCancel}> Cancel </button>
-                {props.children}
             </div>
-
         </div>
     
     ): "";
 }
 
+AddSummit.propTypes = {
+    trigger: PropTypes.bool.isRequired,
+    setTrigger: PropTypes.func.isRequired,
+    updateList: PropTypes.func.isRequired
+    };
 export default AddSummit

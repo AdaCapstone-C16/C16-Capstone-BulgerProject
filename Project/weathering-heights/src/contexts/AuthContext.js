@@ -33,6 +33,8 @@ export const AuthProvider = ({ children }) => {
     const syncName = (firstName, lastName) => {
         setFName(firstName)
         setLName(lastName)
+        console.log('In the sync func in AUTH')
+        console.log(fName, lName)
         return [fName, lName]
     }
 
@@ -48,7 +50,7 @@ export const AuthProvider = ({ children }) => {
         return unsubscribe
     }, [])
 
-    const value = {currentUser, signup, login, logout, resetPassword, syncName, fName, lName }
+    const value = {currentUser, fName, lName, signup, login, logout, resetPassword, syncName }
 
 
 return (
