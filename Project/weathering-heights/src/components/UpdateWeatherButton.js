@@ -5,8 +5,6 @@ import axios from "axios";
 import PropTypes from 'prop-types';
 
 const UpdateWeatherButton = ({ coordinates, peakList, signalDBPull }) => {
-    console.log(coordinates)
-    console.log(peakList)
     // Tracks inital render to prevent API calls
     const onFirstRender = useRef(true); 
     // State to activate API calls when user requests
@@ -17,10 +15,8 @@ const UpdateWeatherButton = ({ coordinates, peakList, signalDBPull }) => {
         // Prevents weather API calls on initial render
         if (onFirstRender.current) {
             onFirstRender.current = false;
-            console.log("This is on first render");
             return;
         } else {
-            console.log('NOT FIRST RENDER')
             const baseURL = "http://api.weatherapi.com/v1"
             const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
     

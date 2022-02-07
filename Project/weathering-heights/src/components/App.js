@@ -14,6 +14,7 @@ import ForgotPassword from './ForgotPassword';
 import Homepage from './Homepage';
 import MyProfile from './MyProfile';
 import UpdateWeatherButton from './UpdateWeatherButton.js';
+import BadgeDisplay from './BadgeDisplay';
 
 function App() {
   const [peakList, setPeakList] = useState([]);
@@ -66,6 +67,10 @@ function App() {
   return (
       <Container className="d-flex align-items-center" style={{ minHeight: "100vh" }}>
         
+        <div>
+          <BadgeDisplay />
+        </div>
+        
         <UpdateWeatherButton 
           peakList={peakList}  
           coordinates={coordinates}
@@ -86,6 +91,7 @@ function App() {
             </AuthProvider>
           </Router>
         </div>
+        
       </Container>
     
   )
