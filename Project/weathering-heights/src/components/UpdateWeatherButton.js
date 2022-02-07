@@ -46,7 +46,8 @@ const UpdateWeatherButton = ({ coordinates, peakList, signalDBPull }) => {
                         update(ref(db, 'peaks/' + key), {
                         temp: now.temp_f,
                         chance_precip: now.precip_in,
-                        wind_speed: `${now.wind_mph} ${now.wind_dir}`
+                        wind_speed: now.wind_mph,
+                        wind_direction: `${now.wind_dir}`,
                         });
                     })
                     .catch((err) => {
