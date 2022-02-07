@@ -67,6 +67,8 @@ function App() {
 
   return (
       // <Container className="d-flex align-items-center" style={{ minHeight: "100vh" }}>
+      // <Container>
+
       <main>
         <UpdateWeatherButton 
           peakList={peakList}  
@@ -78,7 +80,7 @@ function App() {
             <AuthProvider>
               <Routes>
                 <Route element={<PrivateRoute/>}>
-                  <Route exact path="/my-profile" element={<MyProfile/>} />
+                  <Route exact path="/my-profile" element={<MyProfile data={peakList}/>} />
                 </Route>
                 <Route path="/signup" element={<Signup/>} />
                 <Route path="/login" element={<Login/>} />

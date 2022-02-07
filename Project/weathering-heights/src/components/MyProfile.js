@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { Button, Alert } from 'react-bootstrap'
 import { useAuth } from '../contexts/AuthContext'
 import { useNavigate } from 'react-router-dom'
-import { ref, get, child } from 'firebase/database';
+import { ref, get, child, set } from 'firebase/database';
 import {db} from '../firebase'
 import AddSummit from './AddSummit';
 import MyPeakList from './MyPeakList';
@@ -10,16 +10,34 @@ import '../components/stylesheets/MyProfile.css'
 import '../components/stylesheets/Misc.css'
 
 
-export default function MyProfile() {
+export default function MyProfile({data}) {
     const [error, setError] = useState("")
-    const { currentUser, logout, fName, lName } = useAuth()
     const navigate = useNavigate()
-    const [addSummit, setAddSummit] = useState(false)
+    const { currentUser, logout, fName, lName } = useAuth()
+    const [addSummitPopup, setAddSummitPopup] = useState(false)
     const [myPeakList, setMyPeakList] = useState([])
+    
+    let peakNames = []
+    for (let peak of data) {
+        if (peak && peak.indigenous_name) {
+            peakNames.push({value:peak.key,label:`${peak.indigenous_name} [${peak.name}]`})
+        } else if (peak) {
+            peakNames.push({value:peak.key, label:peak.name})
+        };
+    };
 
-    const handleAddSummit= () => {
-        setAddSummit(true)
-        }
+    useEffect(() => {
+        getMyPeakData();
+        }, []);
+    
+    const handleAddSummitPopup= () => {
+        setAddSummitPopup(true)
+    }
+    
+    const handleAddSummit = (summit) => {
+        set(ref(db, `users/${currentUser.uid}/summits/${summit[0]}`), {name:summit[1]})
+        getMyPeakData()
+    }
 
     const getMyPeakData = () => {
         let myPeaksArr = []
@@ -54,13 +72,6 @@ export default function MyProfile() {
         console.log(fName, lName)
         }
 
-        
-    useEffect(() => {
-        getMyPeakData();
-        }, []);
-        
-
-    
     // If the logout button is clicked, it will navigate user to the homepage
     async function handleLogout() {
         setError('')
@@ -70,32 +81,34 @@ export default function MyProfile() {
         } catch {
             setError('Failed to log out')
         }
-    }
+        }
+    
     const handleHomepage =() => {
         navigate("/")
-    }
+        }
+
 
     return (
-    <main id='main'>
-        <section id='container-right'>
-            <p id='title'>WEATHERING HEIGHTS</p>
-            <h4>MY PROFILE</h4>
-            <div className=''>
-                <section>
-                <button onClick={handleHomepage}>HOMEPAGE</button>
-                    <button onClick={handleLogout}>LOGOUT</button>
-                    <button onClick={handleAddSummit}>ADD A SUMMIT</button>
-                    <AddSummit trigger={addSummit} setTrigger={setAddSummit} updateList={getMyPeakData}></AddSummit>
-                </section>
-                
-            </div>
-        </section>
-        <section id='container-left'>
-            {error && <Alert variant="danger">{error}</Alert>}
-            <section>
-                <MyPeakList peaks={myPeakList} updateList={getMyPeakData} ></MyPeakList>
+        <main id='main'>
+            <section id='container-right'>
+                <p id='title'>WEATHERING HEIGHTS</p>
+                <h4>MY PROFILE</h4>
+                <div className=''>
+                    <section>
+                    <button onClick={handleHomepage}>HOMEPAGE</button>
+                        <button onClick={handleLogout}>LOGOUT</button>
+                        <button onClick={handleAddSummitPopup}>ADD A SUMMIT</button>
+                        <AddSummit trigger={addSummitPopup} setTrigger={setAddSummitPopup} updateList={getMyPeakData} data={peakNames} handleAddSummit={handleAddSummit}></AddSummit>
+                    </section>
+                    
+                </div>
             </section>
-        </section>
-    </main>
+            <section id='container-left'>
+                {error && <Alert variant="danger">{error}</Alert>}
+                <section>
+                    <MyPeakList peaks={myPeakList} updateList={getMyPeakData} ></MyPeakList>
+                </section>
+            </section>
+        </main>
         );
 }

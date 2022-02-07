@@ -9,7 +9,7 @@ import AddTrip from './AddTrip'
 import DeleteSummit from './DeleteSummit';
 import styled from 'styled-components';
 import { FiPlus, FiMinus } from 'react-icons/fi';
-import '../components/stylesheets/Misc.css'
+// import '../components/stylesheets/Misc.css'
 
 const Wrap = styled.div`
 background: #DEDFEC;
