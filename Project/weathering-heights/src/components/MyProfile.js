@@ -108,7 +108,7 @@ export default function MyProfile({data}) {
                 <h4>MY PROFILE</h4>
 
                 <div>
-                    <BadgeDisplay />
+                    <BadgeDisplay data={data}/>
                 </div>
 
                 <div className=''>
