@@ -13,7 +13,7 @@ import PrivateRoute from './PrivateRoute';
 import ForgotPassword from './ForgotPassword';
 import Homepage from './Homepage';
 import MyProfile from './MyProfile';
-import Thanks from './Thanks'
+// import Thanks from './Thanks'
 
 import UpdateWeatherButton from './UpdateWeatherButton.js';
 
@@ -84,7 +84,7 @@ function App() {
                 </Route>
                 <Route path="/signup" element={<Signup/>} />
                 <Route path="/login" element={<Login/>} />
-                <Route path="/thanks" element={<Thanks/>}/>
+                {/* <Route path="/thanks" element={<Thanks/>}/> */}
                 <Route path="/" element={<Homepage data={peakList}/>} />
                 <Route path="/forgot-password" element={<ForgotPassword/>} />
               </Routes>

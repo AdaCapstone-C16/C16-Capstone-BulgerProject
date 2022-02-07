@@ -26,7 +26,8 @@ export default function Signup() {
             setLoading(true)
             let name = (fNameRef.current.value + ' ' + lNameRef.current.value).toUpperCase()
             await signup(emailRef.current.value, passwordRef.current.value, name)
-            navigate("/thanks")
+            // console.log('This user is now signed up', currentUser.uid, currentUser.displayName)
+            navigate("/my-profile")
         } catch (error){
             setError('Failed to create an account')
             console.log(error)
@@ -34,7 +35,7 @@ export default function Signup() {
         setLoading(false)
         
     }
-    
+
     return (
     <section>
         <Card>
