@@ -42,7 +42,9 @@ export default function MyProfile({data}) {
                 console.log('This summit is already in your summits')
                 setError('This summit already exists in your profile')
             } else {
-                set(ref(db, `users/${currentUser.uid}/summits/${summit[0]}`), {name:summit[1]})
+                // Get selected peaks range data from state to store range info
+                const peakProfile = data.filter(peak => peak.name === summit[1]);
+                set(ref(db, `users/${currentUser.uid}/summits/${summit[0]}`), {name:summit[1], range:peakProfile[0].range})
                 getMyPeakData()
             }
         })}
@@ -58,6 +60,7 @@ export default function MyProfile({data}) {
             snapshot.forEach((peak) => {
                 let pID = peak.key
                 const pName = peak.child('name').val()
+                const pRange = peak.child('range').val()
                 let pTrips = []
                 get(child(dbRef, `users/${currentUser.uid}/summits/${peak.key}/trips`)).then((snapshot) => {
                     if (snapshot.exists()) {
@@ -75,9 +78,11 @@ export default function MyProfile({data}) {
                 myPeaksArr.push({key:pID, 
                                 id:pID,
                                 name:pName,
+                                range:pRange,
                                 trips:pTrips
                             })
                 });
+                console.log(myPeaksArr)
             setMyPeakList(myPeaksArr)
         })
         }
@@ -106,7 +111,7 @@ export default function MyProfile({data}) {
                 <h4>MY PROFILE</h4>
 
                 <div>
-                    <BadgeDisplay data={data}/>
+                    <BadgeDisplay data={data} userData={myPeakList}/>
                 </div>
 
                 <div className=''>

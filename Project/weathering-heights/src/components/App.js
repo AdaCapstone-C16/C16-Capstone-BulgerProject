@@ -3,7 +3,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { ref, onValue } from "firebase/database";
 import { db } from './../firebase.js';
-// import { Container } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import { AuthProvider } from '../contexts/AuthContext';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { getBulgerListCoords } from '../api/BulgerAPI';
@@ -16,7 +16,6 @@ import MyProfile from './MyProfile';
 // import Thanks from './Thanks'
 
 import UpdateWeatherButton from './UpdateWeatherButton.js';
-import BadgeDisplay from './BadgeDisplay';
 
 function App() {
   const [peakList, setPeakList] = useState([]);
@@ -69,8 +68,12 @@ function App() {
   }
 
   return (
-        
+      // <Container className="d-flex align-items-center" style={{ minHeight: "100vh" }}>
+      // <Container>
+
       <main>
+
+        {/* ADD TO NAV BAR */}
         <UpdateWeatherButton 
           peakList={peakList}  
           coordinates={coordinates}
@@ -93,6 +96,7 @@ function App() {
           </Router>
         </div>
       </main>
+      // </Container>
     
   )
 }

@@ -1,26 +1,48 @@
+import { useAuth } from '../contexts/AuthContext';
 import './stylesheets/BadgeDisplay.css';
 
-const BadgeDisplay = ({ data }) => {
-    console.log(data)
-    // React Styling
-    const img_size = {
-        width: 150,
-        height: 150,
-        resizeMode: "contain",
-        alignSelf: "center",
-        borderWidth: 1,
-      }
-    
+// React Styling
+const img_size = {
+    width: 150,
+    height: 150,
+    resizeMode: "contain",
+    alignSelf: "center",
+    borderWidth: 1,
+};
+
+const BadgeDisplay = ({ data , userData }) => {
+    const { currentUser } = useAuth();
+
+    console.log(userData)
+    // const updateTrip = (date, desc) => {
+    //     set(ref(db, `users/${currentUser.uid}/summits/${id}/trips/${date}`), desc)
+    //     updateList()
+    // }
+
     // Filter for list of peak objects in particular range
-    const range = data.filter(peak => peak.range === "Skagit Range");
+    const range = data.filter(peak => peak.range === "Wenatchee Mountains");
+    const rangeLen = range.length;
+    console.log({range});
+
+    // Filter for user's list of peak objects in particular range
+    const userRange = userData.filter(peak => peak.range === "Wenatchee Mountains");
+    const userRangeLen = userRange.length;
+    console.log({userRange});
+
+    if (rangeLen === userRangeLen) {
+        console.log("YOU'vE HIKED ALL THE PEAKS");
+    } else {
+        console.log("you haven't quite hiked all the peaks")
+    }
+
     // List of peak keys in particular range
     const peaksInRange = []
     range.forEach((peak) => {
         peaksInRange.push(peak.key); 
     });
-    const rangeLen = range.length;
-    console.log(peaksInRange);
-    console.log(rangeLen);
+    
+    // console.log(peaksInRange);
+    // console.log(rangeLen);
 
     // If user has hiked same number of peaks as peak length -> user gets a badge
     // eg. "user_id" : {
