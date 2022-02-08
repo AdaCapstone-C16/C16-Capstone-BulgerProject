@@ -43,10 +43,11 @@ export default function MyProfile({data}) {
                 setError('This summit already exists in your profile')
             } else {
                 // Get selected peaks range data from state to store range info
+                // TODO: Summits with an indenous name currently don't filter correctly
                 const peakProfile = data.filter(peak => peak.name === summit[1]);
                 console.log(peakProfile)
                 console.log(summit[1])
-
+                
                 set(ref(db, `users/${currentUser.uid}/summits/${summit[0]}`), {name:summit[1], range:peakProfile[0].range})
                 getMyPeakData()
             }

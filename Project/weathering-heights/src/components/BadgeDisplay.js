@@ -15,14 +15,13 @@ const img_size = {
 const BadgeDisplay = ({ data , userData }) => {
     const { currentUser } = useAuth();
 
-    // console.log(userData)
     const determineRangeComplete = (rangeName) => {
-        // Filter for list of peak objects in particular range
+        // Filter for mandatory peak objects to complete particular range
         const range = data.filter(peak => peak.range === rangeName);
         const rangeLen = range.length;
         console.log(rangeLen)
 
-        // Filter for user's list of peak objects in particular range
+        // Filter for user's list of hiked peak objects in particular range
         const userRange = userData.filter(peak => peak.range === rangeName);
         const userRangeLen = userRange.length;
 
@@ -39,7 +38,6 @@ const BadgeDisplay = ({ data , userData }) => {
     }
     
     
-    // If user has hiked same number of peaks as peak length -> user gets a badge
     // When user adds new badge -> check for range completion
     //   Run that range through the length comparison function
     //      if range complete
