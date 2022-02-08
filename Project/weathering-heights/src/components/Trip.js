@@ -1,6 +1,5 @@
 import React, {useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'react-bootstrap'
 import DeleteTrip from './DeleteTrip';
 import UpdateTrip from './UpdateTrip';
 import '../components/stylesheets/Misc.css'

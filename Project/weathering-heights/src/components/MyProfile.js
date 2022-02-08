@@ -14,7 +14,7 @@ export default function MyProfile({data}) {
     const [error, setError] = useState("")
     const navigate = useNavigate()
     const { currentUser, logout} = useAuth()
-
+    let [counter, setCounter] = useState()
     const [addSummitPopup, setAddSummitPopup] = useState(false)
     const [myPeakList, setMyPeakList] = useState([])
     let peakNames = []
@@ -27,6 +27,7 @@ export default function MyProfile({data}) {
         };
 
     useEffect(() => {
+        console.log('In useEffec')
         getMyPeakData();
         }, []);
     
@@ -79,7 +80,7 @@ export default function MyProfile({data}) {
                 });
             setMyPeakList(myPeaksArr)
         })
-        }
+    }
 
     // If the logout button is clicked, it will navigate user to the homepage
     async function handleLogout() {
@@ -96,7 +97,9 @@ export default function MyProfile({data}) {
         navigate("/")
         }
 
-
+    const handleMap = () => {
+        navigate("/map")
+    }
     return (
         <main id='main'>
             <section id='container-right'>
@@ -104,10 +107,11 @@ export default function MyProfile({data}) {
                 <h4>{currentUser.displayName}: CLIMBER PROFILE</h4>
                 <div className=''>
                     <section>
+                    <button onClick={handleMap}>MAP</button>
                     <button onClick={handleHomepage}>HOMEPAGE</button>
-                        <button onClick={handleLogout}>LOGOUT</button>
-                        <button onClick={handleAddSummitPopup}>ADD A SUMMIT</button>
-                        <AddSummit trigger={addSummitPopup} setTrigger={setAddSummitPopup} data={peakNames} handleAddSummit={handleAddSummit}></AddSummit>
+                    <button onClick={handleLogout}>LOGOUT</button>
+                    <button onClick={handleAddSummitPopup}>ADD A SUMMIT</button>
+                    <AddSummit trigger={addSummitPopup} setTrigger={setAddSummitPopup} data={peakNames} handleAddSummit={handleAddSummit}></AddSummit>
                     </section>
                     
                 </div>
@@ -115,7 +119,7 @@ export default function MyProfile({data}) {
             <section id='container-left'>
                 {error && <Alert variant="danger">{error}<button onClick={handleExitError}>OK</button></Alert>}
                 <section>
-                    <MyPeakList peaks={myPeakList} updateList={getMyPeakData} ></MyPeakList>
+                    <MyPeakList peaks={myPeakList} updateList={getMyPeakData}></MyPeakList>
                 </section>
             </section>
         </main>

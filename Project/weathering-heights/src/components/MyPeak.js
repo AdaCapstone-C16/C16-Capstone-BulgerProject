@@ -93,9 +93,9 @@ const Peak = ({ pKey, id, name, trips, updateList }) => {
     }
 
     const addTrip = (date, notes) => {
+        setClicked(null)
         set(ref(db, `users/${currentUser.uid}/summits/${id}/trips/${date}`), notes)
         updateList()
-
     }
     const deleteSummit = () => {
         set(ref(db, `users/${currentUser.uid}/summits/${id}`), null)
