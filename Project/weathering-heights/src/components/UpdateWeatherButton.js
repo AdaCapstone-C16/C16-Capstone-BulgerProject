@@ -55,12 +55,10 @@ const UpdateWeatherButton = ({ coordinates, peakList, signalDBPull }) => {
         // Prevents weather API calls on initial render
         if (onFirstRender.current) {
             onFirstRender.current = false;
-            console.log("This is on first render");
             return;
         } else {
-            console.log('NOT FIRST RENDER')
-            const baseURL = "http://api.weatherapi.com/v1"
             const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
+            const baseURL = `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}`
     
             if (coordinates !== []) {
                 // Make API call for each set of peak coordinates
@@ -75,15 +73,13 @@ const UpdateWeatherButton = ({ coordinates, peakList, signalDBPull }) => {
 
                     // Date of forecast Saturday 
                     const date = formatDate(getNextSaturday());
-                    // TODO: FIGURE OUT THE ONLOAD BIT
+
                     // Forecast Weather API calls
                     axios
-                    // Connects to Weather API at lat & lon
-                    .get(`${baseURL}/forecast.json?key=${apiKey}&q=${lat},${lon}dt=${date}&aqi=no`)
+                    .get(`${baseURL}&q=${lat},${lon}dt=${date}&aqi=no`)
                     .then((res) => {
                         const now = res.data.forecast.forecastday[0].hour[12];
-                        console.log(now)
-                        // Updates temperature data in without override
+                        // Updates temperature data in DB
                         update(ref(db, 'peaks/' + key), {
                         temp: now.temp_f,
                         chance_precip: now.chance_of_rain,
@@ -95,7 +91,7 @@ const UpdateWeatherButton = ({ coordinates, peakList, signalDBPull }) => {
                         console.log(err.data);
                     });
                 }
-                // Initiate new pull to DB for updated state 
+                // Initiate new pull from DB to update state 
                 signalDBPull();
             }
         }
@@ -105,8 +101,6 @@ const UpdateWeatherButton = ({ coordinates, peakList, signalDBPull }) => {
     useEffect(() => {
         updateWeather();
     }, [runUpdateWeather]);
-
-    console.log(peakList)
     
     return (
         <>
@@ -128,7 +122,8 @@ UpdateWeatherButton.propTypes = {
             range: PropTypes.string.isRequired,
             rank: PropTypes.number.isRequired,
             temp: PropTypes.number.isRequired,
-            windSpeed: PropTypes.string.isRequired,
+            windSpeed: PropTypes.number.isRequired,
+            windDir: PropTypes.string.isRequired,
         })
     ),
     coordinates: PropTypes.arrayOf(
