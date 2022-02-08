@@ -1,3 +1,5 @@
+import { db } from './../firebase.js';
+import { ref, get, child, set, update } from 'firebase/database';
 import { useAuth } from '../contexts/AuthContext';
 import './stylesheets/BadgeDisplay.css';
 
@@ -13,55 +15,36 @@ const img_size = {
 const BadgeDisplay = ({ data , userData }) => {
     const { currentUser } = useAuth();
 
-    console.log(userData)
-    // const updateTrip = (date, desc) => {
-    //     set(ref(db, `users/${currentUser.uid}/summits/${id}/trips/${date}`), desc)
-    //     updateList()
-    // }
+    // console.log(userData)
+    const determineRangeComplete = (rangeName) => {
+        // Filter for list of peak objects in particular range
+        const range = data.filter(peak => peak.range === rangeName);
+        const rangeLen = range.length;
+        console.log(rangeLen)
 
-    // Filter for list of peak objects in particular range
-    const range = data.filter(peak => peak.range === "Wenatchee Mountains");
-    const rangeLen = range.length;
-    console.log({range});
+        // Filter for user's list of peak objects in particular range
+        const userRange = userData.filter(peak => peak.range === rangeName);
+        const userRangeLen = userRange.length;
 
-    // Filter for user's list of peak objects in particular range
-    const userRange = userData.filter(peak => peak.range === "Wenatchee Mountains");
-    const userRangeLen = userRange.length;
-    console.log({userRange});
+        const peakName = userRange[0].name
 
-    if (rangeLen === userRangeLen) {
-        console.log("YOU'vE HIKED ALL THE PEAKS");
-    } else {
-        console.log("you haven't quite hiked all the peaks")
+        if (rangeLen === userRangeLen) {
+            console.log("YOU'vE HIKED ALL THE PEAKS");
+            // Adds new range badge to user profile
+            // TODO: Change true to ".png"
+            update(ref(db, `users/${currentUser.uid}/badges/`), {[peakName]: "true"})
+        } else {
+            console.log("you haven't quite hiked all the peaks")
+        }
     }
-
-    // List of peak keys in particular range
-    const peaksInRange = []
-    range.forEach((peak) => {
-        peaksInRange.push(peak.key); 
-    });
     
-    // console.log(peaksInRange);
-    // console.log(rangeLen);
-
+    
     // If user has hiked same number of peaks as peak length -> user gets a badge
-    // eg. "user_id" : {
-    //       "summits" : {
-    //          1 : {
-    //                "name": "Mount Baker",
-    //                "trips": [],
-    //                "range": "Skagit Range",
-    //              }
-    //          }
-    //        "ranges" : {
-    //          "chelan": {5: 4},   ### DO I actually need to track this or can 
-    //          "skagit": {8: 7},   ### I just do mainList.length === myList.length
-    //          "okanogan": true,   ### and then just store "range": true / "range": "rangeName.jpg"
-    //        }
-    //     }
-    //     {5: 4}
-    // }
-    
+    // When user adds new badge -> check for range completion
+    //   Run that range through the length comparison function
+    //      if range complete
+    //          db(set(/ranges/{rangeName: true/png name}))
+
 
     return (
         <>

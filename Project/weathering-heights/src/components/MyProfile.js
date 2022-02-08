@@ -44,6 +44,9 @@ export default function MyProfile({data}) {
             } else {
                 // Get selected peaks range data from state to store range info
                 const peakProfile = data.filter(peak => peak.name === summit[1]);
+                console.log(peakProfile)
+                console.log(summit[1])
+
                 set(ref(db, `users/${currentUser.uid}/summits/${summit[0]}`), {name:summit[1], range:peakProfile[0].range})
                 getMyPeakData()
             }

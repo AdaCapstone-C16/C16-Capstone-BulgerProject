@@ -73,7 +73,6 @@ function App() {
 
       <main>
 
-        {/* ADD TO NAV BAR */}
         <UpdateWeatherButton 
           peakList={peakList}  
           coordinates={coordinates}
