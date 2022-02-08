@@ -7,29 +7,43 @@ import PropTypes from 'prop-types';
 const UpdateWeatherButton = ({ coordinates, peakList, signalDBPull }) => {
     
     const getNextSaturday = () => {
+        // Calculates date for next coming Saturday, returns Sunday if today is Sunday
         const forecast = new Date();
         const day = forecast.getDay();
         const date = forecast.getDate();
         
         // Pull current weather for Sunday
-        if (day === 0) {
+        if (day === 0) 
             return forecast;
-        } 
         // Pull current weather for Saturday
-        else if (day === 6) {
+        else if (day === 6) 
             return forecast;
-        } 
         // All other days of the week will pull from upcoming Saturday
         else {
             const tilSaturday = 6 - day
             const newDate = date + tilSaturday;
             forecast.setDate(newDate);
             
-            console.log(forecast);
+            // console.log(forecast);
             return forecast;
         }
     }
-    getNextSaturday();
+
+    const formatDate = (date) => {
+        // Formats date to => 2022-02-12
+        const d = new Date(date);
+        let month = `${d.getMonth() + 1}`;
+        let day = `${d.getDate()}`;
+        let year = `${d.getFullYear()}`;
+
+        if (month.length < 2) 
+            month = '0' + month;
+        if (day.length < 2) 
+            day = '0' + day;
+
+        // console.log([year, month, day].join('-'));
+        return [year, month, day].join('-');
+    }
 
     // Tracks inital render to prevent API calls
     const onFirstRender = useRef(true); 
@@ -46,7 +60,7 @@ const UpdateWeatherButton = ({ coordinates, peakList, signalDBPull }) => {
         } else {
             console.log('NOT FIRST RENDER')
             const baseURL = "http://api.weatherapi.com/v1"
-            // const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
+            const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
     
             if (coordinates !== []) {
                 // Make API call for each set of peak coordinates
@@ -59,49 +73,27 @@ const UpdateWeatherButton = ({ coordinates, peakList, signalDBPull }) => {
         
                     let key = peakList[i].key;
 
-                    // TODO: WHY IS THIS GOING ON LOAD?!
-                    // TODO: Calculated date of Saturday
-                    
-                    // TODO: Insert date into API call
-                    // TODO: Run API calls
+                    // Date of forecast Saturday 
+                    const date = formatDate(getNextSaturday());
                     // TODO: FIGURE OUT THE ONLOAD BIT
                     // Forecast Weather API calls
-                    // axios
-                    // // Connects to Weather API at lat & lon
-                    // // dt format => dt=2022-02-12
-                    // .get(`${baseURL}/forecast.json?key=${apiKey}&q=${lat},${lon}dt=${date}&aqi=no`)
-                    // .then((res) => {
-                    //     const now = res.data.current;
-                    //     // Updates temperature data in without override
-                    //     update(ref(db, 'peaks/' + key), {
-                    //     temp: now.temp_f,
-                    //     chance_precip: now.precip_in,
-                    //     wind_speed: now.wind_mph,
-                    //     wind_direction: `${now.wind_dir}`,
-                    //     });
-                    // })
-                    // .catch((err) => {
-                    //     console.log(err.data);
-                    // });
-        
-                    // // TODO: WHY IS THIS GOING ON LOAD?!
-                    // // Weather API calls
-                    // axios
-                    // // Connects to Weather API at lat & lon
-                    // .get(`${baseURL}/current.json?key=${apiKey}&q=${lat},${lon}&aqi=no`)
-                    // .then((res) => {
-                    //     const now = res.data.current;
-                    //     // Updates temperature data in without override
-                    //     update(ref(db, 'peaks/' + key), {
-                    //     temp: now.temp_f,
-                    //     chance_precip: now.precip_in,
-                    //     wind_speed: now.wind_mph,
-                    //     wind_direction: `${now.wind_dir}`,
-                    //     });
-                    // })
-                    // .catch((err) => {
-                    //     console.log(err.data);
-                    // });
+                    axios
+                    // Connects to Weather API at lat & lon
+                    .get(`${baseURL}/forecast.json?key=${apiKey}&q=${lat},${lon}dt=${date}&aqi=no`)
+                    .then((res) => {
+                        const now = res.data.forecast.forecastday[0].hour[12];
+                        console.log(now)
+                        // Updates temperature data in without override
+                        update(ref(db, 'peaks/' + key), {
+                        temp: now.temp_f,
+                        chance_precip: now.chance_of_rain,
+                        wind_speed: now.wind_mph,
+                        wind_direction: `${now.wind_dir}`,
+                        });
+                    })
+                    .catch((err) => {
+                        console.log(err.data);
+                    });
                 }
                 // Initiate new pull to DB for updated state 
                 signalDBPull();
@@ -112,7 +104,9 @@ const UpdateWeatherButton = ({ coordinates, peakList, signalDBPull }) => {
     // GET & Update OpenWeatherMap weather data for each peak
     useEffect(() => {
         updateWeather();
-        }, [runUpdateWeather]);
+    }, [runUpdateWeather]);
+
+    console.log(peakList)
     
     return (
         <>
