@@ -6,6 +6,7 @@ import { threePeaks } from "./Data";
 import styled from 'styled-components';
 import { IconContext } from 'react-icons';
 import { FiPlus, FiMinus } from 'react-icons/fi';
+import CalendarForm from './CalendarForm';
 // import peaksContext from '../contexts/peaksContext';
 
 //-----------------------------------------------{styled componenets css}------------------------------------------------------//
@@ -110,18 +111,22 @@ const Accordion = (props) => {
     let wind = 101;
 
     const bulgerList = props.data;
-
+    //lift this state
     const [clicked, setClicked] = useState(false);
+    const [selectedPeak, setSelectedPeak] = useState(null);
     const [sortby, setSortby] = useState('default');
     // console.log("Inside accordion")
     // console.log(props);
 
     const toggle = (index) => {
         //if clicked question is already open, then close it 
+        //raise this handler 
         if(clicked === index){
             return setClicked(null);
         }
         setClicked(index)
+        const myList = getSortedList(sortby);
+        setSelectedPeak(myList[index].name)
     }
 
 
@@ -149,7 +154,7 @@ const Accordion = (props) => {
         return (a.temp - b.temp);
     }
     function compareWind( a, b ) {
-        return (a.wind_speed - b.wind_speed);
+        return (a.windSpeed - b.windSpeed);
     }
     function comparePrecip( a, b ) {
         return (a.chance_precip - b.chance_precip);
@@ -187,31 +192,19 @@ const Accordion = (props) => {
 
     return (
     <IconContext.Provider value={{color : '#00FFB9', size : '25px'}}>
+        <CalendarForm mountain={selectedPeak}></CalendarForm>
         <AccordionSection>
             <Container>
             {selection}
             {console.log(sortby)}
-            {/* {sortby === 'temp' ? this.getSortedList() : null} */}
-            {/* {getSortedList()} */}
-            {/* {sortby === 'wind' && windJSX}
-            {sortby === 'default' && defaultJSX} */}
             {getSortedList(sortby).map((item, index) => { 
-                // console.log("inside map of accordion")
-                // console.log(item)
-                // console.log("hi! I am sort of working")
                 return(
                     <>
                     <Wrap onClick={()=> toggle(index)} key={index}>
-                    {/* <div className="grid-container">
-                        <div className="bigItem">{item.name}</div>
-                        <div className="item">Temp: {item.temp}</div>
-                        <div className="item">Wind: {item.wind_speed}</div>
-                        <div className="item">Precip: {item.chance_precip}</div>
-                    </div> */}
                     <div className="grid-container">
                         <div className="bigItem">{item.name}</div>
-                        <div className="item">Temp: {item.temp}</div>
-                        <div className="item">Wind: {item.wind_speed}</div>
+                        <div className="item">Temp: {item.temp} °F</div>
+                        <div className="item">Wind: {item.windSpeed}</div>
                         <div className="item">Precip: {item.chance_precip}</div>
                     </div>
                         <span> {clicked === index ? <FiMinus/> : <FiPlus/>}</span>
@@ -236,83 +229,3 @@ const Accordion = (props) => {
 
 };
 export default Accordion
-
-//current pieces of code:
-{/* <button>Sort</button> */}
-
-/////////////////////////-----------------------------------------------------------------/////////////////////////////
-
-//misc pieces    
-
-    //Jasmine's Testing
-    // const mapping = () => {
-    //     console.log("inside mapping function")
-    //     console.log("print")
-    //     console.log(props.data["1"])
-    //     console.log(props.data.length)
-    //     console.log(typeof props.data)
-
-    //     const testArray = Object.entries(props.data)
-    //     console.log(testArray)
-    //     console.log(testArray.length)
-
-    //     // return props.data.map((item, index) => {
-    //     //     return(<div>{item.name}</div>)
-    //     // })
-
-    //     // const list = [];
-
-    //     // for(let i=0; i<props.data.length)
-
-    // }
-    // const result = mapping();
-    // return (<div>Hi Ada! {result} </div>);
-
-//DO NOT delete 
-
-// {console.log(props.data)}
-// {/* {Data.map((item, index)=>{
-//     return(
-//         <>
-//         <Wrap onClick={()=> toggle(index)} key={index}>
-//         <h1>{item.question}</h1>
-//         <span> {clicked === index ? <FiMinus/> : <FiPlus/>}</span>
-//         </Wrap>
-//         {clicked === index ? 
-//             <Dropdown>
-//             <p>{item.answer}</p>
-//             </Dropdown>:
-//             null}
-//         </>
-//     )
-// })
-// } */}
-
-// {threePeaks.map((item, index) => {
-//     return(
-//         <>
-//         <Wrap onClick={()=> toggle(index)} key={index}>
-//         <div className="grid-container">
-//             <div className="bigItem">{item.name}</div>
-//             <div className="item">Temp: {item.temp}</div>
-//             <div className="item">Wind: {item.wind_speed}</div>
-//             <div className="item">Precip: {item.chance_precip}</div>
-//                 {/* <h1>{item.name}</h1>
-//                 <p>temp: {item.temp} wind: {item.wind_speed} chance precip: {item.chance_precip}</p> */}
-//         </div>
-//             <span> {clicked === index ? <FiMinus/> : <FiPlus/>}</span>
-//         </Wrap>
-//         {clicked === index ? 
-//             <Dropdown>
-//             <p>{item.rank} {item.indigenous_name} {item.elevation} {item.link} {item.coordinates}</p>
-//             </Dropdown>:
-//             null}
-//         </>
-//     )
-// })
-// }
-
-
-
-
-//
