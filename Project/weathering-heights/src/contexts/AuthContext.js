@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { auth } from '../firebase'
-
+import {db} from '../firebase'
+import { ref, set } from "firebase/database";
 const AuthContext = React.createContext()
 
 // This useAuth hook allows you to use AuthContext created above
@@ -11,13 +12,12 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState()
     const [loading, setLoading] = useState(true)
-    const [fName, setFName] = useState(null)
-    const [lName, setLName] = useState(null)
     
-    const signup = (email, password, fName, lName) => {
-        setFName(fName)
-        setLName(lName)
-        return auth.createUserWithEmailAndPassword(email, password)
+    const signup = (email, password, name) => {
+        return auth.createUserWithEmailAndPassword(email, password).then(function(result) {
+            set(ref(db, 'users/'+ result.user.uid), {email:result.user.email, name:name})
+            return result.user.updateProfile({displayName: name})
+        })
     }
 
     const login = (email, password) => {
@@ -25,17 +25,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     const logout = () => {
-        setFName(null)
-        setLName(null)
         return auth.signOut()
-    }
-    
-    const syncName = (firstName, lastName) => {
-        setFName(firstName)
-        setLName(lastName)
-        console.log('In the sync func in AUTH')
-        console.log(fName, lName)
-        return [fName, lName]
     }
 
     const resetPassword = (email) => {
@@ -50,7 +40,8 @@ export const AuthProvider = ({ children }) => {
         return unsubscribe
     }, [])
 
-    const value = {currentUser, fName, lName, signup, login, logout, resetPassword, syncName }
+    const value = {currentUser, signup, login, logout, resetPassword }
+
 
 
 return (

@@ -13,7 +13,7 @@ import PrivateRoute from './PrivateRoute';
 import ForgotPassword from './ForgotPassword';
 import Homepage from './Homepage';
 import MyProfile from './MyProfile';
-import Thanks from './Thanks'
+// import Thanks from './Thanks'
 
 import UpdateWeatherButton from './UpdateWeatherButton.js';
 
@@ -44,6 +44,7 @@ function App() {
                     rank: data[i].rank,
                     temp: data[i].temp,
                     windSpeed: data[i].wind_speed,
+                    windDir: data[i].wind_direction,
                 });
             };
         };
@@ -62,6 +63,7 @@ function App() {
 
   // Toggles updateWeather state, which then triggers DB pull
   const signalDBPull = () => {
+    console.log("we're in signal dbPull")
     setUpdateWeather(updateWeather + 1);
   }
 
@@ -84,7 +86,7 @@ function App() {
                 </Route>
                 <Route path="/signup" element={<Signup/>} />
                 <Route path="/login" element={<Login/>} />
-                <Route path="/thanks" element={<Thanks/>}/>
+                {/* <Route path="/thanks" element={<Thanks/>}/> */}
                 <Route path="/" element={<Homepage data={peakList}/>} />
                 <Route path="/forgot-password" element={<ForgotPassword/>} />
               </Routes>
