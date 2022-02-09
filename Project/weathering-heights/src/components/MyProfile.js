@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { Alert } from 'react-bootstrap'
 import { useAuth } from '../contexts/AuthContext'
 import { useNavigate } from 'react-router-dom'
-import { ref, get, child, set } from 'firebase/database';
+import { ref, onValue, get, set, update, child } from 'firebase/database';
 import {db} from '../firebase'
 import AddSummit from './AddSummit';
 import MyPeakList from './MyPeakList';
@@ -11,13 +11,15 @@ import '../components/stylesheets/MyProfile.css'
 import '../components/stylesheets/Misc.css'
 
 
-export default function MyProfile({data}) {
+export default function MyProfile({ data }) {
     const [error, setError] = useState("")
     const navigate = useNavigate()
     const { currentUser, logout} = useAuth()
 
     const [addSummitPopup, setAddSummitPopup] = useState(false)
     const [myPeakList, setMyPeakList] = useState([])
+    const [badges, setBadges] = useState();
+
     let peakNames = []
     for (let peak of data) {
         if (peak && peak.indigenous_name) {
@@ -25,7 +27,49 @@ export default function MyProfile({data}) {
         } else if (peak) {
             peakNames.push({value:peak.key, label:peak.name})
         };
-        };
+    };
+
+    useEffect(() => {
+        // Retrieves users list of badge names
+        onValue(ref(db, `users/${currentUser.uid}/badges/`), (snapshot) => {
+            const data = snapshot.val();
+            const badges = Object.keys(data);
+            console.log(badges)
+            
+            setBadges(badges);
+        });
+    }, []);
+
+    const determineRangeComplete = (rangeName) => {
+        // Filter for mandatory peak objects to complete particular range
+        const range = data.filter(peak => peak.range === rangeName);
+        const rangeLen = range.length;
+
+        // Filter for user's list of hiked peak objects in particular range
+        const userRange = myPeakList.filter(peak => peak.range === rangeName);
+        const userRangeLen = userRange.length;
+
+
+        // If badge already won, skip
+        if (badges[0].includes(rangeLen)) {
+            console.log(`badge already won`);
+        }
+        // If last peak in range summitted and badge not previously won, assign a badge
+        else if (rangeLen === userRangeLen) {
+            console.log("YOU'vE HIKED ALL THE PEAKS");
+            // Adds new range badge to user profile
+            // TODO: Change true to ".png"
+            // TODO: How to store "".png"s
+            update(ref(db, `users/${currentUser.uid}/badges/`), {[rangeName]: "true"})
+            return `${rangeName}`
+        } else { // Otherwise we don't give a badge
+            console.log("you haven't quite hiked all the peaks")
+        }
+    }
+
+    useEffect(() => {
+        determineRangeComplete("Wenatchee Mountains")
+    }, [badges]);
 
     useEffect(() => {
         getMyPeakData();
@@ -45,10 +89,10 @@ export default function MyProfile({data}) {
                 // Get selected peaks range data from state to store range info
                 // TODO: Summits with an indenous name currently don't filter correctly
                 const peakProfile = data.filter(peak => peak.name === summit[1]);
-                console.log(peakProfile)
-                console.log(summit[1])
+                const range = peakProfile[0].range;
                 
-                set(ref(db, `users/${currentUser.uid}/summits/${summit[0]}`), {name:summit[1], range:peakProfile[0].range})
+                set(ref(db, `users/${currentUser.uid}/summits/${summit[0]}`), {name:summit[1], range:range})
+                determineRangeComplete(range);
                 getMyPeakData()
             }
         })}
@@ -115,7 +159,7 @@ export default function MyProfile({data}) {
                 <h4>MY PROFILE</h4>
 
                 <div>
-                    <BadgeDisplay data={data} userData={myPeakList}/>
+                    <BadgeDisplay data={data}/>
                 </div>
 
                 <div className=''>

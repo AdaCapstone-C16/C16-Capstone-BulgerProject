@@ -12,30 +12,33 @@ const img_size = {
     borderWidth: 1,
 };
 
-const BadgeDisplay = ({ data , userData }) => {
+const BadgeDisplay = ({ data }) => {
     const { currentUser } = useAuth();
 
-    const determineRangeComplete = (rangeName) => {
-        // Filter for mandatory peak objects to complete particular range
-        const range = data.filter(peak => peak.range === rangeName);
-        const rangeLen = range.length;
-        console.log(rangeLen)
 
-        // Filter for user's list of hiked peak objects in particular range
-        const userRange = userData.filter(peak => peak.range === rangeName);
-        const userRangeLen = userRange.length;
+    
 
-        const peakName = userRange[0].name
+    // const determineRangeComplete = (rangeName) => {
+    //     // Filter for mandatory peak objects to complete particular range
+    //     const range = data.filter(peak => peak.range === rangeName);
+    //     const rangeLen = range.length;
+    //     console.log(rangeLen)
 
-        if (rangeLen === userRangeLen) {
-            console.log("YOU'vE HIKED ALL THE PEAKS");
-            // Adds new range badge to user profile
-            // TODO: Change true to ".png"
-            update(ref(db, `users/${currentUser.uid}/badges/`), {[peakName]: "true"})
-        } else {
-            console.log("you haven't quite hiked all the peaks")
-        }
-    }
+    //     // Filter for user's list of hiked peak objects in particular range
+    //     const userRange = userData.filter(peak => peak.range === rangeName);
+    //     const userRangeLen = userRange.length;
+
+    //     const peakName = userRange[0].name
+
+    //     if (rangeLen === userRangeLen) {
+    //         console.log("YOU'vE HIKED ALL THE PEAKS");
+    //         // Adds new range badge to user profile
+    //         // TODO: Change true to ".png"
+    //         update(ref(db, `users/${currentUser.uid}/badges/`), {[peakName]: "true"})
+    //     } else {
+    //         console.log("you haven't quite hiked all the peaks")
+    //     }
+    // }
     
     
     // When user adds new badge -> check for range completion

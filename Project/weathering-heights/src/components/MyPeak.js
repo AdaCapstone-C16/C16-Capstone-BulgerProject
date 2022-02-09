@@ -119,7 +119,6 @@ const Peak = ({ pKey, id, name, trips, updateList }) => {
             return (<Trip key={index} date={date} desc={desc} deleteTrip={deleteTrip} updateTrip={updateTrip}/>);       
         })
     }
-
     
     return (
             <>
