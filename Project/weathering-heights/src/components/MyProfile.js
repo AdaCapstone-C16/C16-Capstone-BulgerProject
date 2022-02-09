@@ -14,7 +14,7 @@ import '../components/stylesheets/Misc.css'
 export default function MyProfile({ data }) {
     const [error, setError] = useState("")
     const navigate = useNavigate()
-    const { currentUser, logout} = useAuth()
+    const { currentUser, logout } = useAuth()
 
     const [addSummitPopup, setAddSummitPopup] = useState(false)
     const [myPeakList, setMyPeakList] = useState([])
@@ -49,10 +49,12 @@ export default function MyProfile({ data }) {
         const userRange = myPeakList.filter(peak => peak.range === rangeName);
         const userRangeLen = userRange.length;
 
-
+        if (badges === undefined) {
+            return;
+        }
         // If badge already won, skip
-        if (badges[0].includes(rangeLen)) {
-            console.log(`badge already won`);
+        else if (badges[0].includes(rangeLen)) {
+            return;
         }
         // If last peak in range summitted and badge not previously won, assign a badge
         else if (rangeLen === userRangeLen) {
@@ -63,7 +65,7 @@ export default function MyProfile({ data }) {
             update(ref(db, `users/${currentUser.uid}/badges/`), {[rangeName]: "true"})
             return `${rangeName}`
         } else { // Otherwise we don't give a badge
-            console.log("you haven't quite hiked all the peaks")
+            return;
         }
     }
 
@@ -73,7 +75,7 @@ export default function MyProfile({ data }) {
 
     useEffect(() => {
         getMyPeakData();
-        }, []);
+    }, []);
     
     const handleAddSummitPopup= () => {
         setAddSummitPopup(true)
@@ -86,9 +88,17 @@ export default function MyProfile({ data }) {
                 console.log('This summit is already in your summits')
                 setError('This summit already exists in your profile')
             } else {
-                // Get selected peaks range data from state to store range info
-                // TODO: Summits with an indenous name currently don't filter correctly
-                const peakProfile = data.filter(peak => peak.name === summit[1]);
+                // Get selected peaks profile data from state to publish to db
+                let peakName = summit[1];
+
+                // Extracts sortable peak name from peak string
+                if (summit[1].includes('[')) {
+                    const re = /\[(.*?)\]/
+                    peakName = re.exec(summit[1]);
+                    peakName = peakName[1]
+                }
+
+                const peakProfile = data.filter(peak => peak.name === peakName);
                 const range = peakProfile[0].range;
                 
                 set(ref(db, `users/${currentUser.uid}/summits/${summit[0]}`), {name:summit[1], range:range})
@@ -130,7 +140,7 @@ export default function MyProfile({ data }) {
                                 trips:pTrips
                             })
                 });
-                console.log(myPeaksArr)
+                // console.log(myPeaksArr)
             setMyPeakList(myPeaksArr)
         })
         }
