@@ -41,6 +41,7 @@ export default function MyProfile({ data }) {
     }, []);
 
     const determineRangeComplete = (rangeName) => {
+        console.log({rangeName})
         // Filter for mandatory peak objects to complete particular range
         const range = data.filter(peak => peak.range === rangeName);
         const rangeLen = range.length;
@@ -59,10 +60,13 @@ export default function MyProfile({ data }) {
         // If last peak in range summitted and badge not previously won, assign a badge
         else if (rangeLen === userRangeLen) {
             console.log("YOU'vE HIKED ALL THE PEAKS");
+            // Find correct png 
+            const formatRangeName = rangeName.toLowerCase();
+            let badgeFileName = formatRangeName.replaceAll(' ', '_');
+            badgeFileName += '_range.png';
+
             // Adds new range badge to user profile
-            // TODO: Change true to ".png"
-            // TODO: How to store "".png"s
-            update(ref(db, `users/${currentUser.uid}/badges/`), {[rangeName]: "true"})
+            update(ref(db, `users/${currentUser.uid}/badges/`), {[rangeName]: badgeFileName})
             return `${rangeName}`
         } else { // Otherwise we don't give a badge
             return;
