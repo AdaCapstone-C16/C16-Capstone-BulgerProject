@@ -41,7 +41,6 @@ export default function MyProfile({ data }) {
     }, []);
 
     const determineRangeComplete = (rangeName) => {
-        console.log({rangeName})
         // Filter for mandatory peak objects to complete particular range
         const range = data.filter(peak => peak.range === rangeName);
         const rangeLen = range.length;
@@ -58,8 +57,7 @@ export default function MyProfile({ data }) {
             return;
         }
         // If last peak in range summitted and badge not previously won, assign a badge
-        else if (rangeLen === userRangeLen) {
-            console.log("YOU'vE HIKED ALL THE PEAKS");
+        else if (rangeLen === (userRangeLen + 1)) {
             // Find correct png 
             const formatRangeName = rangeName.toLowerCase();
             let badgeFileName = formatRangeName.replaceAll(' ', '_');
@@ -72,10 +70,6 @@ export default function MyProfile({ data }) {
             return;
         }
     }
-
-    useEffect(() => {
-        determineRangeComplete("Wenatchee Mountains")
-    }, [badges]);
 
     useEffect(() => {
         getMyPeakData();
@@ -113,8 +107,8 @@ export default function MyProfile({ data }) {
         
     const handleExitError = () => {
         setError('')
-
     }
+
     const getMyPeakData = () => {
         let myPeaksArr = []
         const dbRef = ref(db);
@@ -147,7 +141,7 @@ export default function MyProfile({ data }) {
                 // console.log(myPeaksArr)
             setMyPeakList(myPeaksArr)
         })
-        }
+    }
 
     // If the logout button is clicked, it will navigate user to the homepage
     async function handleLogout() {
@@ -158,12 +152,11 @@ export default function MyProfile({ data }) {
         } catch {
             setError('Failed to log out')
         }
-        }
+    }
     
     const handleHomepage =() => {
         navigate("/")
-        }
-
+    }
 
     return (
         <main id='main'>
