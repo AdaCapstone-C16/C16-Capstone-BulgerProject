@@ -3,7 +3,7 @@ import { Alert } from 'react-bootstrap'
 import { useAuth } from '../contexts/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import { ref, get, child, set } from 'firebase/database';
-import {db} from '../firebase'
+import { db } from '../firebase'
 import AddSummit from './AddSummit';
 import MyPeakList from './MyPeakList';
 import '../components/stylesheets/MyProfile.css'
@@ -24,7 +24,7 @@ export default function MyProfile({data}) {
         } else if (peak) {
             peakNames.push({value:peak.key, label:peak.name})
         };
-        };
+    };
 
     useEffect(() => {
         getMyPeakData();
@@ -104,7 +104,7 @@ export default function MyProfile({data}) {
                 <h4>{currentUser.displayName}: CLIMBER PROFILE</h4>
                 <div className=''>
                     <section>
-                    <button onClick={handleHomepage}>HOMEPAGE</button>
+                        <button onClick={handleHomepage}>HOMEPAGE</button>
                         <button onClick={handleLogout}>LOGOUT</button>
                         <button onClick={handleAddSummitPopup}>ADD A SUMMIT</button>
                         <AddSummit trigger={addSummitPopup} setTrigger={setAddSummitPopup} data={peakNames} handleAddSummit={handleAddSummit}></AddSummit>

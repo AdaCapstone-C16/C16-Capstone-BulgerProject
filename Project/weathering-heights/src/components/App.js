@@ -7,6 +7,7 @@ import { Container } from 'react-bootstrap';
 import { AuthProvider } from '../contexts/AuthContext';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { getBulgerListCoords } from '../api/BulgerAPI';
+import Navigation from './Navigation';
 import Login from './Login';
 import Signup from './Signup';
 import PrivateRoute from './PrivateRoute';
@@ -31,7 +32,7 @@ function App() {
     .then((snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.val();
-        console.log(data)
+        // console.log(data)
         for (let i = 0; i < data.length; i++) {
             if (data[i]) { 
                 bulgerListArr.push({
@@ -77,6 +78,8 @@ function App() {
 
   return (
       <main>
+        
+
         <UpdateWeatherButton 
           peakList={peakList}  
           coordinates={coordinates}
@@ -84,6 +87,7 @@ function App() {
 
         <div>
           <Router>
+            <Navigation />
             <AuthProvider>
               <Routes>
                 <Route element={<PrivateRoute/>}>
