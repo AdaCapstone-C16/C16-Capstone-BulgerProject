@@ -41,14 +41,11 @@ const UpdateWeatherButton = ({ coordinates, peakList, signalDBPull }) => {
         if (day.length < 2) 
             day = '0' + day;
 
-        // console.log([year, month, day].join('-'));
         return [year, month, day].join('-');
     }
 
     // Tracks inital render to prevent API calls
-    const onFirstRender = useRef(true); 
-    // State to activate API calls when user requests
-    const [runUpdateWeather, setRunUpdateWeather] = useState(0);
+    const onFirstRender = useRef(true);
 
     // Pulls new data from weather API, posts to DB
     const updateWeather = () => {
@@ -81,10 +78,10 @@ const UpdateWeatherButton = ({ coordinates, peakList, signalDBPull }) => {
                         const now = res.data.forecast.forecastday[0].hour[12];
                         // Updates temperature data in DB
                         update(ref(db, 'peaks/' + key), {
-                        temp: now.temp_f,
-                        chance_precip: now.chance_of_rain,
-                        wind_speed: now.wind_mph,
-                        wind_direction: `${now.wind_dir}`,
+                            temp: now.temp_f,
+                            chance_precip: now.chance_of_rain,
+                            wind_speed: now.wind_mph,
+                            wind_direction: `${now.wind_dir}`,
                         });
                     })
                     .catch((err) => {
@@ -96,15 +93,10 @@ const UpdateWeatherButton = ({ coordinates, peakList, signalDBPull }) => {
             }
         }
     }
-
-    // GET & Update OpenWeatherMap weather data for each peak
-    useEffect(() => {
-        updateWeather();
-    }, [runUpdateWeather]);
     
     return (
         <>
-            <button onClick={() => setRunUpdateWeather(runUpdateWeather + 1)}>Refresh Weather</button>
+            <button onClick={() => updateWeather()}>Refresh Weather</button>
         </>
     )
 };
