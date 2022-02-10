@@ -1,7 +1,7 @@
 //from main
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { ref, onValue } from "firebase/database";
+import { ref, onValue, get, child } from "firebase/database";
 import { db } from './../firebase.js';
 import { Container } from 'react-bootstrap';
 import { AuthProvider } from '../contexts/AuthContext';
@@ -27,9 +27,11 @@ function App() {
   useEffect(() => {
     const bulgerListArr = [];
 
-    const peaks = ref(db, 'peaks/');
-    onValue(peaks, (snapshot) => {
+    get(child(ref(db), 'peaks/'))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
         const data = snapshot.val();
+        console.log(data)
         for (let i = 0; i < data.length; i++) {
             if (data[i]) { 
                 bulgerListArr.push({
@@ -48,10 +50,16 @@ function App() {
                 });
             };
         };
+        // Sets state for App
         setPeakList(bulgerListArr);
-    }, {onlyOnce: true});
+      } else {
+        console.log("No data available");
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
   }, [updateWeather]);
-
 
   // Extracts peak coordinates to state once peakList state has set
   useEffect(() => {
@@ -68,9 +76,6 @@ function App() {
   }
 
   return (
-      // <Container className="d-flex align-items-center" style={{ minHeight: "100vh" }}>
-      // <Container>
-
       <main>
         <UpdateWeatherButton 
           peakList={peakList}  
@@ -94,8 +99,6 @@ function App() {
           </Router>
         </div>
       </main>
-      // </Container>
-    
   )
 }
 

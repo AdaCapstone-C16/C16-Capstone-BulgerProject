@@ -76,7 +76,7 @@ const UpdateWeatherButton = ({ coordinates, peakList, signalDBPull }) => {
 
                     // Forecast Weather API calls
                     axios
-                    .get(`${baseURL}&q=${lat},${lon}dt=${date}&aqi=no`)
+                    .get(`${baseURL}&q=${lat},${lon}&dt=${date}&aqi=no`)
                     .then((res) => {
                         const now = res.data.forecast.forecastday[0].hour[12];
                         // Updates temperature data in DB
