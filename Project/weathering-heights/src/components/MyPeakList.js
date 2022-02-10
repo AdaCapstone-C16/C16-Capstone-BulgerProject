@@ -34,8 +34,8 @@ const MyPeakList = ({ peaks, updateList }) => {
 
     const getPeakListJSX = (peaks) => {
         return peaks.map((peak)=>{
-            console.log('here is the peak info being passed to MyPeak')
-            console.log(peak.key, peak.id, peak.name, peak.trips)
+            // console.log('here is the peak info being passed to MyPeak')
+            // console.log(peak.key, peak.id, peak.name, peak.trips)
             return (<MyPeak key={peak.key} pKey={peak.key} id={peak.id} name={peak.name} trips={peak.trips} updateList={updateList}/>
             )
         })

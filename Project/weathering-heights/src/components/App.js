@@ -44,6 +44,7 @@ function App() {
                     rank: data[i].rank,
                     temp: data[i].temp,
                     windSpeed: data[i].wind_speed,
+                    windDir: data[i].wind_direction,
                 });
             };
         };
@@ -62,6 +63,7 @@ function App() {
 
   // Toggles updateWeather state, which then triggers DB pull
   const signalDBPull = () => {
+    console.log("we're in signal dbPull")
     setUpdateWeather(updateWeather + 1);
   }
 
