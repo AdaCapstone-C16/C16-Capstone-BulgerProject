@@ -29,6 +29,3 @@ const Navigation = () => {
 };
 
 export default Navigation;
-
-// {!currentUser && <Nav.Link href="#features">Login</Nav.Link>}
-// {currentUser && <Nav.Link href="#features">Logout</Nav.Link>}
