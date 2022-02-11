@@ -72,14 +72,12 @@ function App() {
 
   // Toggles updateWeather state, which then triggers DB pull
   const signalDBPull = () => {
-    console.log("we're in signal dbPull")
     setUpdateWeather(updateWeather + 1);
   }
 
   return (
       <main>
         
-
         <UpdateWeatherButton 
           peakList={peakList}  
           coordinates={coordinates}
@@ -87,8 +85,9 @@ function App() {
 
         <div>
           <Router>
-            <Navigation />
+            
             <AuthProvider>
+              <Navigation />
               <Routes>
                 <Route element={<PrivateRoute/>}>
                   <Route exact path="/my-profile" element={<MyProfile data={peakList}/>} />

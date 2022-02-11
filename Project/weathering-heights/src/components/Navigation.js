@@ -4,8 +4,7 @@ import { useAuth } from "../contexts/AuthContext";
 
 const Navigation = () => {
     // TODO: NOT WORKING
-    // const { currentUser } = useAuth()
-    // console.log(currentUser)
+    const { currentUser } = useAuth()
 
     return (
         <Navbar bg="light" variant="light">
@@ -18,7 +17,10 @@ const Navigation = () => {
                   <Nav.Link as={Link} to="/my-profile" >Profile</Nav.Link>
                 </NavItem>
                 <NavItem eventkey={3} href="/login">
-                  <Nav.Link as={Link} to="/login" >Login</Nav.Link>
+                  {!currentUser && <Nav.Link as={Link} to="/login">Login</Nav.Link>}
+                </NavItem>
+                <NavItem eventkey={4} href="/logout">
+                  {currentUser && <Nav.Link as={Link} to="/login">Logout</Nav.Link>}
                 </NavItem>
 
             </Nav>
