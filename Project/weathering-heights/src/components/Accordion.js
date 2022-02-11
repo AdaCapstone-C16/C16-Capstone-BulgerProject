@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import { IconContext } from 'react-icons';
 import { FiPlus, FiMinus } from 'react-icons/fi';
 import CalendarForm from './CalendarForm';
+import './Accordion.css';
 // import peaksContext from '../contexts/peaksContext';
 
 //-----------------------------------------------{styled componenets css}------------------------------------------------------//
@@ -17,28 +18,32 @@ const AccordionSection = styled.div`
     align-items: center;
     justify-content: center;
     position: relative;
-    height: 10vh;
     background: #fff;
+    margin-top: 2%;
 `;
 const Container = styled.div`
+    background: #fff;
     position: absolute;
+    align-self: center;
     top: 30%;
     border-radius: 25px;
     box-shadow: 2px 10px 35px 1px rgba(153, 153, 153, 0.3);
+    background-color: #DEDFEC;
 
-    form{
-        margin-left: 90%;
+    .sort-form{
         border-radius: 5px;
         margin-top: 1%;
         margin-bottom: 1%;
+        float: right;
     }
 `;
 
 const Wrap = styled.div`
-    background: #272727;
+    background: #504C54;
     color: #fff;
     display: flex;
     justify-content: space-between;
+    align-self: center;
     align-items: center;
     width: 100%
     text-align: center;
@@ -46,6 +51,7 @@ const Wrap = styled.div`
     border-radius: 25px;
     margin-left: 30px;
     margin-right: 30px;
+    
 
     h1{
         padding: 2rem;
@@ -71,24 +77,27 @@ const Wrap = styled.div`
         background: #272727;
         padding: 10px;
         border-radius: 25px;
+        background-color: #504C54;
     }
     
     .grid-container > div {
         text-align: center;
         padding: 20px;
-        border-radius: 25px;
+        border-radius: 25px;        
     }
 `;
 
 const Dropdown = styled.div`
-    background: #1c1c1c
-    color: #00ffb9
-    width: 100%;
+    background: #504C54;
+    color: white;
     display: flex;
     flex-direction: column;
+    align-self: center;
     align-items: left;
-    border-bottom: 1px solid #00ffb9;
-    border-top: 1px solid #00ffb9;
+    border-bottom: 5px solid #CCA19A;
+    border-top: 5px solid #CCA19A;
+    border-left: 5px solid #CCA19A;
+    border-right: 5px solid #CCA19A;
     border-radius: 25px;
     margin-left: 30px;
     margin-right: 30px;
@@ -98,6 +107,24 @@ const Dropdown = styled.div`
         text-indent: 35px;
     }
 `;
+
+// const Dropdown = styled.div`
+// background: #DEDFEC;
+// color: #000000;
+//     display: flex;
+//     flex-direction: column;
+//     align-items: left;
+//     border-bottom: 1px solid #000000;
+//     border-top: 1px solid #000000;
+//     border-radius: 25px;
+//     margin-left: 30px;
+//     margin-right: 30px;
+    
+//     p{
+//         font-size: 1rem;
+//     }
+// `;
+
 
 //-----------------------------------------------{Accordion Function}------------------------------------------------------//
 
@@ -114,6 +141,7 @@ const Accordion = (props) => {
     //lift this state
     const [clicked, setClicked] = useState(false);
     const [selectedPeak, setSelectedPeak] = useState(null);
+    const [selectedPeakWeather, setSelectedPeakWeather] = useState(null);
     const [sortby, setSortby] = useState('default');
     // console.log("Inside accordion")
     // console.log(props);
@@ -127,6 +155,7 @@ const Accordion = (props) => {
         setClicked(index)
         const myList = getSortedList(sortby);
         setSelectedPeak(myList[index].name)
+        setSelectedPeakWeather([myList[index].temp, myList[index].windSpeed, myList[index].windDir, myList[index].chance_precip])
     }
 
 
@@ -134,7 +163,7 @@ const Accordion = (props) => {
     //this is the selection dropdown menu
     let option = null;
     const selection = (
-    <form>
+    <form className='sort-form'>
         <label for="weather">Sort by:</label>
         <select name="weather-parameter" id="weather-parameter" onChange={(e)=>{
             option = e.target.value;
@@ -142,22 +171,34 @@ const Accordion = (props) => {
 
         }}>
             <option value="default">Default</option>
-            <option value="temp">Temperature</option>
-            <option value="wind">Wind Speed</option>
-            <option value="precip">Precipitation</option>
+            <option value="temp asc">Temperature - asc</option>
+            <option value="temp desc">Temperature - desc</option>
+            <option value="wind asc">Wind Speed - asc</option>
+            <option value="wind desc">Wind Speed - desc</option>
+            <option value="precip asc">Precipitation - asc</option>
+            <option value="precip desc">Precipitation - desc</option>
         </select>
         {/* <input type="submit" value="Summit! 🏔️"/> */}
     </form>
     );
     
-    function compareTemp( a, b ) {
+    function compareTempASC( a, b ) {
         return (a.temp - b.temp);
     }
-    function compareWind( a, b ) {
+    function compareTempDESC( a, b ) {
+        return (b.temp - a.temp);
+    }
+    function compareWindASC( a, b ) {
         return (a.windSpeed - b.windSpeed);
     }
-    function comparePrecip( a, b ) {
+    function compareWindDESC( a, b ) {
+        return (b.windSpeed - a.windSpeed);
+    }
+    function comparePrecipASC( a, b ) {
         return (a.chance_precip - b.chance_precip);
+    }
+    function comparePrecipDESC( a, b ) {
+        return (b.chance_precip - a.chance_precip);
     }
         
         //objs.sort( compare );
@@ -173,14 +214,23 @@ const Accordion = (props) => {
 
         const peaksSorted = [...bulgerList];
         //const peaksSorted = [...threePeaks];
-        if(category === 'temp'){
-            peaksSorted.sort( compareTemp );
+        if(category === 'temp asc'){
+            peaksSorted.sort( compareTempASC );
         }
-        if(category === 'wind'){
-            peaksSorted.sort( compareWind );
+        else if(category === 'temp desc'){
+            peaksSorted.sort( compareTempDESC );
         }
-        if(category === 'precip'){
-            peaksSorted.sort( comparePrecip );
+        else if(category === 'wind asc'){
+            peaksSorted.sort( compareWindASC );
+        }
+        else if(category === 'wind desc'){
+            peaksSorted.sort( compareWindDESC );
+        }
+        else if(category === 'precip asc'){
+            peaksSorted.sort( comparePrecipASC );
+        }
+        else if(category === 'precip desc'){
+            peaksSorted.sort( comparePrecipDESC );
         }
         return peaksSorted;
 
@@ -191,12 +241,18 @@ const Accordion = (props) => {
     //-----------------------------------------------{JSX}------------------------------------------------------//
 
     return (
-    <IconContext.Provider value={{color : '#00FFB9', size : '25px'}}>
-        <CalendarForm mountain={selectedPeak}></CalendarForm>
+    <div>
+    <CalendarForm className='cal-form' mountain={selectedPeak} weather={selectedPeakWeather}></CalendarForm>
+    <IconContext.Provider value={{color : '#CCA19A', size : '25px'}}>
         <AccordionSection>
             <Container>
-            {selection}
+            <div className='option-bar'>
+                <button className='refresh'>Refresh Weather</button>
+                {selection}
+            </div>
             {console.log(sortby)}
+            <div className='accordion-card'>
+            <div className='accordion-title'>100 Peaks of Washington</div>
             {getSortedList(sortby).map((item, index) => { 
                 return(
                     <>
@@ -204,8 +260,8 @@ const Accordion = (props) => {
                     <div className="grid-container">
                         <div className="bigItem">{item.name}</div>
                         <div className="item">Temp: {item.temp} °F</div>
-                        <div className="item">Wind: {item.windSpeed}</div>
-                        <div className="item">Precip: {item.chance_precip}</div>
+                        <div className="item">Wind: {item.windSpeed} {item.windDir}</div>
+                        <div className="item">Precip: {item.chance_precip}%</div>
                     </div>
                         <span> {clicked === index ? <FiMinus/> : <FiPlus/>}</span>
                     </Wrap>
@@ -222,9 +278,11 @@ const Accordion = (props) => {
                 )
             })
             }
+            </div>
             </Container>
         </AccordionSection>
     </IconContext.Provider>
+    </div>
     );
 
 };

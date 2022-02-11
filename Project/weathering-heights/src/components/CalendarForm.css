@@ -1,0 +1,23 @@
+.google-form{
+    position: center;
+    display: grid;
+    padding: 1em;
+    background: #f9f9f9;
+    border: 1px solid #c1c1c1;
+    padding: 1em;
+    border-radius: 10px;
+    grid-template-columns: max-content 1fr;
+    grid-column-gap: 1em;
+    background-color: #DEDFEC;
+    margin-right: 11%;
+    margin-left: 11%;
+    margin-top: 5%;
+    text-align: right;
+}
+.google-form-title{
+    font-weight: bolder;
+    text-align: center;
+}
+.google-form-button{
+    float: right;
+}

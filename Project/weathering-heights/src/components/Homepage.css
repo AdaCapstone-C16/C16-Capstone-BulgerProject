@@ -1,0 +1,9 @@
+body{
+    background-image: url(./stylesheets/test.jpg);
+}
+
+.homepage-title{
+    font-size: xx-large;
+    text-align: center;
+    color:honeydew;
+}

@@ -3,6 +3,8 @@ import React from 'react';
 import { useRef } from 'react';
 import GOOGLE_API_KEY from './google_api_key.js';
 import GOOGLE_ClIENT_ID from './client_id.js'; 
+import './CalendarForm.css';
+import { FiAlignRight } from 'react-icons/fi';
 // require('dotenv').config();
 
     function CalendarForm(props) {
@@ -35,6 +37,9 @@ import GOOGLE_ClIENT_ID from './client_id.js';
     let enteredEndTime;
     let enteredAttendee;
     let enteredPeak;
+    let enteredTemp;
+    let enteredWind;
+    let enteredPrecip;
 
 
 
@@ -49,6 +54,9 @@ import GOOGLE_ClIENT_ID from './client_id.js';
         enteredAttendee = attendeeInputRef.current.value;
         // enteredPeak = peakInputRef.current.value;
         enteredPeak = props.mountain;
+        enteredTemp = props.weather[0] + "°F";
+        enteredWind = props.weather[1] + " " + props.weather[2];
+        enteredPrecip = props.weather[3] + "%";
     }
 
   //does sign-in, and post request 
@@ -78,7 +86,8 @@ import GOOGLE_ClIENT_ID from './client_id.js';
         var event = {
             'summary': enteredName,
             'location': enteredPeak,
-            'description': enteredDesc,
+            // 'description': enteredDesc + "Weather Info:" + enteredTemp
+            'description': enteredDesc + "Weather Info: Temperature: " + enteredTemp + " Wind Speed " + enteredWind + " Chance of Precipitation " + enteredPrecip,
             'start': {
             'dateTime': new Date (enteredDate + " " + enteredStartTime),
             'timeZone': 'America/Los_Angeles'
@@ -136,25 +145,25 @@ import GOOGLE_ClIENT_ID from './client_id.js';
     }
 
     return (
-    <div>
-        <p>Click to add event to Google Calendar</p>
-        <form onSubmit={submitHandler}>
-        <label htmlFor='peak'>Peak</label>
-        {/* <input type='text' id='peak' required ref={peakInputRef} /> */}
-        <input type='text' id='peak' value={props.mountain} />
-        <label htmlFor='name'>Name of Event</label>
-        <input type='name' id='name' required ref={nameInputRef} />
-        <label htmlFor='desc'>Description</label>
-        <input type='text' id='desc' required ref={descInputRef} />
-        <label htmlFor='date'>Date of Event</label>
-        <input type='date' id='date' required ref={dateInputRef} />
-        <label htmlFor='start-time'>Start Time</label>
-        <input type='time' id='start-time' required ref={startTimeInputRef} />
-        <label htmlFor='end-time'>End Time</label>
-        <input type='time' id='end-time' required ref={endTimeInputRef} />
-        <label htmlFor='attendees'>Friend's Email</label>
-        <input type='attendees' id='attendees' required ref={attendeeInputRef} />  
-        <button style={{width: 100, height: 50}} onClick={handleClick}>Add Event</button>
+    <div className='google-form-container'>
+        <form className='google-form'onSubmit={submitHandler}>
+        <div></div>
+        <span className='google-form-title'>Add Event to Google Calendar!</span>
+        <label className='google-form-peak' htmlFor='peak'>Peak:</label>
+        <input className='google-form-peak' type='text' id='peak' value={props.mountain} />
+        <label className='google-form-name' htmlFor='name'>Name of Event:</label>
+        <input className='google-form-name' type='name' id='name' required ref={nameInputRef} />
+        <label className='google-form-desc' htmlFor='desc'>Description:</label>
+        <input className='google-form-desc' type='text' id='desc' required ref={descInputRef} />
+        <label className='google-form-date' htmlFor='date'>Date of Event:</label>
+        <input className='google-form-date' type='date' id='date' required ref={dateInputRef} />
+        <label className='google-form-start' htmlFor='start-time'>Start Time:</label>
+        <input className='google-form-start' type='time' id='start-time' required ref={startTimeInputRef} />
+        <label className='google-form-end' htmlFor='end-time'>End Time:</label>
+        <input className='google-form-end' type='time' id='end-time' required ref={endTimeInputRef} />
+        <label className='google-form-attendee' htmlFor='attendees'>Attendee:</label>
+        <input className='google-form-attendee' type='attendees' id='attendees' required ref={attendeeInputRef} />  
+        <button className='google-form-button' onClick={handleClick}>Add Event</button>
         </form>
     </div>
     );
