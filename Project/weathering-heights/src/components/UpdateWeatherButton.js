@@ -44,53 +44,45 @@ const UpdateWeatherButton = ({ coordinates, peakList, signalDBPull }) => {
         return [year, month, day].join('-');
     }
 
-    // Tracks inital render to prevent API calls
-    const onFirstRender = useRef(true);
-
     // Pulls new data from weather API, posts to DB
     const updateWeather = () => {
-        // Prevents weather API calls on initial render
-        if (onFirstRender.current) {
-            onFirstRender.current = false;
-            return;
-        } else {
-            const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
-            const baseURL = `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}`
+        console.log("inside updateWEather")
+        const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
+        const baseURL = `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}`
+
+        if (coordinates !== []) {
+            // Make API call for each set of peak coordinates
+            for (let i = 0; i < Object.keys(coordinates).length; i++) {
+                // Lat, Lon truncated to four decimals
+                let lat = parseFloat(coordinates[i].lat)
+                lat = lat.toFixed(4);
+                let lon = parseFloat(coordinates[i].lon)
+                lon = lon.toFixed(4);
     
-            if (coordinates !== []) {
-                // Make API call for each set of peak coordinates
-                for (let i = 0; i < Object.keys(coordinates).length; i++) {
-                    // Lat, Lon truncated to four decimals
-                    let lat = parseFloat(coordinates[i].lat)
-                    lat = lat.toFixed(4);
-                    let lon = parseFloat(coordinates[i].lon)
-                    lon = lon.toFixed(4);
-        
-                    let key = peakList[i].key;
+                let key = peakList[i].key;
 
-                    // Date of forecast Saturday 
-                    const date = formatDate(getNextSaturday());
+                // Date of forecast Saturday 
+                const date = formatDate(getNextSaturday());
 
-                    // Forecast Weather API calls
-                    axios
-                    .get(`${baseURL}&q=${lat},${lon}&dt=${date}&aqi=no`)
-                    .then((res) => {
-                        const now = res.data.forecast.forecastday[0].hour[12];
-                        // Updates temperature data in DB
-                        update(ref(db, 'peaks/' + key), {
-                            temp: now.temp_f,
-                            chance_precip: now.chance_of_rain,
-                            wind_speed: now.wind_mph,
-                            wind_direction: `${now.wind_dir}`,
-                        });
-                    })
-                    .catch((err) => {
-                        console.log(err.data);
+                // Forecast Weather API calls
+                axios
+                .get(`${baseURL}&q=${lat},${lon}&dt=${date}&aqi=no`)
+                .then((res) => {
+                    const now = res.data.forecast.forecastday[0].hour[12];
+                    // Updates temperature data in DB
+                    update(ref(db, 'peaks/' + key), {
+                        temp: now.temp_f,
+                        chance_precip: now.chance_of_rain,
+                        wind_speed: now.wind_mph,
+                        wind_direction: `${now.wind_dir}`,
                     });
-                }
-                // Initiate new pull from DB to update state 
-                signalDBPull();
+                })
+                .catch((err) => {
+                    console.log(err.data);
+                });
             }
+            // Initiate new pull from DB to update state 
+            signalDBPull();
         }
     }
     

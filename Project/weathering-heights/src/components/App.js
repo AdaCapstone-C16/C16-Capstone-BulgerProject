@@ -32,7 +32,7 @@ function App() {
     .then((snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.val();
-        // console.log(data)
+        console.log(data)
         for (let i = 0; i < data.length; i++) {
             if (data[i]) { 
                 bulgerListArr.push({
