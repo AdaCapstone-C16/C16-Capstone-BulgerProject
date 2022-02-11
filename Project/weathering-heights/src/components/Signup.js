@@ -2,6 +2,7 @@ import React, {useRef, useState} from 'react';
 import { Form, Button, Card, Alert } from 'react-bootstrap'
 import { useAuth } from '../contexts/AuthContext'
 import {Link, useNavigate} from 'react-router-dom'
+import '../components/stylesheets/Popup.css';
 
 export default function Signup() {
     const emailRef = useRef();
@@ -38,38 +39,40 @@ export default function Signup() {
 
     return (
     <section>
-        <Card>
+        <Card id="signup-card">
             <Card.Body>
-                <h2 className='text-center mb-4'> Sign Up</h2>
+                <h2 className='popup-header text-center mb-4'> Sign Up</h2>
                 {error && <Alert variant="danger">{error}</Alert>}
                 <Form onSubmit={handleSubmit}>
                     <Form.Group id='fname'>
-                        <Form.Label>First Name</Form.Label>
-                        <Form.Control type="text" ref={fNameRef} required></Form.Control>
+                        <Form.Label className="popup-label">First Name</Form.Label>
+                        <Form.Control className="form-field" type="text" ref={fNameRef} required></Form.Control>
                     </Form.Group>
                     <Form.Group id='lname'>
-                        <Form.Label>Last Name</Form.Label>
-                        <Form.Control type="text" ref={lNameRef} required></Form.Control>
+                        <Form.Label className="popup-label">Last Name</Form.Label>
+                        <Form.Control className="form-field" type="text" ref={lNameRef} required></Form.Control>
                     </Form.Group>
                     <Form.Group id='email'>
-                        <Form.Label>Email</Form.Label>
-                        <Form.Control type="email" ref={emailRef} required></Form.Control>
+                        <Form.Label className="popup-label">Email</Form.Label>
+                        <Form.Control className="form-field" type="email" ref={emailRef} required></Form.Control>
                     </Form.Group>
                     <Form.Group id='password'>
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" ref={passwordRef} required></Form.Control>
+                        <Form.Label className="popup-label">Password</Form.Label>
+                        <Form.Control className="form-field" type="password" ref={passwordRef} required></Form.Control>
                     </Form.Group>
                     <Form.Group id='password-confirm'>
-                        <Form.Label>Password Confirmation</Form.Label>
-                        <Form.Control type="password" ref={passwordConfirmRef} required></Form.Control>
+                        <Form.Label className="popup-label">Password Confirmation</Form.Label>
+                        <Form.Control className="form-field" type="password" ref={passwordConfirmRef} required></Form.Control>
                     </Form.Group>
-                    <Button disabled={loading} className="w-100 text-center mt-2" type="submit">Sign Up</Button>
+                    <Button disabled={loading} id="signup-button" className="w-100 text-center mt-2" type="submit">Sign Up</Button>
                 </Form>
+
+                <div className="popup-link popup-label w-100 text-center mt-2">
+                    Already have an account? <Link className="popup-link" to='/login'>Login</Link>
+                </div>
             </Card.Body>
         </Card>
-        <div className="w-100 text-center mt-2">
-            Already have an account? <Link to='/login'>Login</Link>
-        </div>
+        
     </section>
     
     )

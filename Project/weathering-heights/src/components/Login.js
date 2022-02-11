@@ -2,7 +2,7 @@ import React, {useRef, useState} from 'react';
 import { Form, Button, Card, Alert } from 'react-bootstrap'
 import { useAuth } from '../contexts/AuthContext'
 import { Link, useNavigate } from 'react-router-dom'
-import '../components/stylesheets/Login.css';
+import '../components/stylesheets/Popup.css';
 
 export default function Login() {
     const emailRef = useRef();
@@ -31,34 +31,36 @@ return (
     <section>
         <Card id="login-card">
             <Card.Body>
-                <h2 className='login text-center mb-4'> Login</h2>
+                <h2 className='popup-header text-center mb-4'> Login</h2>
                 {error && <Alert variant="danger">{error}</Alert>}
                 <Form onSubmit={handleSubmit}>
                     <Form.Group id='email'>
-                        <Form.Label className="login login-label">Email</Form.Label>
+                        <Form.Label className="popup-label">Email</Form.Label>
                         <Form.Control className="form-field" type="email" ref={emailRef} required></Form.Control>
                     </Form.Group>
                     <Form.Group id='password'>
-                        <Form.Label className="login login-label">Password</Form.Label>
+                        <Form.Label className="popup-label">Password</Form.Label>
                         <Form.Control className="form-field" type="password" ref={passwordRef} required></Form.Control>
                     </Form.Group>
                     
                     <Button 
                         disabled={loading} 
                         id="login-button"
-                        className="login login-label w-100 text-center mt-2"
+                        className="login popup-label w-100 text-center mt-2"
                         type="submit">Login
                     </Button>
 
                 </Form>
+                
                 <div className="w-100 text-center mt-3">
-                <Link className="login login-label" to='/forgot-password'>Forgot Password?</Link>
+                <Link className="popup-link" to='/forgot-password'>Forgot Password?</Link>
+                </div>
+                <div className="popup-link popup-label w-100 text-center mt-2">
+                    Need an account? <Link className="popup-link" to='/signup'>Signup</Link>
                 </div>
             </Card.Body>
         </Card>
-        <div className="w-100 text-center mt-2">
-            Need an account? <Link to='/signup'>Signup</Link>
-        </div>
+        
     </section>
     
     )
