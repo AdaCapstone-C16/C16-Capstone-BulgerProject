@@ -12,9 +12,7 @@ import '../components/stylesheets/Misc.css'
 
 export default function MyProfile({data}) {
     const [error, setError] = useState("")
-    const navigate = useNavigate()
-    const { currentUser, logout} = useAuth()
-    let [counter, setCounter] = useState()
+    const { currentUser } = useAuth()
     const [addSummitPopup, setAddSummitPopup] = useState(false)
     const [myPeakList, setMyPeakList] = useState([])
     let peakNames = []
@@ -27,7 +25,6 @@ export default function MyProfile({data}) {
         };
 
     useEffect(() => {
-        console.log('In useEffec')
         getMyPeakData();
         }, []);
     
@@ -83,43 +80,44 @@ export default function MyProfile({data}) {
     }
 
     // If the logout button is clicked, it will navigate user to the homepage
-    async function handleLogout() {
-        setError('')
-        try {
-            await logout()
-            navigate("/")
-        } catch {
-            setError('Failed to log out')
-        }
-        }
+    // async function handleLogout() {
+    //     setError('')
+    //     try {
+    //         await logout()
+    //         navigate("/")
+    //     } catch {
+    //         setError('Failed to log out')
+    //     }
+    //     }
     
-    const handleHomepage =() => {
-        navigate("/")
-        }
+    // const handleHomepage =() => {
+    //     navigate("/")
+    //     }
 
-    const handleMap = () => {
-        navigate("/map")
-    }
     return (
         <main id='main'>
             <section id='container-right'>
-                <p id='title'>WEATHERING HEIGHTS</p>
-                <h4>{currentUser.displayName}: CLIMBER PROFILE</h4>
-                <div className=''>
-                    <section>
-                    <button onClick={handleMap}>MAP</button>
-                    <button onClick={handleHomepage}>HOMEPAGE</button>
-                    <button onClick={handleLogout}>LOGOUT</button>
-                    <button onClick={handleAddSummitPopup}>ADD A SUMMIT</button>
-                    <AddSummit trigger={addSummitPopup} setTrigger={setAddSummitPopup} data={peakNames} handleAddSummit={handleAddSummit}></AddSummit>
-                    </section>
-                    
-                </div>
+                    {/* <p id='title'>WEATHERING HEIGHTS</p> */}
+                    {/* <div className=''> */}
+                        {/* <section> */}
+                        {/* <button onClick={handleMap}>MAP</button>
+                        <button onClick={handleHomepage}>HOMEPAGE</button>
+                        <button onClick={handleLogout}>LOGOUT</button> */}
+                        {/* </section> */}
+                        
+                    {/* </div> */}
             </section>
             <section id='container-left'>
-                {error && <Alert variant="danger">{error}<button onClick={handleExitError}>OK</button></Alert>}
                 <section>
-                    <MyPeakList peaks={myPeakList} updateList={getMyPeakData}></MyPeakList>
+                    <div className='my-summit-title-container'> 
+                        <h4 className='my-summit-title'>MY SUMMITS:</h4>
+                        <button onClick={handleAddSummitPopup} className='button'>ADD SUMMIT  +</button>
+                        <AddSummit trigger={addSummitPopup} setTrigger={setAddSummitPopup} data={peakNames} handleAddSummit={handleAddSummit}></AddSummit>
+                    </div>
+                    <div>
+                        {error && <Alert variant="danger">{error}<button onClick={handleExitError}>OK</button></Alert>}
+                        <MyPeakList peaks={myPeakList} updateList={getMyPeakData}></MyPeakList>
+                    </div>
                 </section>
             </section>
         </main>
