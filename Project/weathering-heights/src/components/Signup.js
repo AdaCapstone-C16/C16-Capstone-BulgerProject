@@ -1,8 +1,9 @@
 import React, {useRef, useState} from 'react';
-import { Form, Button, Card, Alert } from 'react-bootstrap'
-import { useAuth } from '../contexts/AuthContext'
-import {Link, useNavigate} from 'react-router-dom'
-import '../components/stylesheets/Popup.css';
+import { Form, Button, Card, Alert } from 'react-bootstrap';
+import { useAuth } from '../contexts/AuthContext';
+import {Link, useNavigate} from 'react-router-dom';
+import '../components/stylesheets/PopUps.css';
+import '../components/stylesheets/Signup.css';
 
 export default function Signup() {
     const emailRef = useRef();
@@ -67,7 +68,7 @@ export default function Signup() {
                     <Button disabled={loading} id="signup-button" className="w-100 text-center mt-2" type="submit">Sign Up</Button>
                 </Form>
 
-                <div className="popup-link popup-label w-100 text-center mt-2">
+                <div className="w-100 text-center mt-2">
                     Already have an account? <Link className="popup-link" to='/login'>Login</Link>
                 </div>
             </Card.Body>

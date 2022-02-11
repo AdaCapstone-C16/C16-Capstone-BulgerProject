@@ -1,13 +1,15 @@
 import React, {useRef, useState} from 'react';
-import { Form, Button, Card, Alert } from 'react-bootstrap'
-import { useAuth } from '../contexts/AuthContext'
-import { Link, useNavigate } from 'react-router-dom'
-import '../components/stylesheets/Popup.css';
+import { Form, Button, Card, Alert } from 'react-bootstrap';
+import { useAuth } from '../contexts/AuthContext';
+import { Link, useNavigate } from 'react-router-dom';
+import '../components/stylesheets/PopUps.css';
+import '../components/stylesheets/Login.css';
+
 
 export default function Login() {
     const emailRef = useRef();
     const passwordRef = useRef();
-    const {login} = useAuth()
+    const { login } = useAuth()
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
@@ -46,16 +48,16 @@ return (
                     <Button 
                         disabled={loading} 
                         id="login-button"
-                        className="login popup-label w-100 text-center mt-2"
+                        className="popup-label w-100 text-center mt-2"
                         type="submit">Login
                     </Button>
 
                 </Form>
                 
                 <div className="w-100 text-center mt-3">
-                <Link className="popup-link" to='/forgot-password'>Forgot Password?</Link>
+                    <Link className="popup-link" to='/forgot-password'>Forgot Password?</Link>
                 </div>
-                <div className="popup-link popup-label w-100 text-center mt-2">
+                <div className="w-100 text-center mt-2">
                     Need an account? <Link className="popup-link" to='/signup'>Signup</Link>
                 </div>
             </Card.Body>
