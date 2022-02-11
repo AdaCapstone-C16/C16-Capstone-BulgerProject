@@ -3,7 +3,7 @@ import React from 'react';
 import { useRef } from 'react';
 import GOOGLE_API_KEY from './google_api_key.js';
 import GOOGLE_ClIENT_ID from './client_id.js'; 
-import './CalendarForm.css';
+import './stylesheets/CalendarForm.css';
 import { FiAlignRight } from 'react-icons/fi';
 // require('dotenv').config();
 
@@ -163,7 +163,7 @@ import { FiAlignRight } from 'react-icons/fi';
         <input className='google-form-end' type='time' id='end-time' required ref={endTimeInputRef} />
         <label className='google-form-attendee' htmlFor='attendees'>Attendee:</label>
         <input className='google-form-attendee' type='attendees' id='attendees' required ref={attendeeInputRef} />  
-        <button className='google-form-button' onClick={handleClick}>Add Event</button>
+        <div className=''><button className='google-form-button' onClick={handleClick}>Add Event</button></div>
         </form>
     </div>
     );

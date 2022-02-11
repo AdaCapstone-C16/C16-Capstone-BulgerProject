@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import {Link} from 'react-router-dom'
 import Accordion from './Accordion';
 import CalendarForm from './CalendarForm';
-import './Homepage.css';
+import './stylesheets/Homepage.css';
 
 export default function Homepage(props) {
     return (

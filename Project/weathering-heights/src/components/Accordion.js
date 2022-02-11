@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { IconContext } from 'react-icons';
 import { FiPlus, FiMinus } from 'react-icons/fi';
 import CalendarForm from './CalendarForm';
-import './Accordion.css';
+import './stylesheets/Accordion.css';
 // import peaksContext from '../contexts/peaksContext';
 
 //-----------------------------------------------{styled componenets css}------------------------------------------------------//
@@ -20,6 +20,7 @@ const AccordionSection = styled.div`
     position: relative;
     background: #fff;
     margin-top: 2%;
+    font-family: 'Montserrat', sans-serif;
 `;
 const Container = styled.div`
     background: #fff;
@@ -51,6 +52,8 @@ const Wrap = styled.div`
     border-radius: 25px;
     margin-left: 30px;
     margin-right: 30px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
     
 
     h1{
