@@ -7,6 +7,7 @@ import { Container } from 'react-bootstrap';
 import { AuthProvider } from '../contexts/AuthContext';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { getBulgerListCoords } from '../api/BulgerAPI';
+import Navigation from './Navigation';
 import Login from './Login';
 import Signup from './Signup';
 import PrivateRoute from './PrivateRoute';
@@ -71,7 +72,6 @@ function App() {
 
   // Toggles updateWeather state, which then triggers DB pull
   const signalDBPull = () => {
-    console.log("we're in signal dbPull")
     setUpdateWeather(updateWeather + 1);
   }
 
@@ -87,7 +87,9 @@ function App() {
 
         <div>
           <Router>
+            
             <AuthProvider>
+              <Navigation />
               <Routes>
                 <Route element={<PrivateRoute/>}>
                   <Route exact path="/my-profile" element={<MyProfile data={peakList}/>} />
