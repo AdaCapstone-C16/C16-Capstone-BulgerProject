@@ -1,8 +1,8 @@
 //imports in App
 import React from 'react';
 import { useRef } from 'react';
-import GOOGLE_API_KEY from './google_api_key.js';
-import GOOGLE_ClIENT_ID from './client_id.js'; 
+// import GOOGLE_API_KEY from './google_api_key.js';
+// import GOOGLE_ClIENT_ID from './client_id.js'; 
 import './stylesheets/CalendarForm.css';
 import { FiAlignRight } from 'react-icons/fi';
 // require('dotenv').config();
@@ -72,8 +72,8 @@ import { FiAlignRight } from 'react-icons/fi';
         // })
 
         gapi.client.init({
-            apiKey: GOOGLE_API_KEY,
-            clientId: GOOGLE_ClIENT_ID,
+            // apiKey: GOOGLE_API_KEY,
+            // clientId: GOOGLE_ClIENT_ID,
             discoveryDocs: DISCOVERY_DOCS,
             scope: SCOPES,
         })

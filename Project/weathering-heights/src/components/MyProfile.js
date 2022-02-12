@@ -171,7 +171,7 @@ export default function MyProfile({ data }) {
 
                 <div className=''>
                     <section>
-                    <button onClick={handleHomepage}>HOMEPAGE</button>
+                        <button onClick={handleHomepage}>HOMEPAGE</button>
                         <button onClick={handleLogout}>LOGOUT</button>
                         <button onClick={handleAddSummitPopup}>ADD A SUMMIT</button>
                         <AddSummit trigger={addSummitPopup} setTrigger={setAddSummitPopup} data={peakNames} handleAddSummit={handleAddSummit}></AddSummit>
