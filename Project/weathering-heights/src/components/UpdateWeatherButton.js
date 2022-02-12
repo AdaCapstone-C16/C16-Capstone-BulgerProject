@@ -58,17 +58,8 @@ const UpdateWeatherButton = ({ coordinates, peakList, signalDBPull }) => {
                 lat = lat.toFixed(4);
                 let lon = parseFloat(coordinates[i].lon)
                 lon = lon.toFixed(4);
-    
-            if (coordinates !== []) {
-                // Make API call for each set of peak coordinates
-                for (let i = 0; i < Object.keys(coordinates).length; i++) {
-                    // Lat, Lon truncated to four decimals
-                    let lat = parseFloat(coordinates[i].lat)
-                    lat = lat.toFixed(4);
-                    let lon = parseFloat(coordinates[i].lon)
-                    lon = lon.toFixed(4);
-                    
-                    let key = peakList[i].key;
+                
+                let key = peakList[i].key;
 
                 // Date of forecast Saturday 
                 const date = formatDate(getNextSaturday());
