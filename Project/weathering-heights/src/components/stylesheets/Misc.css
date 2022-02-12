@@ -59,3 +59,8 @@
     transition: all .1s ease;
     box-shadow: 0 0 0 0 blue, 0 0 0 3px #CCA19A;
 }
+.tcontainer {
+display: flex;
+flex-direction: row;
+justify-content: space-between
+}
