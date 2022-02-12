@@ -8,7 +8,8 @@ import AddTrip from './AddTrip'
 import DeleteSummit from './DeleteSummit';
 import styled from 'styled-components';
 import { FiPlus, FiMinus } from 'react-icons/fi';
-// import '../components/stylesheets/Misc.css'
+import '../components/stylesheets/MyPeak.css'
+import '../components/stylesheets/Misc.css'
 
 const Wrap = styled.div`
 background: #DEDFEC;
@@ -93,9 +94,9 @@ const Peak = ({ pKey, id, name, trips, updateList }) => {
     }
 
     const addTrip = (date, notes) => {
+        setClicked(null)
         set(ref(db, `users/${currentUser.uid}/summits/${id}/trips/${date}`), notes)
         updateList()
-
     }
     const deleteSummit = () => {
         // TODO: add delete range functionality
@@ -131,23 +132,32 @@ const Peak = ({ pKey, id, name, trips, updateList }) => {
     
     return (
             <>
-                <Wrap onClick={()=> toggle(id)}>
+                {/* <Wrap onClick={()=> toggle(id)}>
                 <div className="grid-container">
-                    <div className="bigItem">{id}: {name}</div>
+                    <div className="bigItem">{id}. {name}</div>
                 </div>
                     <span> {clicked === id? <FiMinus /> : <FiPlus/>}</span>
-                </Wrap>
+                </Wrap> */}
+                <section onClick={()=> toggle(id)} className="accordion-top">
+                    <div className="grid-container">
+                        <p className="bigItem">{id}. {name.toUpperCase()}</p>
+                    </div>
+                    <span> {clicked === id? <FiMinus style={{color:'#CCA19A'}}/> : <FiPlus style={{color:'#CCA19A'}}/>}</span>
+                </section>
                 {clicked === id ? 
                     <Dropdown>
-                        <section className='trips'>
-                            <p>Trips</p> 
-                            <ol>{getTripListJSX(trips)}</ol>
-                        </section>
                         <section className='tcontainer'> 
-                            <button onClick={handleAddTripPopup}>ADD TRIP</button>
-                            <AddTrip trigger={addTripPopup} setTrigger={setAddTripPopup} addTrip={addTrip}/>
-                            <button onClick={handleDeleteSummitPopup}>DELETE SUMMIT</button>
-                            <DeleteSummit trigger={deleteSummitPopup} setTrigger={setDeleteSummitPopup} deleteSummit={deleteSummit}/>
+                            <div>
+                                <button onClick={handleAddTripPopup} className='button summit-btn'>ADD TRIP</button>
+                                <AddTrip trigger={addTripPopup} setTrigger={setAddTripPopup} addTrip={addTrip}/>
+                            </div>
+                            <div>
+                                <button onClick={handleDeleteSummitPopup} className='button summit-btn'>DELETE SUMMIT</button>
+                                <DeleteSummit trigger={deleteSummitPopup} setTrigger={setDeleteSummitPopup} deleteSummit={deleteSummit}/>
+                            </div>
+                        </section>
+                        <section className='trips'>
+                            <ol>{getTripListJSX(trips)}</ol>
                         </section>
                     </Dropdown>:
                     null}

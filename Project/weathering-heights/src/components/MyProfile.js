@@ -144,6 +144,21 @@ export default function MyProfile({ data }) {
     }
 
     // If the logout button is clicked, it will navigate user to the homepage
+<<<<<<< HEAD
+    // async function handleLogout() {
+    //     setError('')
+    //     try {
+    //         await logout()
+    //         navigate("/")
+    //     } catch {
+    //         setError('Failed to log out')
+    //     }
+    //     }
+    
+    // const handleHomepage =() => {
+    //     navigate("/")
+    //     }
+=======
     async function handleLogout() {
         setError('')
         try {
@@ -157,10 +172,22 @@ export default function MyProfile({ data }) {
     const handleHomepage =() => {
         navigate("/")
     }
+>>>>>>> upstream/main
 
     return (
         <main id='main'>
             <section id='container-right'>
+<<<<<<< HEAD
+                    {/* <p id='title'>WEATHERING HEIGHTS</p> */}
+                    {/* <div className=''> */}
+                        {/* <section> */}
+                        {/* <button onClick={handleMap}>MAP</button>
+                        <button onClick={handleHomepage}>HOMEPAGE</button>
+                        <button onClick={handleLogout}>LOGOUT</button> */}
+                        {/* </section> */}
+                        
+                    {/* </div> */}
+=======
                 <p id='title'>WEATHERING HEIGHTS</p>
                 
                 <h4>MY PROFILE</h4>
@@ -178,11 +205,19 @@ export default function MyProfile({ data }) {
                     </section>
                     
                 </div>
+>>>>>>> upstream/main
             </section>
             <section id='container-left'>
-                {error && <Alert variant="danger">{error}<button onClick={handleExitError}>OK</button></Alert>}
                 <section>
-                    <MyPeakList peaks={myPeakList} updateList={getMyPeakData} ></MyPeakList>
+                    <div className='my-summit-title-container'> 
+                        <h4 className='my-summit-title'>MY SUMMITS:</h4>
+                        <button onClick={handleAddSummitPopup} className='button'>ADD SUMMIT  +</button>
+                        <AddSummit trigger={addSummitPopup} setTrigger={setAddSummitPopup} data={peakNames} handleAddSummit={handleAddSummit}></AddSummit>
+                    </div>
+                    <div>
+                        {error && <Alert variant="danger">{error}<button onClick={handleExitError}>OK</button></Alert>}
+                        <MyPeakList peaks={myPeakList} updateList={getMyPeakData}></MyPeakList>
+                    </div>
                 </section>
             </section>
         </main>

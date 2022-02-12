@@ -1,9 +1,10 @@
 import React, {useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'react-bootstrap'
 import DeleteTrip from './DeleteTrip';
 import UpdateTrip from './UpdateTrip';
 import '../components/stylesheets/Misc.css'
+import '../components/stylesheets/Trip.css'
+
 
 const Trip = ({date, desc, deleteTrip, updateTrip}) => {
 
@@ -20,12 +21,12 @@ const Trip = ({date, desc, deleteTrip, updateTrip}) => {
     
     
     return (
-    <li>
+    <li className='trip-container'>
         <p>Date: {date}</p>
         <p>Description:{desc}</p>
-        <button onClick={handleTripDelete}>Delete Trip</button>
+        <button onClick={handleTripDelete} className='button'>Delete Trip</button>
         <DeleteTrip trigger={tripDelete} setTrigger={setTripDelete} deleteTrip={deleteTrip} date={date}/>
-        <button onClick={handleTripUpdate}>Update Trip</button>
+        <button onClick={handleTripUpdate} className='button'>Update Trip</button>
         <UpdateTrip trigger={tripUpdate} setTrigger={setTripUpdate} updateTrip={updateTrip} date={date} desc={desc}/>
     </li>
     );

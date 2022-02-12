@@ -5,7 +5,7 @@ import { ref, onValue, get, child } from "firebase/database";
 import { db } from './../firebase.js';
 import { Container } from 'react-bootstrap';
 import { AuthProvider } from '../contexts/AuthContext';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { getBulgerListCoords } from '../api/BulgerAPI';
 import Navigation from './Navigation';
 import Login from './Login';
@@ -15,7 +15,7 @@ import ForgotPassword from './ForgotPassword';
 import Homepage from './Homepage';
 import MyProfile from './MyProfile';
 // import Thanks from './Thanks'
-
+import Map from './Map'
 import UpdateWeatherButton from './UpdateWeatherButton.js';
 
 function App() {
@@ -96,6 +96,7 @@ function App() {
                 </Route>
                 <Route path="/signup" element={<Signup/>} />
                 <Route path="/login" element={<Login/>} />
+                <Route exxact path="/map" element={<Map/>}/>
                 {/* <Route path="/thanks" element={<Thanks/>}/> */}
                 <Route path="/" element={<Homepage data={peakList}/>} />
                 <Route path="/forgot-password" element={<ForgotPassword/>} />

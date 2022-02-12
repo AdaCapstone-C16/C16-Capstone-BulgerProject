@@ -27,44 +27,13 @@ body{
     justify-content: flex-end;
 
 }
-#title {
-    position: absolute;
-width: 587px;
-height: 59px;
-left: 839px;
-top: 19px;
 
-font-family: Montserrat;
-font-style: normal;
-font-weight: bold;
-font-size: 48px;
-line-height: 59px;
-/* identical to box height */
-
-
-color: #FFFFFF;
-}
 #container-left {
     background-color: #504C54;
     width: 40%
 
 }
-/* .container-right {
-    justify-content: space-between;
-} */
-h1 {
-    position: absolute;
-    width: 587px;
-    height: 59px;
-    left: 23px;
-    top: 27px;
-    font-family: Montserrat;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 48px;
-    line-height: 59px;
-    color: #FFFFFF;
-}
+
 
 li {
     box-shadow: 0 25.6px 57.6px 0 rgb(0 0 0 / 22%), 0 4.8px 14.4px 0 rgb(0 0 0 / 18%);
@@ -77,4 +46,18 @@ li {
     display: flex;
     flex-direction: column;
     justify-content: right;
+}
+
+.my-summit-title-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.my-summit-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 36px;
+    padding-left: 10%;
+    padding-top: 5%;
+    color: #FFFFFF;
 }

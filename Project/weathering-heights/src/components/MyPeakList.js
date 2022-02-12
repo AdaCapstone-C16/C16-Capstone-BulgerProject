@@ -42,13 +42,16 @@ const MyPeakList = ({ peaks, updateList }) => {
     }
 
     return (
-        <IconContext.Provider value={{color : '#00FFB9', size : '25px'}}>
-            <AccordionSection>
-                <Container>
-                    {getPeakListJSX(peaks)}
-                </Container>
-            </AccordionSection>
-        </IconContext.Provider>
+        // <IconContext.Provider value={{color : '#00FFB9', size : '25px'}}>
+        //     <AccordionSection>
+        //         <Container>
+        //             {getPeakListJSX(peaks)}
+        //         </Container>
+        //     </AccordionSection>
+        // </IconContext.Provider>
+        <section>
+            {getPeakListJSX(peaks)}
+        </section>
     )
     };
 
