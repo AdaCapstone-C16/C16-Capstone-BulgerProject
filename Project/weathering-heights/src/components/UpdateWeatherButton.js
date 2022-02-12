@@ -68,16 +68,18 @@ const UpdateWeatherButton = ({ coordinates, peakList, signalDBPull }) => {
                     lat = lat.toFixed(4);
                     let lon = parseFloat(coordinates[i].lon)
                     lon = lon.toFixed(4);
-        
+                    
                     let key = peakList[i].key;
 
                     // Date of forecast Saturday 
                     const date = formatDate(getNextSaturday());
 
+                    // TODO: Why are all the weather pulls the same?
                     // Forecast Weather API calls
                     axios
                     .get(`${baseURL}&q=${lat},${lon}&dt=${date}&aqi=no`)
                     .then((res) => {
+                        console.log(res.data.forecast)
                         const now = res.data.forecast.forecastday[0].hour[12];
                         // Updates temperature data in DB
                         update(ref(db, 'peaks/' + key), {
