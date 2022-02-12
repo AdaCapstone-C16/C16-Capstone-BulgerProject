@@ -59,18 +59,29 @@ const UpdateWeatherButton = ({ coordinates, peakList, signalDBPull }) => {
                 let lon = parseFloat(coordinates[i].lon)
                 lon = lon.toFixed(4);
     
-                let key = peakList[i].key;
+            if (coordinates !== []) {
+                // Make API call for each set of peak coordinates
+                for (let i = 0; i < Object.keys(coordinates).length; i++) {
+                    // Lat, Lon truncated to four decimals
+                    let lat = parseFloat(coordinates[i].lat)
+                    lat = lat.toFixed(4);
+                    let lon = parseFloat(coordinates[i].lon)
+                    lon = lon.toFixed(4);
+                    
+                    let key = peakList[i].key;
 
                 // Date of forecast Saturday 
                 const date = formatDate(getNextSaturday());
 
-                // Forecast Weather API calls
-                axios
-                .get(`${baseURL}&q=${lat},${lon}&dt=${date}&aqi=no`)
-                .then((res) => {
-                    const now = res.data.forecast.forecastday[0].hour[12];
-                    // Updates temperature data in DB
-                    update(ref(db, 'peaks/' + key), {
+                    // TODO: Why are all the weather pulls the same?
+                    // Forecast Weather API calls
+                    axios
+                    .get(`${baseURL}&q=${lat},${lon}&dt=${date}&aqi=no`)
+                    .then((res) => {
+                        console.log(res.data.forecast)
+                        const now = res.data.forecast.forecastday[0].hour[12];
+                        // Updates temperature data in DB
+                        update(ref(db, 'peaks/' + key), {
                         temp: now.temp_f,
                         chance_precip: now.chance_of_rain,
                         wind_speed: now.wind_mph,

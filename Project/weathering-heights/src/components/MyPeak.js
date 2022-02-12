@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import { ref, set } from 'firebase/database';
+import { ref, set, onValue } from 'firebase/database';
 import {db} from '../firebase'
 import { useAuth } from '../contexts/AuthContext'
 import Trip from './Trip';
@@ -98,7 +98,16 @@ const Peak = ({ pKey, id, name, trips, updateList }) => {
 
     }
     const deleteSummit = () => {
+        // TODO: add delete range functionality
+        onValue(ref(db, `users/${currentUser.uid}/summits/${id}`), (snapshot) => {
+            console.log(snapshot.val())
+        });
+        // get range name from db using id
+        // set(ref(db, `users/${currentUser.uid}/summits/${rangeName}`), null)
+
+        // This seems to run before the onValue call
         set(ref(db, `users/${currentUser.uid}/summits/${id}`), null)
+        
         updateList()
     }
 
@@ -119,7 +128,6 @@ const Peak = ({ pKey, id, name, trips, updateList }) => {
             return (<Trip key={index} date={date} desc={desc} deleteTrip={deleteTrip} updateTrip={updateTrip}/>);       
         })
     }
-
     
     return (
             <>
