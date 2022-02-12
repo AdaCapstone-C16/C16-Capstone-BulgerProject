@@ -12,6 +12,8 @@
 /build
 
 # misc
+client_id.js
+google_api_key.js
 .DS_Store
 .env
 .env.local

@@ -1,15 +1,17 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 //import { Accordion } from 'react-bootstrap';
 import {Link} from 'react-router-dom'
 import Accordion from './Accordion';
+import CalendarForm from './CalendarForm';
+import './stylesheets/Homepage.css';
 
 export default function Homepage(props) {
     return (
     <section>
-        <Link to='/login'>Login</Link>
-        <h1> Weathering Heights </h1>
-        <Accordion data={props.data}></Accordion>
+            <div className='homepage-title'> Weathering Heights </div>
+            {/* <Link to='/login'>Login</Link> */}
+            <Accordion data={props.data}></Accordion>
     </section>   
     )
 }

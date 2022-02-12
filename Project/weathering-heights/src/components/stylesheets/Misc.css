@@ -26,11 +26,9 @@ button {
     background: #CCA19A;
     line-height: 1.15;
     font-size: 16px;
-
 }
 .tcontainer {
 display: flex;
 flex-direction: row;
 justify-content: space-between
-
 }
