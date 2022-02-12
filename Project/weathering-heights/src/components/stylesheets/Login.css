@@ -1,3 +1,35 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300');
+.google-form{
+    position: flex;
+    display: grid;
+    padding: 1em;
+    background: #f9f9f9;
+    border: 1px solid #c1c1c1;
+    padding: 1em;
+    border-radius: 10px;
+    grid-template-columns: max-content 1fr;
+    grid-column-gap: 1em;
+    background-color: #DEDFEC;
+    margin-right: 10%;
+    margin-left: 10%;
+    margin-top: 5%;
+    text-align: right;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+}
+.google-form-desc{
+    padding-bottom: 5%;
+}
+.google-form-title{
+    font-weight: bolder;
+    text-align: center;
+    padding-right: 15%;
+    padding-bottom: 3%;
+}
+.google-form-button{
+    float: right;
+}
+
 #login-card {
     position: absolute;
     width: 571px;
@@ -5,17 +37,23 @@
     left: 435px;
     top: 236px;
 
-    background: #CED8CD;
-    border: 1px solid #17150E;
+    background-color: #DEDFEC;
+    border: 1px solid #c1c1c1;
     box-sizing: border-box;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 16px;
+    border-radius: 10px;
 
-    font-family: Montserrat, sans-serif;
+    padding: 1em;
+    margin-right: 10%;
+    margin-left: 10%;
+    margin-top: 5%;
+    text-align: left;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+
     font-size: 14px;
     font-weight: bold;
     text-decoration: none;
-    text-transform: uppercase;
     color: #17150E;
 }
 
@@ -31,7 +69,7 @@
     left: 591px;
     top: 569px;
 
-    background: #F9FFF9;
+    background: #CCA19A;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 38px;
     border: 0px;
